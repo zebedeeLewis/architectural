@@ -6,9 +6,11 @@ import './scss/index.scss'
 const MAIN_HOME_SLIDER_CLASSNAME = 'main-slider'
 const NAV_SLIDER_CLASSNAME = 'main-slider__pagination'
 
-const mainSlider =
+
+
+const init_main_slider = (sliderSelector) => (
   new Splide
-    ( `.${MAIN_HOME_SLIDER_CLASSNAME}`
+    ( sliderSelector
     , { autoplay   : true
       , cover      : true
       , autoWidth  : true
@@ -18,16 +20,26 @@ const mainSlider =
       , pagination : false
       }
     )
+)
 
-const mainSliderPagination =
+
+
+const init_main_slider_pagination = (paginationSelector) => (
   new Splide
-    ( `.${NAV_SLIDER_CLASSNAME}`
+    ( paginationSelector
     , { autoWidth    : true
       , autoHeight   : true
       , isNavigation : true
       , arrows       : false
       , pagination   : false
       }
-    ).mount()
+    )
+)
 
-mainSlider.sync(mainSliderPagination).mount()
+
+
+init_main_slider(`.${MAIN_HOME_SLIDER_CLASSNAME}`)
+  .sync(
+    init_main_slider_pagination(`.${NAV_SLIDER_CLASSNAME}`).mount()
+  ).mount()
+

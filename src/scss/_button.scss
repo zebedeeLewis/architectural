@@ -3,46 +3,75 @@
 @use "sass:color" as color;
 
 
-$font-size: 15px !default;
-$line-height: spacing.$b5 !default;
+$font-size                 : 16px !default;
+$line-height               : spacing.$b5 !default;
+$vertical-spacing          : spacing.$b3;
 
 
 @mixin button {
-  display             : inline-block;
-  font-size           : $font-size;
-  line-height         : $line-height;
-  outline             : none;
-  border              : none;
-  text-decoration     : none;
-  text-transform      : uppercase;
-  padding             : spacing.$b3;
-  cursor              : pointer;
+  display                  : inline-block;
+  font-size                : $font-size;
+  line-height              : $line-height;
+  padding                  : $vertical-spacing;
+  outline                  : none;
+  border                   : none;
+  text-decoration          : none;
+  text-transform           : capitalize;
+  cursor                   : pointer;
+}
+
+
+
+@mixin button--small {
+  font-size                : $font-size*.66;
+  line-height              : $line-height*.66;
+  padding                  : $vertical-spacing*.66;
+}
+
+
+
+@mixin button--small {
+  font-size                : $font-size*.66;
+  line-height              : $line-height*.66;
+  padding                  : $vertical-spacing*.66;
+}
+
+
+
+@mixin button--medium {
+  font-size                : $font-size/.66;
+  line-height              : $line-height/.66;
+  padding                  : $vertical-spacing/.66;
 }
 
 
 
 @mixin button--rounded {
-  border-radius   : 6px;
+  border-radius            : 6px;
 }
 
 
 
 @mixin button--block {
-  display         : block;
-  width           : 100%;
+  display                  : block;
+  width                    : 100%;
 }
 
 
 @mixin button--primary {
-  background      : colors.$primary;
-  color           : colors.$on-primary;
+  background               : colors.$primary;
+  color                    : colors.$on-primary;
 
   &:hover {
-    background    : color.scale(colors.$primary-1, $lightness: -10%);
+    background             : color.scale( colors.$primary-1
+                                        , $lightness: -10%
+                                        );
   }
 
   &:active {
-    background    : color.scale(colors.$primary-1, $lightness: -20%);
+    background             : color.scale( colors.$primary-1
+                                        , $lightness: -20%
+                                        );
   }
 }
 
@@ -58,5 +87,20 @@ $line-height: spacing.$b5 !default;
 
   &:active {
     background    : color.scale(colors.$on-primary, $lightness: -20%);
+  }
+}
+
+
+
+@mixin button--dark {
+  background-color      : black;
+  color                 : white;
+
+  &:hover {
+    background    : color.scale(colors.$on-primary, $lightness: +10%);
+  }
+
+  &:active {
+    background    : color.scale(colors.$on-primary, $lightness: +20%);
   }
 }
