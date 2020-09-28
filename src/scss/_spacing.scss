@@ -1,0 +1,32 @@
+
+$baseline: 4 !default;
+
+
+
+/* produce the baseline multiplied by the given multiplier. */
+@function baseline_x($multiplier: 1) {
+  @return ($baseline*$multiplier*1px)
+}
+
+
+
+$b1 :  baseline_x();
+$b2 :  baseline_x(2);
+$b3 :  baseline_x(3);
+$b4 :  baseline_x(4);
+$b5 :  baseline_x(5);
+$b6 :  baseline_x(6);
+$b7 :  baseline_x(7);
+$b8 :  baseline_x(8);
+$b9 :  baseline_x(9);
+$b10:  baseline_x(10);
+$b12:  baseline_x(12);
+$b13:  baseline_x(13);
+$b14:  baseline_x(14);
+$b18:  baseline_x(18);
+$b19:  baseline_x(19);
+$b20:  baseline_x(20);
+$b25:  baseline_x(25);
+$b47:  baseline_x(47);
+
+

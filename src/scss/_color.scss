@@ -1,0 +1,15 @@
+/*
+- Linear Gradient: hsl(236, 72%, 79%) to hsl(237, 63%, 64%)
+
+*/
+
+$very-light-grey-blue: #f6f6fe;
+$light-grey-blue: #b3b5c6;
+$grey-blue: #6d708d;
+$dark-grey-blue: #494c5f;
+
+$primary-1: #a3a8f0;
+$primary-2: #696fdd;
+$primary: linear-gradient(45deg, $primary-1, $primary-2);
+
+$on-primary: white;

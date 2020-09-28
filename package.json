@@ -46,5 +46,7 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@splidejs/splide": "^2.4.14"
+  }
 }

@@ -1,5 +1,249 @@
-$var: "red";
+@use "node_modules/@splidejs/splide/dist/css/splide.min.css";
+@use "spacing" as spacing;
+@use "typography";
+@use "button" as button;
+@use "color" as color;
+@use "toggle" with
+  ( $background   : color.$primary
+  , $switch-color : color.$on-primary
+  );
+
+
+/* Contents
+ * 1. Variables
+ * 2. General Styles
+ * 3. Container
+ * 0. Navbar
+ * 0. Page Title
+ */
+
+
+
+/* 1. Variables */
+$package-max-width                        : 327px;
+$package-min-height                       : 453px;
+$font-color                               : color.$dark-grey-blue;
+$large-breakpoint                         : 860px;
+$horizontal-outer-spacing                 : spacing.$b12;
+$nav-item-line-height                     : spacing.$b6;
+$nav-item-vertical-spacing                : spacing.$b6;
+
+$sm-horizontal-outer-spacing              : spacing.$b14;
+$sm-nav-item-line-height                  : spacing.$b8;
+$sm-nav-item-vertical-spacing             : spacing.$b8;
+
+$lg-horizontal-outer-spacing              : spacing.$b47;
+$lg-nav-item-line-height                  : spacing.$b10;
+$lg-nav-item-vertical-spacing             : spacing.$b14;
+
+$breakpoint-sm                            : 600px;
+$breakpoint-md                            : 960px;
+$breakpoint-lg                            : 1280px;
+$breakpoint-xl                            : 1940px;
+
+
+
+/* 2. General Styles */
+:root {
+  color: $font-color;
+}
+
+
 
 body {
-  background-color: $var;
+  background-color : color.$very-light-grey-blue;
+  margin           : 0;
+}
+
+
+
+div {
+  box-sizing: border-box;
+}
+
+
+
+ul {
+  list-style-type : none;
+  margin-top      : 0;
+  margin-bottom   : 0;
+  padding-left    : 0;
+}
+
+
+
+h1 {
+  font-size        : typography.$font-size;
+  margin           : 0;
+}
+
+
+
+.display-none {
+  display : none !important;
+}
+
+
+
+.display-initial {
+  display : initial;
+}
+
+
+
+/* 0. Container */
+.container {
+  display          : flex;
+}
+
+
+
+/* 0. Navbar */
+.navbar {
+  display          : flex;
+  align-items      : center;
+}
+
+
+@mixin nav-item {
+  display          : inline-block;
+  line-height      : $nav-item-line-height;
+  padding          : $nav-item-vertical-spacing 0;
+  
+  @media (min-width: $breakpoint-sm) {
+    line-height    : $sm-nav-item-line-height;
+    padding        : $sm-nav-item-vertical-spacing 0;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    line-height    : $lg-nav-item-line-height;
+    padding        : $lg-nav-item-vertical-spacing 0;
+  }
+}
+
+
+
+.nav-item {
+  @include         nav-item;
+
+  padding-left     : spacing.$b5;
+
+  @media (min-width: $breakpoint-sm) {
+    font-size       : 15px;
+    padding-left    : spacing.$b9;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    font-size        : 16px;
+    padding-left     : spacing.$b14;
+  }
+}
+
+
+
+.nav-item--logo {
+  @include         nav-item;
+
+  font-size        : 24px;
+  font-weight      : 700;
+  letter-spacing   : -2px;
+
+  @media (min-width: $breakpoint-md) {
+    font-size      : 40px;
+  }
+}
+
+
+
+.nav-item--first {
+  @media (min-width: $breakpoint-sm) {
+    padding-left   : spacing.$b19;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    padding-left  : spacing.$b25;
+  }
+}
+
+
+
+/* 0. Inner Container */
+.inner-container {
+  width                    : 100%;
+  padding-right            : $horizontal-outer-spacing;
+}
+
+
+
+/* 0. Page Title */
+.page-title {
+  display              : flex;
+  flex-direction       : column;
+  align-items          : center;
+  width                : $horizontal-outer-spacing;
+  opacity              : .2;
+
+  &:before {
+    content            : "";
+    display            : block;
+    width              : 1px;
+    background-color   : black;
+    flex               : 0 0 auto;
+    height             : $nav-item-vertical-spacing
+                       + $nav-item-line-height;
+    margin-bottom      : $nav-item-vertical-spacing;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    width              : $sm-horizontal-outer-spacing;
+
+    &:before {
+      height           : $sm-nav-item-vertical-spacing
+                       + $sm-nav-item-line-height;
+      margin-bottom    : $sm-nav-item-vertical-spacing;
+    }
+  }
+
+  @media (min-width: $breakpoint-md) {
+    width              : $lg-horizontal-outer-spacing;
+
+    &:before {
+      height           : $lg-nav-item-vertical-spacing
+                       + $lg-nav-item-line-height;
+      margin-bottom    : $lg-nav-item-vertical-spacing;
+    }
+  }
+}
+
+
+
+.page-title__heading {
+  display              : flex;
+  align-items          : center;
+  text-orientation     : mixed;
+  writing-mode         : tb-rl;
+  vertical-align       : middle;
+  font-size            : typography.$font-size;
+  font-weight          : typography.$font-weight-normal;
+  width                : 100%;
+  text-transform       : uppercase;
+  letter-spacing       : spacing.$b2;
+  margin               : 0;
+
+  @media (min-width: $breakpoint-md) {
+    font-size          : 18px;
+    letter-spacing     : 16px;
+  }
+}
+
+
+
+/* 0. Main Home Slider */
+.home-slider--main { }
+
+
+
+.slide--main-home {
+  padding-bottom           : 128%;
+  background-color         : red;
 }

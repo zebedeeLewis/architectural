@@ -1,3 +1,11 @@
+import Splide from '@splidejs/splide';
+
 import './scss/index.scss'
 
-const test = 1
+
+const MAIN_HOME_SLIDER_CLASSNAME = 'home-slider--main'
+
+/*
+const mainHomeSlider =
+  new Splide(`.${MAIN_HOME_SLIDER_CLASSNAME}`).mount()
+  */
