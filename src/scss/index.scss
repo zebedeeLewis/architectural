@@ -3,6 +3,7 @@
 @use "typography";
 @use "button" as button;
 @use "color" as color;
+@use "sass:color" as sassColor;
 @use "toggle" with
   ( $background   : color.$primary
   , $switch-color : color.$on-primary
@@ -32,6 +33,10 @@ $sm-horizontal-outer-spacing              : spacing.$b14;
 $sm-nav-item-line-height                  : spacing.$b8;
 $sm-nav-item-vertical-spacing             : spacing.$b8;
 
+$md-horizontal-outer-spacing              : spacing.$b32;
+$md-nav-item-line-height                  : spacing.$b10;
+$md-nav-item-vertical-spacing             : spacing.$b8;
+
 $lg-horizontal-outer-spacing              : spacing.$b47;
 $lg-nav-item-line-height                  : spacing.$b10;
 $lg-nav-item-vertical-spacing             : spacing.$b14;
@@ -40,6 +45,8 @@ $breakpoint-sm                            : 600px;
 $breakpoint-md                            : 960px;
 $breakpoint-lg                            : 1280px;
 $breakpoint-xl                            : 1940px;
+
+$slider-pagination-width                  : spacing.$b20;
 
 
 
@@ -51,7 +58,7 @@ $breakpoint-xl                            : 1940px;
 
 
 body {
-  background-color : color.$very-light-grey-blue;
+  background-color : color.$background;
   margin           : 0;
 }
 
@@ -75,6 +82,13 @@ ul {
 h1 {
   font-size        : typography.$font-size;
   margin           : 0;
+}
+
+
+
+a {
+  text-decoration          : none;
+  color                    : inherit;
 }
 
 
@@ -116,9 +130,20 @@ h1 {
   }
 
   @media (min-width: $breakpoint-md) {
+    line-height            : $md-nav-item-line-height;
+    padding                : $md-nav-item-vertical-spacing 0;
+  }
+
+  @media (min-width: $breakpoint-lg) {
     line-height            : $lg-nav-item-line-height;
     padding                : $lg-nav-item-vertical-spacing 0;
   }
+}
+
+
+
+@mixin nav-item--active {
+  color                    : color.$primary;
 }
 
 
@@ -127,6 +152,17 @@ h1 {
   @include         nav-item;
 
   padding-left             : spacing.$b5;
+
+  &:hover {
+    @include               nav-item--active;
+  }
+
+  &:active {
+    @include               nav-item--active;
+    color                  : sassColor.scale( color.$primary
+                                            , $lightness: -10%
+                                            );
+  }
 
   @media (min-width: $breakpoint-sm) {
     font-size              : 15px;
@@ -207,6 +243,16 @@ h1 {
   }
 
   @media (min-width: $breakpoint-md) {
+    width                  : $md-horizontal-outer-spacing;
+
+    &:before {
+      height               : $md-nav-item-vertical-spacing
+                           + $md-nav-item-line-height;
+      margin-bottom        : $md-nav-item-vertical-spacing;
+    }
+  }
+
+  @media (min-width: $breakpoint-lg) {
     width                  : $lg-horizontal-outer-spacing;
 
     &:before {
@@ -241,12 +287,19 @@ h1 {
 
 
 /* 0. Main Home Slider */
-.home-slider--main { }
+.main-slider { }
 
 
 
-.slide--main-home {
+.main-slider__list {
+  width                    : 100%;
+}
+
+
+
+.main-slider__slide {
   position                 : relative;
+  width                    : 100%;
 
   &:after {
     content                : " ";
@@ -267,24 +320,39 @@ h1 {
       height               : 100vh;
     }
   }
-  
-
 }
 
 
 
-.slide1::after {
-  background-image: url(/assets/images/modern-office-1044807_1920.jpg);
+
+/* 0. Slider Controls */
+.main-slider__pagination {
+  display                  : none;
+  margin-top               : $slider-pagination-width*-1;
+  margin-left              : $slider-pagination-width*-1;
+
+  @media(min-width: $breakpoint-md) {
+    display                : block;
+  }
 }
 
 
 
-.slide2::after {
-  background-image: url(/assets/images/apartment-3564955_1920.jpg);
+.main-slider__page-num {
+  width                    : $slider-pagination-width;
+  height                   : $slider-pagination-width;
+  background-color         : white;
+  color                    : sassColor.scale(black, $alpha: -70%);
+  display                  : flex;
+  align-items              : center;
+  justify-content          : center;
+  font-size                : 20px;
 }
 
 
 
-.slide3::after {
-  background-image: url(/assets/images/architecture-2804083_1280.jpg);
+.main-slider__page-num.is-active {
+  background-color         : black;
+  color                    : sassColor.scale(color.$primary, $alpha: -60%);
+  border                   : none;
 }
