@@ -58,6 +58,11 @@ $breakpoint-xl                            : 1940px;
 
 $slider-pagination-width                  : spacing.$b20;
 
+$section-header-font-size                 : 30px;
+$section-header-line-height               : spacing.$b8;
+
+$welcome-banner-vertical-offset           : spacing.$b18;
+
 
 
 /* 2. General Styles */
@@ -103,6 +108,22 @@ a {
 
 
 
+img {
+  max-width                : 100%;
+  display                  : block;
+  height                   : auto;
+}
+
+
+
+main {
+  font-size                : 16px;
+  line-height              : spacing.$b6;
+  letter-spacing           : 1px;
+}
+
+
+
 .display-none {
   display : none !important;
 }
@@ -111,6 +132,21 @@ a {
 
 .display-initial {
   display : initial;
+}
+
+
+
+.section-heading {
+  font-size                : 30px;
+  letter-spacing           : 1px;
+  line-height              : spacing.$b9;
+  margin                   : 0;
+  margin-top               : spacing.$b2;
+
+  @media(min-width: $breakpoint-lg) {
+    font-size              : 56px;
+    line-height            : spacing.$b16;
+  }
 }
 
 
@@ -493,11 +529,65 @@ a {
 
 .main-slider__page-num.is-active {
   background-color         : black;
-  /*
-  color                    : sassColor.scale( color.$primary
-                                            , $alpha: -60%
-                                            );
-                                            */
   color                    : color.$primary;
   border                   : none;
+}
+
+
+
+/* 0. Welcome Section */
+.welcome-section {
+  margin-top               : spacing.$b13;
+
+  @media(min-width: $breakpoint-lg) {
+    margin-top             : spacing.$b20;
+  }
+}
+
+
+
+.welcome-banner {
+  font-size                : 57px;
+  line-height              : spacing.$b15;
+  font-weight              : 700;
+  opacity                  : .1;
+
+  @media(min-width: $breakpoint-md) {
+    font-size              : 140px;
+    line-height            : spacing.$b37;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    font-size              : 200px;
+    line-height            : spacing.$b52;
+    transform              : translatey($welcome-banner-vertical-offset);
+  }
+}
+
+
+
+.welcome-wrapper {
+  display                  : flex;
+  max-width                : 918px;
+  margin-left              : auto;
+}
+
+
+
+.welcome-text {
+  padding-right            : 28px;
+
+  @media(min-width: $breakpoint-lg) {
+    padding-top            : $welcome-banner-vertical-offset;
+  }
+}
+
+
+
+.welcome-image-wrapper {
+  display                  : none;
+
+  @media(min-width: $breakpoint-md) {
+    display                : block;
+  }
 }
