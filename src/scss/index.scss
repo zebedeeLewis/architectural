@@ -62,6 +62,7 @@ $section-header-font-size                 : 30px;
 $section-header-line-height               : spacing.$b8;
 
 $welcome-banner-vertical-offset           : spacing.$b18;
+$welcome-wrapper-max-width                : 918px;
 
 
 
@@ -146,6 +147,16 @@ main {
   @media(min-width: $breakpoint-lg) {
     font-size              : 56px;
     line-height            : spacing.$b16;
+  }
+}
+
+
+
+@mixin section {
+  margin-top               : spacing.$b13;
+
+  @media(min-width: $breakpoint-lg) {
+    margin-top             : spacing.$b20;
   }
 }
 
@@ -537,11 +548,7 @@ main {
 
 /* 0. Welcome Section */
 .welcome-section {
-  margin-top               : spacing.$b13;
-
-  @media(min-width: $breakpoint-lg) {
-    margin-top             : spacing.$b20;
-  }
+  @include                 section;
 }
 
 
@@ -568,7 +575,7 @@ main {
 
 .welcome-wrapper {
   display                  : flex;
-  max-width                : 918px;
+  max-width                : $welcome-wrapper-max-width;
   margin-left              : auto;
 }
 
@@ -589,5 +596,100 @@ main {
 
   @media(min-width: $breakpoint-md) {
     display                : block;
+  }
+}
+
+
+
+/* 0. About Section */
+.about-section {
+  @include                 section;
+  position                 : relative;
+
+  &:before {
+    width                  : 100%;
+    padding-bottom         : 100%;
+    display                : block;
+    content                : "";
+    background-image       : url("/assets/images/home_office.jpg");
+    background-size        : cover;
+
+
+    @media(min-width: $breakpoint-sm) {
+      padding-bottom       : 50.66%;
+    }
+  }
+
+
+  @media(min-width: $breakpoint-lg) {
+    margin-top             : spacing.$b50;
+  }
+}
+
+
+
+.about-content {
+  position                 : absolute;
+  top                      : 0;
+  bottom                   : 0;
+  left                     : 0;
+  right                    : 0;
+  display                  : flex;
+  flex-direction           : column;
+  align-items              : flex-start;
+  justify-content          : center;
+  align-content            : flex-start;
+  flex-wrap                : wrap;
+  padding-left             : 24px;
+  padding-right            : 24px;
+  max-width                : $welcome-wrapper-max-width;
+  margin-left              : auto;
+
+  @media(min-width: $breakpoint-sm) {
+    padding-left           : 48px;
+    padding-right          : 48px;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    padding-left           : 0;
+    padding-right          : 0;
+  }
+}
+
+
+
+.about-text {
+  font-weight              : 700;
+  font-size                : 36px;
+  line-height              : spacing.$b11;
+  color                    : white;
+  text-shadow              : 1px 1px #0006;
+  width                    : 100%;
+  max-width                : 500px;
+
+  @media(min-width: $breakpoint-sm) {
+    font-size              : 60px;
+    line-height            : spacing.$b17;
+  }
+
+  @media(min-width: $breakpoint-md) {
+    font-size              : 76px;
+    line-height            : spacing.$b19;
+  }
+}
+
+
+
+.about-button {
+  @include                 button.button;
+  @include                 button.button--dark;
+  margin-top               : spacing.$b8;
+
+  @media(min-width: $breakpoint-sm) {
+    margin-top             : spacing.$b16;
+  }
+
+  @media(min-width: $breakpoint-md) {
+    @include               button.button--medium;
   }
 }
