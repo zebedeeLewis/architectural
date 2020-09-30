@@ -61,7 +61,11 @@ module.exports =
     [ new CleanWebpackPlugin()
   
     , new CopyWebpackPlugin(
-        { patterns: [ { from: 'assets', to: 'assets' } ] }
+        { patterns:
+          [ { from: 'assets', to: 'assets' }
+          , { from: 'src/images', to: 'images' }
+          ]
+        }
       )
   
     , ...  html_webpack_plugins_from_source_descriptors(

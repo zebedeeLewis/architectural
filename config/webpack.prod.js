@@ -11,7 +11,7 @@ module.exports =
        , { output :
            { path       : paths.build
            , filename   : path.join('js', '[name].js')
-           , publicPath : '/architectural'
+           , publicPath : '/architectural/'
            }
          , mode    : 'production'
          , devtool : false

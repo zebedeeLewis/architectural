@@ -66,39 +66,44 @@ $welcome-banner-vertical-offset           : spacing.$b18;
 $welcome-wrapper-max-width                : 918px;
 
 
+$sm-footer-logo-vertical-spacing          : spacing.$b7;
+$md-footer-logo-vertical-spacing          : spacing.$b9;
+$lg-footer-logo-vertical-spacing          : spacing.$b20;
+
+
 
 /* 2. General Styles */
 :root {
-  color: $font-color;
+  color                    : $font-color;
 }
 
 
 
 body {
-  background-color : color.$background;
-  margin           : 0;
+  background-color         : color.$background;
+  margin                   : 0;
 }
 
 
 
 div {
-  box-sizing: border-box;
+  box-sizing               : border-box;
 }
 
 
 
 ul {
-  list-style-type : none;
-  margin-top      : 0;
-  margin-bottom   : 0;
-  padding-left    : 0;
+  list-style-type          : none;
+  margin-top               : 0;
+  margin-bottom            : 0;
+  padding-left             : 0;
 }
 
 
 
 h1 {
-  font-size        : typography.$font-size;
-  margin           : 0;
+  font-size                : typography.$font-size;
+  margin                   : 0;
 }
 
 
@@ -127,13 +132,13 @@ main {
 
 
 .display-none {
-  display : none !important;
+  display                  : none !important;
 }
 
 
 
 .display-initial {
-  display : initial;
+  display                  : initial;
 }
 
 
@@ -178,7 +183,7 @@ main {
 
 @mixin aspect-ratio--square {
   &:before {
-    padding-bottom           : 100%;
+    padding-bottom         : 100%;
   }
 }
 
@@ -186,7 +191,7 @@ main {
 
 @mixin aspect-ratio--16to9 {
   &:before {
-    padding-bottom           : 50.66%;
+    padding-bottom         : 50.66%;
   }
 }
 
@@ -194,7 +199,7 @@ main {
 
 @mixin aspect-ratio--4to3 {
   &:before {
-    padding-bottom           : 75%;
+    padding-bottom         : 75%;
   }
 }
 
@@ -202,7 +207,7 @@ main {
 
 @mixin aspect-ratio--3to2 {
   &:before {
-    padding-bottom           : 66.66%;
+    padding-bottom         : 66.66%;
   }
 }
 
@@ -210,7 +215,26 @@ main {
 
 @mixin aspect-ratio--21to9 {
   &:before {
-    padding-bottom           : 42.85%;
+    padding-bottom         : 42.85%;
+  }
+}
+
+
+
+@mixin logo {
+  font-size                : 24px;
+  line-height              : 24px;
+  font-weight              : 700;
+  letter-spacing           : -2px;
+
+
+  @media (min-width: $breakpoint-md) {
+    width                  : $sm-logo-width;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    font-size              : 40px;
+    width                  : $md-logo-width;
   }
 }
 
@@ -260,7 +284,7 @@ main {
 
 
 .nav-item {
-  @include         nav-item;
+  @include                 nav-item;
 
   padding-left             : spacing.$b5;
 
@@ -289,21 +313,8 @@ main {
 
 
 .nav-item--logo {
-  @include         nav-item;
-
-  font-size                : 24px;
-  font-weight              : 700;
-  letter-spacing           : -2px;
-
-
-  @media (min-width: $breakpoint-md) {
-    width                  : $sm-logo-width;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    font-size              : 40px;
-    width                  : $md-logo-width;
-  }
+  @include                 nav-item;
+  @include                 logo;
 }
 
 
@@ -466,9 +477,9 @@ main {
   @media(min-width: $breakpoint-sm) {
     display                : block;
     padding                : 0
-                             ( $sm-logo-width
-                             + $sm-navigation-left-offset
-                             );
+                           ( $sm-logo-width
+                           + $sm-navigation-left-offset
+                           ) ;
     margin-top             : spacing.$b40;
     position               : absolute;
     letter-spacing         : 1px;
@@ -663,7 +674,7 @@ main {
   @include                 aspect-ratio--square;
 
   &:before {
-    background-image       : url("/assets/images/home_office.jpg");
+    background-image       : url(../images/home_office.jpg);
     background-size        : cover;
   }
 
@@ -799,14 +810,13 @@ main {
       padding-bottom       : 151.85%;
     }
   }
-
 }
 
 
 
 .featured-card--1 {
   &:before {
-    background-image       : url("/assets/images/architecture.jpg");
+    background-image       : url("../images/architecture.jpg");
   }
 }
 
@@ -814,7 +824,7 @@ main {
 
 .featured-card--2 {
   &:before {
-    background-image       : url("/assets/images/architecture2.jpg");
+    background-image       : url("../images/architecture2.jpg");
   }
 
   @media(min-width: $breakpoint-lg) {
@@ -826,7 +836,7 @@ main {
 
 .featured-card--3 {
   &:before {
-    background-image       : url("/assets/images/window.jpg");
+    background-image       : url("../images/window.jpg");
   }
 }
 
@@ -908,5 +918,110 @@ main {
     position               : absolute;
     top                    : 0;
     right                  : 0;
+  }
+}
+
+
+
+/* 0. Footer */
+.footer {
+  margin-top               : spacing.$b23;
+  position                 : relative;
+
+  @media(min-width: $breakpoint-sm) {
+    padding-left           : $sm-horizontal-outer-spacing;
+    padding-right          : $sm-horizontal-outer-spacing;
+  }
+
+  @media(min-width: $breakpoint-md) {
+    padding-left           : $md-horizontal-outer-spacing;
+    padding-right          : $md-horizontal-outer-spacing;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    margin-top             : spacing.$b48;
+    padding-left           : $lg-horizontal-outer-spacing;
+    padding-right          : $lg-horizontal-outer-spacing;
+  }
+}
+
+
+
+.footer-nav {
+  display                  : flex;
+  align-items              : center;
+  position                 : relative;
+
+  &:before {
+    content                : "";
+    display                : block;
+    position               : absolute;
+    top                    : 0;
+    bottom                 : 0;
+    right                  : 0;
+    left                   : 0;
+    background-color       : color.$very-light-grey;
+    max-width              : 90%;
+    z-index                : -1;
+  }
+}
+
+
+
+.footer-logo {
+  @include                 logo;
+  line-height              : 1;
+  padding                  : 16px 8px;
+  background-color         : black;
+  color                    : white;
+
+  @media(min-width: $breakpoint-sm) {
+    padding                : $sm-footer-logo-vertical-spacing
+                             spacing.$b4;
+  }
+
+  @media(min-width: $breakpoint-md) {
+    padding                : $md-footer-logo-vertical-spacing
+                             spacing.$b5; 
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    padding                : $lg-footer-logo-vertical-spacing
+                             spacing.$b13;
+  }
+}
+
+
+
+.nav-item--footer {
+  padding                  : 20px 8px;
+  
+  @media(min-width: $breakpoint-md) {
+    font-size              : 24px;
+    padding                : $md-footer-logo-vertical-spacing
+                             spacing.$b3;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    padding                : spacing.$b21 spacing.$b5;
+    font-size              : 28px;
+    line-height            : spacing.$b8;
+  }
+}
+
+
+
+.footer-button {
+  @include                 button.button;
+  @include                 button.button--dark;
+  @include                 button.button;
+  display                  : none;
+
+  @media(min-width: $breakpoint-sm) {
+    display                : inline-block;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    @include               button.button--medium;
   }
 }
