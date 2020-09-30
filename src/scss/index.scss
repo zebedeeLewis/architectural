@@ -1,8 +1,9 @@
 @use "node_modules/@splidejs/splide/dist/css/splide.min.css";
-@use "spacing" as spacing;
+@use "spacing";
 @use "typography";
-@use "button" as button;
-@use "color" as color;
+@use "button";
+@use "card";
+@use "color";
 @use "sass:color" as sassColor;
 @use "toggle" with
   ( $background   : color.$primary
@@ -157,6 +158,59 @@ main {
 
   @media(min-width: $breakpoint-lg) {
     margin-top             : spacing.$b20;
+  }
+}
+
+
+
+@mixin aspect-ratio {
+  position                 : relative;
+
+  &:before {
+    width                  : 100%;
+    padding-bottom         : 56.25%;
+    display                : block;
+    content                : "";
+  }
+}
+
+
+
+@mixin aspect-ratio--square {
+  &:before {
+    padding-bottom           : 100%;
+  }
+}
+
+
+
+@mixin aspect-ratio--16to9 {
+  &:before {
+    padding-bottom           : 50.66%;
+  }
+}
+
+
+
+@mixin aspect-ratio--4to3 {
+  &:before {
+    padding-bottom           : 75%;
+  }
+}
+
+
+
+@mixin aspect-ratio--3to2 {
+  &:before {
+    padding-bottom           : 66.66%;
+  }
+}
+
+
+
+@mixin aspect-ratio--21to9 {
+  &:before {
+    padding-bottom           : 42.85%;
   }
 }
 
@@ -603,21 +657,18 @@ main {
 
 /* 0. About Section */
 .about-section {
+  @include                 card.card;
   @include                 section;
-  position                 : relative;
+  @include                 aspect-ratio;
+  @include                 aspect-ratio--square;
 
   &:before {
-    width                  : 100%;
-    padding-bottom         : 100%;
-    display                : block;
-    content                : "";
     background-image       : url("/assets/images/home_office.jpg");
     background-size        : cover;
+  }
 
-
-    @media(min-width: $breakpoint-sm) {
-      padding-bottom       : 50.66%;
-    }
+  @media(min-width: $breakpoint-sm) {
+    @include               aspect-ratio--16to9;
   }
 
 
@@ -629,11 +680,8 @@ main {
 
 
 .about-content {
-  position                 : absolute;
-  top                      : 0;
-  bottom                   : 0;
-  left                     : 0;
-  right                    : 0;
+  @include                 card.card__content;
+
   display                  : flex;
   flex-direction           : column;
   align-items              : flex-start;
@@ -691,5 +739,174 @@ main {
 
   @media(min-width: $breakpoint-md) {
     @include               button.button--medium;
+  }
+}
+
+
+
+/* 0. Feature Section */
+.feature-section {
+  @include                 section;
+  margin-top               : spacing.$b24;
+
+  @media(min-width: $breakpoint-lg) {
+    margin-top             : spacing.$b50;
+  }
+}
+
+
+.feature-header {
+  display                  : flex;
+  align-items              : flex-end;
+}
+
+
+
+.feature-button {
+  @include                 button.button;
+  @include                 button.button--dark;
+
+  @media(min-width: $breakpoint-md) {
+    @include               button.button--medium;
+  }
+}
+
+
+
+.section-content {
+  margin-top               : spacing.$b10;
+
+  @media(min-width: $breakpoint-lg) {
+    display                : flex;
+    margin-top             : spacing.$b16;
+  }
+}
+
+
+
+.feature-card {
+  @include                 card.card;
+  @include                 aspect-ratio;
+  @include                 aspect-ratio--21to9;
+
+  width                    : 100%;
+  margin-bottom            : spacing.$b2;
+
+  &:before {
+    background-size        : cover;
+
+    @media(min-width: $breakpoint-lg) {
+      padding-bottom       : 151.85%;
+    }
+  }
+
+}
+
+
+
+.featured-card--1 {
+  &:before {
+    background-image       : url("/assets/images/architecture.jpg");
+  }
+}
+
+
+
+.featured-card--2 {
+  &:before {
+    background-image       : url("/assets/images/architecture2.jpg");
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    margin                : 0 26px;
+  }
+}
+
+
+
+.featured-card--3 {
+  &:before {
+    background-image       : url("/assets/images/window.jpg");
+  }
+}
+
+
+
+.featured-card__content {
+  @include                 card.card__content;
+
+  display                  : flex;
+  align-items              : flex-end;
+  font-size                : 16px;
+  line-height              : spacing.$b5;
+  color                    : white;
+  text-shadow              : 1px 1px #0006;
+  padding                  : spacing.$b3 spacing.$b6;
+  background-color         : hsla(0, 0%, 0%, 0.3);
+
+  @media(min-width: $breakpoint-sm) {
+    font-size              : 24px;
+    line-height            : spacing.$b7;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    padding                : spacing.$b11 0 spacing.$b11 60px;
+    font-size              : 20px;
+  }
+}
+
+
+
+.project-title {
+  display                  : flex;
+  flex-direction           : column;
+  align-items              : flex-start;
+  justify-content          : flex-end;
+  font-weight              : 700;
+
+  @media(min-width: $breakpoint-sm) {
+    font-size              : 32px;
+    line-height            : spacing.$b10;
+  }
+}
+
+
+
+.project-button {
+  font-weight              : 500;
+  cursor                   : pointer;
+
+  @media(min-width: $breakpoint-lg) {
+    font-size              : 15px;
+  }
+}
+
+
+
+.project-number {
+  text-align               : right;
+  font-size                : 108px;
+  font-weight              : 700;
+  margin-left              : auto;
+  vertical-align           : bottom;
+  line-height              : 1;
+  opacity                  : .4;
+
+  @media(min-width: $breakpoint-sm) {
+    font-size              : 180px;
+    line-height            : spacing.$b45;
+  }
+
+  @media(min-width: $breakpoint-md) {
+    font-size              : 320px;
+    line-height            : spacing.$b82;
+  }
+
+  @media(min-width: $breakpoint-lg) {
+    font-size              : 200px;
+    line-height            : spacing.$b50;
+    position               : absolute;
+    top                    : 0;
+    right                  : 0;
   }
 }

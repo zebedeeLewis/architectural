@@ -104,3 +104,10 @@ $vertical-spacing          : spacing.$b3;
     background    : color.scale(colors.$on-primary, $lightness: +20%);
   }
 }
+
+
+
+.simple-button {
+  @include                 button;
+}
+

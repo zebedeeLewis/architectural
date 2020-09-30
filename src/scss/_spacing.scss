@@ -32,6 +32,7 @@ $b19:  baseline_x(19);
 $b20:  baseline_x(20);
 $b22:  baseline_x(22);
 $b23:  baseline_x(23);
+$b24:  baseline_x(24);
 $b25:  baseline_x(25);
 $b32:  baseline_x(32);
 $b35:  baseline_x(35);
@@ -42,5 +43,15 @@ $b45:  baseline_x(45);
 $b47:  baseline_x(47);
 $b50:  baseline_x(50);
 $b52:  baseline_x(52);
+$b82:  baseline_x(82);
 
 
+
+.ml-2 {
+  margin-left              : $b2;
+}
+
+
+.ml-auto {
+  margin-left              : auto;
+}
