@@ -192,3 +192,20 @@ export const init_loader_model =
     Model.LOADING_INITIALIZED
   )
 
+
+
+/**
+ * Produce a new view of the current given Model.
+ *
+ * @param {Model} model - the model of the current loader state
+ * @param {HTMLElement} document - this is the DOM document element of
+ *
+ * @return {HTMLElement}
+ * @TODO!!!
+ */
+export const view_loader =
+  ( model
+  , document
+  ) => (
+    document.body
+  )
