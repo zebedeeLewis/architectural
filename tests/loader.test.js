@@ -1,15 +1,175 @@
-import
-  { create_new_message
-  , MessageId
-  , ModelStatus
-  , is_valid_message_id
-  , is_valid_message
-  , is_valid_model
-  , update_loader_model
-  } from "../src/loader/loader"
+import * as Loader from "../src/Loader/Loader"
 
 
 
+describe
+  ( 'is_valid_message'
+  , () => {
+      it( 'produces true if the given subject is the results of calling'
+        + ' Initialized' 
+        , () => {
+            const htmlElementSelector = 'test'
+            const subject = Loader.Initialized(htmlElementSelector)
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Start' 
+        , () => {
+            const subject = Loader.Start()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Started' 
+        , () => {
+            const subject = Loader.Started()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Stop' 
+        , () => {
+            const subject = Loader.Stop()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Stopped' 
+        , () => {
+            const subject = Loader.Stopped()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'is_valid_model'
+  , () => {
+      it( 'produces false if the given subject does not have an'
+        + ' htmlElementSelector attribute' 
+        , () => {
+            const subject = {}
+            const expectedValue = false
+            const actualValue = Loader.is_valid_model(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject has an'
+        + ' htmlElementSelector attribute' 
+        , () => {
+            const subject = { htmlElementSelector : 'test' }
+            const expectedValue = true
+            const actualValue = Loader.is_valid_model(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces false if the given subjects htmlElementSelector'
+        + ' is not a string' 
+        , () => {
+            const subject = { htmlElementSelector: 1 }
+            const expectedValue = false
+            const actualValue = Loader.is_valid_model(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Model'
+  , () => {
+      it( 'Throws a TypeError if the first argument is not a string'
+        , () => {
+            const actualValue = () => Loader.Model(1)
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Produces a new Model when given propper arguments'
+        , () => {
+            const actualValue = Loader.Model('test')
+            const expectedValue =
+              { htmlElementSelector : 'test' }
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'update'
+  , () => {
+      it( 'throws a TypeError if the first argument is not a valid'
+        + ' message.'
+        , () => {
+            const message = 'adfasdf'
+            const model = { htmlElementSelector: 'test' }
+            const actualValue = () => Loader.update(message, model)
+
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'throws a TypeError if the second argument is not a valid'
+        + ' Model.'
+        , () => {
+            const message = Loader.Start()
+            const model = { }
+            const actualValue = () => Loader.update(message, model)
+
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Transfers the value of "htmlElementSelector" from the'
+        + ' Message to the Model when given an Initialized Message.'
+        , () => {
+            const message = Loader.Initialized('test1234')
+            const model = {htmlElementSelector : ''}
+            const actualValue = Loader.update(message, model)
+            const expectedValue = {htmlElementSelector : 'test1234'}
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+/*
 describe
   ( 'new_message'
   , () => {
@@ -78,197 +238,6 @@ describe
 
 
 
-describe
-  ( 'update_loader_model'
-  , () => {
-      it( 'produces null when given an invalid message'
-        , () => {
-            const messageId = MessageId.START_LOADER
-            const argv = 1
-
-            const message =
-              { id : messageId
-              , argv : argv
-              }
-            const initialModel = 
-              { status: ModelStatus.INITIALIZED
-              , htmlElement: null
-              }
-
-            const expectedValue = null
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces null when given an invalid model'
-        , () => {
-            const messageId = MessageId.START_LOADER
-            const argv = []
-
-            const message =
-              { id : messageId
-              , argv : argv
-              }
-          
-            const initialModel = 
-              { staus: 234234
-              , htmlElement: null
-              }
-
-            const expectedValue = null
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces a new Model LOADER_STARTING when given a message'
-        + ' with id START_LOADER'
-        , () => {
-            const messageId = MessageId.START_LOADER
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-          
-            const initialModel = 
-              { status: ModelStatus.INITIALIZED
-              , htmlElement: null
-              }
-
-            const expectedValue =
-              { status: ModelStatus.LOADER_STARTING
-              , htmlElement: null
-              }
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces a new Model INITIALIZED when given a message'
-        + ' with id INFO_LOADER_INITIALIZED.'
-        , () => {
-            const messageId = MessageId.INFO_LOADER_INITIALIZED
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-          
-            const initialModel =
-              { status: ModelStatus.LOADER_UNDEFINED
-              , htmlElement: null
-              }
-
-            const expectedValue =
-              { status: ModelStatus.INITIALIZED
-              , htmlElement: null
-              }
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces a new Model LOADER_STARTED when given a message'
-        + ' with id INFO_LOADER_STARTED.'
-        , () => {
-            const messageId = MessageId.INFO_LOADER_STARTED
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-          
-            const initialModel = 
-              { status: ModelStatus.LOADER_UNDEFINED
-              , htmlElement: null
-              }
-
-            const expectedValue =
-              { status: ModelStatus.LOADER_STARTED
-              , htmlElement: null
-              }
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces a new Model LOADER_STOPPING when given a message'
-        + ' with id STOP_LOADER.'
-        , () => {
-            const messageId = MessageId.STOP_LOADER
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-          
-            const initialModel =
-              { status : ModelStatus.LOADER_UNDEFINED
-              , htmlElement : null
-              }
-
-            const expectedValue =
-              { status: ModelStatus.LOADER_STOPPING
-              , htmlElement : null
-              }
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces a new Model LOADER_STOPPED when given a message'
-        + ' with id INFO_LOADER_STOPPED.'
-        , () => {
-            const messageId = MessageId.INFO_LOADER_STOPPED
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-          
-            const initialModel = 
-              { status: ModelStatus.LOADER_UNDEFINED
-              , htmlElement: null
-              }
-
-            const expectedValue =
-              { status: ModelStatus.LOADER_STOPPED
-              , htmlElement: null
-              }
-
-            const actualValue =
-              update_loader_model(message, initialModel)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
 
 
 
@@ -408,3 +377,4 @@ describe
         )
     }
   )
+*/

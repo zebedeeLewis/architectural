@@ -5,7 +5,7 @@ module.exports =
   , "recurseDepth": 10
   , "source":
       { "include":
-          [ "./src/loader/loader.js"
+          [ "./src/Loader/Loader.js"
           ]
       , "includePattern": ".+\\.js(doc|x)?$"
       , "excludePattern": "(^|\\/|\\\\)_"
