@@ -3,7 +3,25 @@
  */
 
 
-import { gsap } from 'gsap'
+import * as Gsap from 'gsap'
+
+
+
+/**
+ * Represents a function to be called by the update function when the
+ * "Initialize" message is recieved.
+ *
+ * @callback InitializeHandler
+ *
+ * @param {Array.<*>} argv - the "argv" array recieved from the
+ *   Initialize message.
+ *
+ * @param {Model} model - recieved from the update function. The update
+ *   function performs it's internal transformations on the model before
+ *   passing it to this handler.
+ *
+ * @return {Model}
+ */
 
 
 
@@ -14,38 +32,20 @@ import { gsap } from 'gsap'
  */
 
 /**
- * Produce false if:
- *   - The given object does not have an "htmlElementSelector" attribute.
- *   - The given objects htmlElementSelector value is not a string.
- *
- * Otherwise produce true.
- *
- *
- * @function
- * @param  {*} possibleModel - This may or may not be a Model.
- * @return {Boolean}
- */
-export const is_valid_model =
-  ( possibleModel
-  ) => (
-       possibleModel.hasOwnProperty('htmlElementSelector')
-    && typeof possibleModel.htmlElementSelector === 'string'
-  )
-
-
-
-/**
  * Produce a new Model.
  *
  * @function
  * @param {string} htmlElementSelector - Selector for one or more
  *   element in the DOM that the loader represents.
+ * @param {InitializeHandler} initializeHandler - Function fire when
+ *   the Initialize message is released.
  * @return {Model}
  *
  * @throws {TypeError} The first argument must be a string
  */
 export const Model =
   ( htmlElementSelector
+  , initializeHandler
   ) => {
     if (typeof htmlElementSelector !== 'string') {
       throw new TypeError(
@@ -53,7 +53,26 @@ export const Model =
       )
     }
 
-    return Object.freeze({ htmlElementSelector})
+    if (typeof initializeHandler !== 'function') {
+      throw new TypeError(
+        'Second argument to Model constructor must be a function'
+      )
+    }
+
+    return Object.freeze(
+      Object.create
+        ( Initialize.prototype
+        , { htmlElementSelector :
+              { value      : htmlElementSelector 
+              , enumerable : true
+              }
+          , initializeHandler :
+              { value      : initializeHandler 
+              , enumerable : true
+              }
+          }
+        )
+    )
   }
 
 
@@ -62,44 +81,72 @@ export const Model =
  * Represents a message indicating a milestone in the Loaders
  * progression.
  *
- *   - Initialized(string)
+ *   - Initialize(string)
+ *   - Initialized()
  *   - Start()
  *   - Started
  *   - Stop()
  *   - Stopped()
  *
- * @typedef {( {type : string}
- *          |  {type : string, htmlElementSelector : string}
- *          )} Message
+ * @typedef { ( Initialize
+ *            | Start
+ *            | Started
+ *            | Stop
+ *            | Stopped
+ *            )
+ *          } Message
  */
 
 
 
 /**
- * Produce a new "Initialized" Message. Intended to informed that the
- * Loader has been successfully initialized.
+ * Produce a new "Initialize" Message. Intended to be used as a command
+ * to initialize the Loader.
  *
- * @function
- * @param {string} htmlElementSelector - Selector for one or more
- *   element in the DOM that the loader represents.
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   InitializeHandler function.
+ *
  * @return {Message}
  *
- * @throws {TypeError} The first argument must be a string
+ * @throws {TypeError} The first argument must be an Array
  */
-export function Initialized
-  ( htmlElementSelector
+export function Initialize
+  ( argv
   ) {
-    if (typeof htmlElementSelector !== 'string') {
+    if (!(argv instanceof Array)) {
       throw new TypeError(
-        'First argument to Initialized constructor must be a string'
+        'First argument to Initialize constructor must be an Array'
       )
     }
 
     return Object.freeze(
       Object.create
-        ( Initialized.prototype
-        , { htmlElementSelector : { value : htmlElementSelector } }
+        ( Initialize.prototype
+        , { argv :
+              { value      : argv
+              , enumerable : true
+              }
+          }
         )
+    )
+  }
+
+
+
+/**
+ * Produce a new "Initialized" Message. Intended to inform that the
+ * Loader has been initialized.
+ *
+ *
+ * @return {Message}
+ *
+ * @throws {TypeError} The first argument must be an Array
+ */
+export function Initialized
+  () {
+    return Object.freeze(
+      Object.create(Initialized.prototype , {})
     )
   }
 
@@ -113,7 +160,11 @@ export function Initialized
  * @return {Message}
  */
 export function Start
-  () { return Object.freeze(Object.create(Start.prototype, {})) }
+  () {
+    return Object.freeze(
+      Object.create(Start.prototype, {})
+    )
+  }
 
 
 
@@ -125,7 +176,11 @@ export function Start
  * @return {Message}
  */
 export function Started
-  () { return Object.freeze(Object.create(Started.prototype, {})) }
+  () {
+    return Object.freeze(
+      Object.create(Started.prototype, {})
+    ) 
+  }
 
 
 
@@ -137,7 +192,11 @@ export function Started
  * @return {Message}
  */
 export function Stop
-  () { return Object.freeze(Object.create(Stop.prototype, {})) }
+  () {
+    return Object.freeze(
+      Object.create(Stop.prototype, {})
+    )
+  }
 
 
 
@@ -149,13 +208,18 @@ export function Stop
  * @return {Message}
  */
 export function Stopped
-  () { return Object.freeze(Object.create(Stopped.prototype, {})) }
+  () {
+    return Object.freeze(
+      Object.create(Stopped.prototype, {})
+    )
+  }
 
 
 
 /**
  * Produce true if the given subject is the result of calling one of:
- *   - Initialized(string)
+ *   - Initialize(Array)
+ *   - Initialized()
  *   - Start()
  *   - Started()
  *   - Stop()
@@ -170,13 +234,11 @@ export function Stopped
  */
 export const is_valid_message =
   ( possibleMessage
-  ) => (
-       (possibleMessage instanceof Start)
+  ) => (possibleMessage instanceof Start)
     || (possibleMessage instanceof Started)
     || (possibleMessage instanceof Stop)
     || (possibleMessage instanceof Stopped)
-    || (possibleMessage instanceof Initialized)
-  )
+    || (possibleMessage instanceof Initialize)
 
 
 
@@ -189,8 +251,11 @@ export const is_valid_message =
  * @param  {Model} model - Model initial state
  * @return {Model}
  *
- * @throws {TypeError} The first argument must be a valid Message
- * @throws {TypeError} The second argument must be a valid Model
+ * @throws {TypeError} "First argument to update function must be a
+ *   valid Message"
+
+ * @throws {TypeError} "Second argument to update function must be a
+ *   valid Model"
  *
  * @TODO!!!
  */
@@ -204,15 +269,15 @@ export const update =
       )
     }
 
-    if (!is_valid_model(model)) {
+    if (!(model instanceof Model)) {
       throw new TypeError(
         'Second argument to update function must be a valid Model'
       )
     }
 
     return (
-      message instanceof Initialized
-        ? Model(message.htmlElementSelector)
+      message instanceof Initialize
+        ? model.initializeHandler(message.argv, model)
         : model
     )
   }

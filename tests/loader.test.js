@@ -1,15 +1,49 @@
 import * as Loader from "../src/Loader/Loader"
 
 
+describe
+  ( 'Initialize'
+  , () => {
+      it( 'throws a TypeError if the first argument is not an Array'
+        , () => {
+            const actualValue =
+              () => Loader.Initialize(2)
+
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'produces a new Initialize message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Initialize(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Initialize.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
 
 describe
   ( 'is_valid_message'
   , () => {
       it( 'produces true if the given subject is the results of calling'
-        + ' Initialized' 
+        + ' Initialize' 
         , () => {
-            const htmlElementSelector = 'test'
-            const subject = Loader.Initialized(htmlElementSelector)
+            const subject = Loader.Initialize([])
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
@@ -66,46 +100,6 @@ describe
 
 
 describe
-  ( 'is_valid_model'
-  , () => {
-      it( 'produces false if the given subject does not have an'
-        + ' htmlElementSelector attribute' 
-        , () => {
-            const subject = {}
-            const expectedValue = false
-            const actualValue = Loader.is_valid_model(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject has an'
-        + ' htmlElementSelector attribute' 
-        , () => {
-            const subject = { htmlElementSelector : 'test' }
-            const expectedValue = true
-            const actualValue = Loader.is_valid_model(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if the given subjects htmlElementSelector'
-        + ' is not a string' 
-        , () => {
-            const subject = { htmlElementSelector: 1 }
-            const expectedValue = false
-            const actualValue = Loader.is_valid_model(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
-
-
-
-describe
   ( 'Model'
   , () => {
       it( 'Throws a TypeError if the first argument is not a string'
@@ -115,11 +109,32 @@ describe
           }
         )
 
+      it( 'Throws a TypeError if the seconde argument is not a function'
+        , () => {
+            const actualValue = () => Loader.Model('test', null)
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
       it( 'Produces a new Model when given propper arguments'
         , () => {
-            const actualValue = Loader.Model('test')
+            const initializeHandler = () => null
+            const htmlElementSelector = 'test'
+            const actualValue =
+              Loader.Model(htmlElementSelector, initializeHandler)
             const expectedValue =
-              { htmlElementSelector : 'test' }
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector :
+                      { value      : htmlElementSelector
+                      , enumerable : true
+                      }
+                  , initializeHandler :
+                     { value      : initializeHandler
+                     , enumerable : true
+                     }
+                  }
+                )
             return expect(actualValue).toEqual(expectedValue)
           }
         )
@@ -135,7 +150,21 @@ describe
         + ' message.'
         , () => {
             const message = 'adfasdf'
-            const model = { htmlElementSelector: 'test' }
+            const initializeHandler = () => null
+            const htmlElementSelector = 'test'
+            const model =
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector :
+                      { value      : htmlElementSelector
+                      , enumerable : true
+                      }
+                  , initializeHandler : 
+                      { value      : initializeHandler
+                      , enumerable : true
+                      }
+                  }
+                )
             const actualValue = () => Loader.update(message, model)
 
             return expect(actualValue).toThrow(TypeError)
@@ -153,17 +182,67 @@ describe
           }
         )
 
-      it( 'Transfers the value of "htmlElementSelector" from the'
-        + ' Message to the Model when given an Initialized Message.'
+      it( 'calls the InitializeHandler on the given Model when given '
+        + ' an "Initialize" Message.'
         , () => {
-            const message = Loader.Initialized('test1234')
-            const model = {htmlElementSelector : ''}
+            const htmlElementSelector = 'test'
+            const initializeHandler = jest.fn()
+            const argv = [1,2,3]
+            const model = 
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector :
+                      { value      : htmlElementSelector
+                      , enumerable : true
+                      }
+                  , initializeHandler : 
+                      { value      : initializeHandler
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const message = Loader.Initialize (argv)
+
+            Loader.update(message, model)
+
+            expect(initializeHandler).toHaveBeenCalledTimes(1)
+            expect(initializeHandler).toHaveBeenCalledWith(argv, model)
+          }
+        )
+
+    /*
+      it( 'Transfers the value of "htmlElementSelector" from the'
+        + ' Message to the Model when given an Initialize Message.'
+        , () => {
+            const initializeHandler = () => null
+            const htmlElementSelector = 'test1234'
+            const message =
+              Loader.Initialize
+                ( htmlElementSelector
+                , initializeHandler
+                )
+            const model =
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector : {value : ''}
+                  , initializeHandler : {value : initializeHandler}
+                  }
+                )
             const actualValue = Loader.update(message, model)
-            const expectedValue = {htmlElementSelector : 'test1234'}
+
+            const expectedValue =
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector : {value : htmlElementSelector}
+                  , initializeHandler : {value : initializeHandler}
+                  }
+                )
 
             return expect(actualValue).toEqual(expectedValue)
           }
         )
+        */
     }
   )
 
