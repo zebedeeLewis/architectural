@@ -9,6 +9,10 @@
  *     fail returns a Results.Err on failure or Results.Ok on success.
  *     Results.Err could encapsulate some additional information about
  *     the failure and Results.Ok could encapsulate the success value.
+ *
+ *   - add a "state" field on the Model object and create a "Status" type
+ *     with constructors for "Initializing", "Starting", "Running",
+ *     "Stopping", "Finished".
  */
 
 
@@ -35,7 +39,7 @@ import * as Gsap from 'gsap'
 
 
 /**
- * Represents the state of the Loader.
+ * Represents a snapshot of the Loader at a given point.
  *
  * @typedef {{htmlElementId: string}} Model
  */
@@ -43,18 +47,42 @@ import * as Gsap from 'gsap'
 /**
  * Produce a new Model.
  *
+ *
  * @function
+ *
  * @param {string} htmlElementSelector - Selector for one or more
- *   element in the DOM that the loader represents.
- * @param {MessageHandler} messageHandler - Function fire when
- *   the Initialize message is released.
+ * element in the DOM that the loader represents.
+ *
+ * @param {MessageHandler} initializeHandler - Fires in response to the
+ * Initialize message.
+ *
+ * @param {MessageHandler} initializedHandler - Fires in response to the
+ * Initialized message.
+ *
+ * @param {MessageHandler} startHandler - Fires in response to the Start
+ * message.
+ *
+ * @param {MessageHandler} startedHandler - Fires in response to the
+ * Started message.
+ *
+ * @param {MessageHandler} stopHandler - Fires in response to the Stop
+ * message.
+ *
+ * @param {MessageHandler} stoppedHandler - Fires in response to the
+ * Stopped message.
+ *
  * @return {Model}
  *
  * @throws {TypeError} The first argument must be a string
  */
 export const Model =
   ( htmlElementSelector
-  , messageHandler
+  , initializeHandler
+  , initializedHandler
+  , startHandler
+  , startedHandler
+  , stopHandler
+  , stoppedHandler
   ) => {
     if (typeof htmlElementSelector !== 'string') {
       throw new TypeError(
@@ -62,9 +90,39 @@ export const Model =
       )
     }
 
-    if (typeof messageHandler !== 'function') {
+    if (typeof initializeHandler !== 'function') {
       throw new TypeError(
         'Second argument to Model constructor must be a function'
+      )
+    }
+
+    if (typeof initializedHandler !== 'function') {
+      throw new TypeError(
+        'Third argument to Model constructor must be a function'
+      )
+    }
+
+    if (typeof startHandler !== 'function') {
+      throw new TypeError(
+        'Fourth argument to Model constructor must be a function'
+      )
+    }
+    
+    if (typeof startedHandler !== 'function') {
+      throw new TypeError(
+        'Fifth argument to Model constructor must be a function'
+      )
+    }
+
+    if (typeof stopHandler !== 'function') {
+      throw new TypeError(
+        'Sixth argument to Model constructor must be a function'
+      )
+    }
+
+    if (typeof stoppedHandler !== 'function') {
+      throw new TypeError(
+        'Seventh argument to Model constructor must be a function'
       )
     }
 
@@ -75,8 +133,28 @@ export const Model =
               { value      : htmlElementSelector 
               , enumerable : true
               }
-          , messageHandler :
-              { value      : messageHandler 
+          , initializeHandler   :
+              { value      : initializeHandler 
+              , enumerable : true
+              }
+          , initializedHandler   :
+              { value      : initializedHandler 
+              , enumerable : true
+              }
+          , startHandler         :
+              { value      : startHandler 
+              , enumerable : true
+              }
+          , startedHandler       :
+              { value      : startedHandler 
+              , enumerable : true
+              }
+          , stopHandler          :
+              { value      : stopHandler 
+              , enumerable : true
+              }
+          , stoppedHandler       :
+              { value      : stoppedHandler 
               , enumerable : true
               }
           }

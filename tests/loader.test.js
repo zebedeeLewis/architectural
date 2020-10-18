@@ -260,24 +260,144 @@ describe
   , () => {
       it( 'Throws a TypeError if the first argument is not a string'
         , () => {
-            const actualValue = () => Loader.Model(1)
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 1
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                )
+            )
             return expect(actualValue).toThrow(TypeError)
           }
         )
 
       it( 'Throws a TypeError if the seconde argument is not a function'
         , () => {
-            const actualValue = () => Loader.Model('test', null)
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , null
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                )
+            )
             return expect(actualValue).toThrow(TypeError)
           }
         )
 
-      it( 'Produces a new Model when given propper arguments'
+      it( 'Throws a TypeError if the third argument is not a function'
         , () => {
-            const messageHandler = () => null
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , stub
+                , null
+                , stub
+                , stub
+                , stub
+                , stub
+                )
+            )
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Throws a TypeError if the fourth argument is not a function'
+        , () => {
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , stub
+                , stub
+                , null
+                , stub
+                , stub
+                , stub
+                )
+            )
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Throws a TypeError if the fifth argument is not a function'
+        , () => {
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , stub
+                , stub
+                , stub
+                , null
+                , stub
+                , stub
+                )
+            )
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Throws a TypeError if the sixth argument is not a function'
+        , () => {
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , stub
+                , stub
+                , stub
+                , stub
+                , null
+                , stub
+                )
+            )
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Throws a TypeError if the seventh argument is not a function'
+        , () => {
+            const stub = ()=>null
+            const actualValue = () => (
+              Loader.Model
+                ( 'test'
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                , null
+                )
+            )
+            return expect(actualValue).toThrow(TypeError)
+          }
+        )
+
+      it( 'Produces a new Model when given proper arguments'
+        , () => {
+            const stub = () => null
             const htmlElementSelector = 'test'
             const actualValue =
-              Loader.Model(htmlElementSelector, messageHandler)
+              Loader.Model
+                ( htmlElementSelector
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                , stub
+                )
             const expectedValue =
               Object.create
                 ( Loader.Model.prototype
@@ -285,8 +405,28 @@ describe
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
-                  , messageHandler :
-                     { value      : messageHandler
+                  , initializeHandler :
+                     { value      : stub
+                     , enumerable : true
+                     }
+                  , initializedHandler :
+                     { value      : stub
+                     , enumerable : true
+                     }
+                  , startHandler :
+                     { value      : stub
+                     , enumerable : true
+                     }
+                  , startedHandler :
+                     { value      : stub
+                     , enumerable : true
+                     }
+                  , stopHandler :
+                     { value      : stub
+                     , enumerable : true
+                     }
+                  , stoppedHandler :
+                     { value      : stub
                      , enumerable : true
                      }
                   }
