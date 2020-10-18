@@ -38,6 +38,114 @@ describe
 
 
 describe
+  ( 'Start'
+  , () => {
+      it( 'produces a new Start message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Start(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Start.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Started'
+  , () => {
+      it( 'produces a new Started message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Started(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Started.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Stop'
+  , () => {
+      it( 'produces a new Stop message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Stop(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Stop.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Stopped'
+  , () => {
+      it( 'produces a new Stopped message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Stopped(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Stopped.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'is_valid_message'
   , () => {
       it( 'produces true if the given subject is the results of calling'
@@ -118,10 +226,10 @@ describe
 
       it( 'Produces a new Model when given propper arguments'
         , () => {
-            const initializeHandler = () => null
+            const messageHandler = () => null
             const htmlElementSelector = 'test'
             const actualValue =
-              Loader.Model(htmlElementSelector, initializeHandler)
+              Loader.Model(htmlElementSelector, messageHandler)
             const expectedValue =
               Object.create
                 ( Loader.Model.prototype
@@ -129,8 +237,8 @@ describe
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
-                  , initializeHandler :
-                     { value      : initializeHandler
+                  , messageHandler :
+                     { value      : messageHandler
                      , enumerable : true
                      }
                   }
@@ -150,7 +258,7 @@ describe
         + ' message.'
         , () => {
             const message = 'adfasdf'
-            const initializeHandler = () => null
+            const messageHandler = () => null
             const htmlElementSelector = 'test'
             const model =
               Object.create
@@ -159,8 +267,8 @@ describe
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
-                  , initializeHandler : 
-                      { value      : initializeHandler
+                  , messageHandler : 
+                      { value      : messageHandler
                       , enumerable : true
                       }
                   }
@@ -186,7 +294,7 @@ describe
         + ' an "Initialize" Message.'
         , () => {
             const htmlElementSelector = 'test'
-            const initializeHandler = jest.fn()
+            const messageHandler = jest.fn()
             const argv = [1,2,3]
             const model = 
               Object.create
@@ -195,8 +303,8 @@ describe
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
-                  , initializeHandler : 
-                      { value      : initializeHandler
+                  , messageHandler : 
+                      { value      : messageHandler
                       , enumerable : true
                       }
                   }
@@ -206,8 +314,8 @@ describe
 
             Loader.update(message, model)
 
-            expect(initializeHandler).toHaveBeenCalledTimes(1)
-            expect(initializeHandler).toHaveBeenCalledWith(argv, model)
+            expect(messageHandler).toHaveBeenCalledTimes(1)
+            expect(messageHandler).toHaveBeenCalledWith(argv, model)
           }
         )
 
@@ -215,18 +323,18 @@ describe
       it( 'Transfers the value of "htmlElementSelector" from the'
         + ' Message to the Model when given an Initialize Message.'
         , () => {
-            const initializeHandler = () => null
+            const messageHandler = () => null
             const htmlElementSelector = 'test1234'
             const message =
               Loader.Initialize
                 ( htmlElementSelector
-                , initializeHandler
+                , messageHandler
                 )
             const model =
               Object.create
                 ( Loader.Model.prototype
                 , { htmlElementSelector : {value : ''}
-                  , initializeHandler : {value : initializeHandler}
+                  , messageHandler : {value : messageHandler}
                   }
                 )
             const actualValue = Loader.update(message, model)
@@ -235,7 +343,7 @@ describe
               Object.create
                 ( Loader.Model.prototype
                 , { htmlElementSelector : {value : htmlElementSelector}
-                  , initializeHandler : {value : initializeHandler}
+                  , messageHandler : {value : messageHandler}
                   }
                 )
 

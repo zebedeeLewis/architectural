@@ -1,5 +1,14 @@
 /**
  * @module Loader
+ * @TODO:
+ *   - currently all functions that do type checking or any type of
+ *     check before the main action is executed will throw an error
+ *     if the checks fail. I personally believe that throwing errors
+ *     should be reserved for the topmost layer of an application. So
+ *     I want to refactor this module so that each function that could
+ *     fail returns a Results.Err on failure or Results.Ok on success.
+ *     Results.Err could encapsulate some additional information about
+ *     the failure and Results.Ok could encapsulate the success value.
  */
 
 
@@ -11,7 +20,7 @@ import * as Gsap from 'gsap'
  * Represents a function to be called by the update function when the
  * "Initialize" message is recieved.
  *
- * @callback InitializeHandler
+ * @callback MessageHandler
  *
  * @param {Array.<*>} argv - the "argv" array recieved from the
  *   Initialize message.
@@ -37,7 +46,7 @@ import * as Gsap from 'gsap'
  * @function
  * @param {string} htmlElementSelector - Selector for one or more
  *   element in the DOM that the loader represents.
- * @param {InitializeHandler} initializeHandler - Function fire when
+ * @param {MessageHandler} messageHandler - Function fire when
  *   the Initialize message is released.
  * @return {Model}
  *
@@ -45,7 +54,7 @@ import * as Gsap from 'gsap'
  */
 export const Model =
   ( htmlElementSelector
-  , initializeHandler
+  , messageHandler
   ) => {
     if (typeof htmlElementSelector !== 'string') {
       throw new TypeError(
@@ -53,7 +62,7 @@ export const Model =
       )
     }
 
-    if (typeof initializeHandler !== 'function') {
+    if (typeof messageHandler !== 'function') {
       throw new TypeError(
         'Second argument to Model constructor must be a function'
       )
@@ -66,8 +75,8 @@ export const Model =
               { value      : htmlElementSelector 
               , enumerable : true
               }
-          , initializeHandler :
-              { value      : initializeHandler 
+          , messageHandler :
+              { value      : messageHandler 
               , enumerable : true
               }
           }
@@ -89,6 +98,7 @@ export const Model =
  *   - Stopped()
  *
  * @typedef { ( Initialize
+ *            | Initialized
  *            | Start
  *            | Started
  *            | Stop
@@ -105,7 +115,9 @@ export const Model =
  *
  *
  * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   InitializeHandler function.
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of MessageHandler expects.
+ *
  *
  * @return {Message}
  *
@@ -135,36 +147,30 @@ export function Initialize
 
 
 /**
- * Produce a new "Initialized" Message. Intended to inform that the
- * Loader has been initialized.
- *
- *
- * @return {Message}
- *
- * @throws {TypeError} The first argument must be an Array
- */
-export function Initialized
-  () {
-    return Object.freeze(
-      Object.create(Initialized.prototype , {})
-    )
-  }
-
-
-
-/**
- * Produce a new "Start" Message. Intended to be used as a command toi
+ * Produce a new "Start" Message. Intended to be used as a command to
  * start the Loader.
  *
+ * 
  * @function
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of MessageHandler expects.
+ *
  * @return {Message}
  */
-export function Start
-  () {
-    return Object.freeze(
-      Object.create(Start.prototype, {})
-    )
-  }
+export const Start =
+  ( argv
+  ) => Object.freeze(
+    Object.create
+      ( Start.prototype
+      , { argv :
+            { value      : argv
+            , enumerable : true
+            }
+        }
+      )
+  )
 
 
 
@@ -173,14 +179,25 @@ export function Start
  * has been successfully started.
  *
  * @function
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of MessageHandler expects.
+ *
  * @return {Message}
  */
-export function Started
-  () {
-    return Object.freeze(
-      Object.create(Started.prototype, {})
-    ) 
-  }
+export const Started =
+  ( argv
+  ) => Object.freeze(
+    Object.create
+      ( Started.prototype
+      , { argv :
+            { value      : argv
+            , enumerable : true
+            }
+        }
+      )
+  ) 
 
 
 
@@ -189,14 +206,26 @@ export function Started
  * stop the Loader.
  *
  * @function
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of the MessageHandler for this
+ *   message expects.
+ *
  * @return {Message}
  */
-export function Stop
-  () {
-    return Object.freeze(
-      Object.create(Stop.prototype, {})
-    )
-  }
+export const Stop =
+  ( argv
+  ) =>  Object.freeze(
+    Object.create
+      ( Stop.prototype
+      , { argv :
+            { value      : argv
+            , enumerable : true
+            }
+        }
+      )
+  )
 
 
 
@@ -205,14 +234,26 @@ export function Stop
  * has been successfully stopped.
  *
  * @function
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of the MessageHandler for this
+ *   message expects.
+ *
  * @return {Message}
  */
-export function Stopped
-  () {
-    return Object.freeze(
-      Object.create(Stopped.prototype, {})
-    )
-  }
+export const Stopped =
+  ( argv
+  ) => Object.freeze(
+    Object.create
+      ( Stopped.prototype
+      , { argv :
+            { value      : argv
+            , enumerable : true
+            }
+        }
+      )
+  )
 
 
 
@@ -277,7 +318,7 @@ export const update =
 
     return (
       message instanceof Initialize
-        ? model.initializeHandler(message.argv, model)
+        ? model.messageHandler(message.argv, model)
         : model
     )
   }
