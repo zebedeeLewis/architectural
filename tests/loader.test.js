@@ -38,6 +38,33 @@ describe
 
 
 describe
+  ( 'Initialized'
+  , () => {
+      it( 'produces a new Initialized message when given valid arguments'
+        , () => {
+            const argv = [1, 2, 3]
+            const actualValue = Loader.Initialized(argv)
+
+            const expectedValue =
+              Object.create
+                ( Loader.Initialized.prototype
+                , { argv :
+                      { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'Start'
   , () => {
       it( 'produces a new Start message when given valid arguments'
@@ -160,6 +187,17 @@ describe
         )
 
       it( 'produces true if the given subject is the results of calling'
+        + ' Initialized' 
+        , () => {
+            const subject = Loader.Initialized([])
+            const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
         + ' Start' 
         , () => {
             const subject = Loader.Start()
@@ -197,6 +235,16 @@ describe
         , () => {
             const subject = Loader.Stopped()
             const expectedValue = true
+            const actualValue = Loader.is_valid_message(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'otherwise produces false.' 
+        , () => {
+            const subject = {}
+            const expectedValue = false
             const actualValue = Loader.is_valid_message(subject)
 
             return expect(actualValue).toEqual(expectedValue)

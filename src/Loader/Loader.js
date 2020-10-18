@@ -147,6 +147,36 @@ export function Initialize
 
 
 /**
+ * Produce a new "Initialized" Message. Intended to inform that the
+ * loader has been initialize.
+ *
+ *
+ * @function
+ *
+ * @param {Array.<*>} argv - a user supplied array to be passed to the
+ *   MessageHandler function. The content of the array depends on
+ *   what the specific implementation of MessageHandler expects.
+ *
+ * @return {Message}
+ *
+ * @throws {TypeError} The first argument must be an Array
+ */
+export const Initialized =
+  ( argv
+  ) => Object.freeze(
+    Object.create
+      ( Initialized.prototype
+      , { argv :
+            { value      : argv
+            , enumerable : true
+            }
+        }
+      )
+  )
+
+
+
+/**
  * Produce a new "Start" Message. Intended to be used as a command to
  * start the Loader.
  *
@@ -275,11 +305,12 @@ export const Stopped =
  */
 export const is_valid_message =
   ( possibleMessage
-  ) => (possibleMessage instanceof Start)
+  ) => (possibleMessage instanceof Initialize)
+    || (possibleMessage instanceof Initialized)
+    || (possibleMessage instanceof Start)
     || (possibleMessage instanceof Started)
     || (possibleMessage instanceof Stop)
     || (possibleMessage instanceof Stopped)
-    || (possibleMessage instanceof Initialize)
 
 
 
