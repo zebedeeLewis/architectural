@@ -1,4 +1,5 @@
 import * as Loader from "../src/Loader/Loader"
+import * as LoaderCore from "../src/Loader/Loader.core"
 import * as Result from "../src/Result/Result"
 
 
@@ -25,25 +26,16 @@ describe
           }
         )
 
-      it( 'produces a new Initialize message when given valid arguments'
+      it( 'produces a new Ok.<Initialize> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Initialize(argv)
-            const value =
-              Object.create
-                ( Loader.Initialize.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
 
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Initialize(argv)
                       , enumerable : true
                       }
                   }
@@ -85,21 +77,11 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Initialized(argv)
-            const value =
-              Object.create
-                ( Loader.Initialized.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
-
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Initialized(argv)
                       , enumerable : true
                       }
                   }
@@ -141,26 +123,16 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Start(argv)
-            const value =
-              Object.create
-                ( Loader.Start.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
 
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Start(argv)
                       , enumerable : true
                       }
                   }
                 )
-
 
             return expect(actualValue).toEqual(expectedValue)
           }
@@ -197,26 +169,15 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Started(argv)
-            const value =
-              Object.create
-                ( Loader.Started.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
-
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Started(argv)
                       , enumerable : true
                       }
                   }
                 )
-
 
             return expect(actualValue).toEqual(expectedValue)
           }
@@ -253,26 +214,15 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Stop(argv)
-            const value =
-              Object.create
-                ( Loader.Stop.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
-
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Stop(argv)
                       , enumerable : true
                       }
                   }
                 )
-
 
             return expect(actualValue).toEqual(expectedValue)
           }
@@ -309,21 +259,11 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Stopped(argv)
-            const value =
-              Object.create
-                ( Loader.Stopped.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
-
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      : LoaderCore.Stopped(argv)
                       , enumerable : true
                       }
                   }
@@ -335,89 +275,6 @@ describe
         )
     }
   )
-
-
-describe
-  ( 'is_valid_message'
-  , () => {
-      it( 'produces true if the given subject is the results of calling'
-        + ' Initialize' 
-        , () => {
-            const subject = Loader.Initialize([]).value
-            const actualValue = Loader.is_valid_message(subject)
-            const expectedValue = true
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Initialized' 
-        , () => {
-            const subject = Loader.Initialized([]).value
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Start' 
-        , () => {
-            const subject = Loader.Start([]).value
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Started' 
-        , () => {
-            const subject = Loader.Started([]).value
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Stop' 
-        , () => {
-            const subject = Loader.Stop([]).value
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Stopped' 
-        , () => {
-            const subject = Loader.Stopped([]).value
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'otherwise produces false.' 
-        , () => {
-            const subject = {}
-            const expectedValue = false
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-    }
-  )
-
 
 
 describe
@@ -647,45 +504,21 @@ describe
                 , stub
                 , stub
                 )
-            const value =
-                Object.create
-                  ( Loader.Model.prototype
-                  , { htmlElementSelector :
-                        { value      : htmlElementSelector
-                        , enumerable : true
-                        }
-                    , initializeHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , initializedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stopHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stoppedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    }
-                  )
 
             const expectedValue =
               Object.create
                 ( Result.Ok.prototype
                 , { value :
-                      { value      : value
+                      { value      :
+                          LoaderCore.Model
+                            ( htmlElementSelector
+                            , stub
+                            , stub
+                            , stub
+                            , stub
+                            , stub
+                            , stub
+                            )
                       , enumerable : true
                       }
                   }
@@ -700,7 +533,7 @@ describe
 
 
 describe
-  ( 'update'
+  ( 'update_according_to_message'
   , () => {
       it( 'Produce a Err.<TypeError> if the first argument is not an'
         + ' message.'
@@ -721,7 +554,8 @@ describe
                       }
                   }
                 )
-            const actualValue = Loader.update(message, model)
+            const actualValue =
+              Loader.update_according_to_message(message, model)
             const error = new TypeError(Loader.UPDATE_ARG1_ERROR)
             const expectedValue =
               Object.create
@@ -742,7 +576,8 @@ describe
         , () => {
             const message = Loader.Start([]).value
             const model = { }
-            const actualValue = Loader.update(message, model)
+            const actualValue =
+              Loader.update_according_to_message(message, model)
             const error = new TypeError(Loader.UPDATE_ARG2_ERROR)
             const expectedValue =
               Object.create
@@ -755,101 +590,6 @@ describe
                 )
 
             return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces Ok.<Model> when given an "Initialize" Message,'
-        + ' where the returned Model is the result of calling the'
-        + ' initializeHandeler on the given Model'
-        , () => {
-            const model2 = 
-              Object.create
-                ( Loader.Model.prototype
-                , { htmlElementSelector :
-                      { value      : 'new test'
-                      , enumerable : true
-                      }
-                  , initializeHandler : 
-                      { value      : messageHandler
-                      , enumerable : true
-                      }
-                  , initializedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stopHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stoppedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  }
-                )
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : model2
-                      , enumerable : true
-                      }
-                  }
-                )
-
-            const stub = ()=>null
-            const htmlElementSelector = 'test'
-            const messageHandler = jest.fn(() => expectedValue )
-            const argv = [1,2,3]
-            const model = 
-              Object.create
-                ( Loader.Model.prototype
-                , { htmlElementSelector :
-                      { value      : htmlElementSelector
-                      , enumerable : true
-                      }
-                  , initializeHandler : 
-                      { value      : messageHandler
-                      , enumerable : true
-                      }
-                  , initializedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stopHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stoppedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  }
-                )
-
-            const message = Loader.Initialize(argv).value
-
-            const actualValue = Loader.update(message, model)
-
-            expect(messageHandler).toHaveBeenCalledTimes(1)
-            expect(messageHandler).toHaveBeenCalledWith(argv, model)
-            expect(actualValue).toEqual(expectedValue)
           }
         )
     }

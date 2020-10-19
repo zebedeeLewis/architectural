@@ -1,23 +1,6 @@
-/**
- * @module Loader
- * @TODO:
- *   - currently all functions that do type checking or any type of
- *     check before the main action is executed will throw an error
- *     if the checks fail. I personally believe that throwing errors
- *     should be reserved for the topmost layer of an application. So
- *     I want to refactor this module so that each function that could
- *     fail returns a Results.Err on failure or Results.Ok on success.
- *     Results.Err could encapsulate some additional information about
- *     the failure and Results.Ok could encapsulate the success value.
- *
- *   - add a "state" field on the Model object and create a "Status" type
- *     with constructors for "Initializing", "Starting", "Running",
- *     "Stopping", "Finished".
- */
-
 
 import * as Result from '../Result/Result'
-import * as Gsap from 'gsap'
+import * as LoaderCore from './Loader.core'
 
 
 
@@ -68,60 +51,17 @@ export const MODEL_ARG7_ERROR =
 
 
 
-/**
- * Represents a function to be called by the update function when the
- * "Initialize" message is recieved.
+/* string ->
+ * MessageHandler ->
+ * MessageHandler ->
+ * MessageHandler ->
+ * MessageHandler ->
+ * MessageHandler ->
+ * MessageHandler ->
+ * Result<TypeError|Model>
  *
- * @callback MessageHandler
- *
- * @param {Array.<*>} argv - the "argv" array recieved from the
- *   Initialize message.
- *
- * @param {Model} model - recieved from the update function. The update
- *   function performs it's internal transformations on the model before
- *   passing it to this handler.
- *
- * @return {Model}
- */
-
-
-
-/**
- * Represents a snapshot of the Loader at a given point.
- *
- * @typedef {{htmlElementId: string}} Model
- */
-
-/**
- * Produce a new Model.
- *
- *
- * @function
- *
- * @param {string} htmlElementSelector - Selector for one or more
- * element in the DOM that the loader represents.
- *
- * @param {MessageHandler} initializeHandler - Fires in response to the
- * Initialize message.
- *
- * @param {MessageHandler} initializedHandler - Fires in response to the
- * Initialized message.
- *
- * @param {MessageHandler} startHandler - Fires in response to the Start
- * message.
- *
- * @param {MessageHandler} startedHandler - Fires in response to the
- * Started message.
- *
- * @param {MessageHandler} stopHandler - Fires in response to the Stop
- * message.
- *
- * @param {MessageHandler} stoppedHandler - Fires in response to the
- * Stopped message.
- *
- * @return {Model}
- *
- * @throws {TypeError} The first argument must be a string
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Model.
  */
 export const Model =
   ( htmlElementSelector
@@ -131,350 +71,147 @@ export const Model =
   , startedHandler
   , stopHandler
   , stoppedHandler
-  ) => {
-    if (typeof htmlElementSelector !== 'string') {
-      return Result.Err(new TypeError(MODEL_ARG1_ERROR))
-    }
+  ) => (
+    (typeof htmlElementSelector !== 'string')
+      ? Result.Err(new TypeError(MODEL_ARG1_ERROR)) :
 
-    if (typeof initializeHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG2_ERROR))
-    }
+    (typeof initializeHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG2_ERROR)) :
 
-    if (typeof initializedHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG3_ERROR))
-    }
+    (typeof initializedHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG3_ERROR)) :
 
-    if (typeof startHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG4_ERROR))
-    }
+    (typeof startHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG4_ERROR)) :
     
-    if (typeof startedHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG5_ERROR))
-    }
+    (typeof startedHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG5_ERROR)) :
 
-    if (typeof stopHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG6_ERROR))
-    }
+    (typeof stopHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG6_ERROR)) :
 
-    if (typeof stoppedHandler !== 'function') {
-      return Result.Err(new TypeError(MODEL_ARG7_ERROR))
-    }
+    (typeof stoppedHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG7_ERROR))
 
-    return Result.Ok(
-      Object.freeze(
-        Object.create
-          ( Model.prototype
-          , { htmlElementSelector :
-                { value      : htmlElementSelector 
-                , enumerable : true
-                }
-            , initializeHandler   :
-                { value      : initializeHandler 
-                , enumerable : true
-                }
-            , initializedHandler   :
-                { value      : initializedHandler 
-                , enumerable : true
-                }
-            , startHandler         :
-                { value      : startHandler 
-                , enumerable : true
-                }
-            , startedHandler       :
-                { value      : startedHandler 
-                , enumerable : true
-                }
-            , stopHandler          :
-                { value      : stopHandler 
-                , enumerable : true
-                }
-            , stoppedHandler       :
-                { value      : stoppedHandler 
-                , enumerable : true
-                }
-            }
-          )
-      )
-    )
-  }
-
-
-
-/**
- * Represents a message indicating a milestone in the Loaders
- * progression.
- *
- *   - Initialize(string)
- *   - Initialized()
- *   - Start()
- *   - Started
- *   - Stop()
- *   - Stopped()
- *
- * @typedef { ( Initialize
- *            | Initialized
- *            | Start
- *            | Started
- *            | Stop
- *            | Stopped
- *            )
- *          } Message
- */
-
-
-
-/**
- * Produce Ok.<Initialize>. It produces Err.<TypeError> if given invalid
- * arguments. The "Initialize" Message is Intended to be used as a
- * command to initialize the Loader.
- *
- *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of MessageHandler expects.
- *
- *
- * @return {Result.<TypeError|Initialize>}
- */
-export function Initialize
-  ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(INITIALIZE_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Initialize.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
+      : Result.Ok(
+          LoaderCore.Model
+            ( htmlElementSelector
+            , initializeHandler
+            , initializedHandler
+            , startHandler
+            , startedHandler
+            , stopHandler
+            , stoppedHandler
             )
-    )
-  }
+        )
+  )
 
 
 
-/**
- * Produce Ok.<Initialized>. It produces Err.<TypeError> if given
- * invalid arguments. The "Initialized" Message is Intended to inform
- * that the Loader has been initialized.
+/* Array<*> -> Result<TypeError|Initialize>
  *
- *
- * @function
- *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of MessageHandler expects.
- *
- * @return {Result.<TypeError|Initialized>}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Initialize.
  */
-export function Initialized
+export const Initialize =
   ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(INITIALIZED_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Initialized.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
-            )
-    )
-  }
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(INITIALIZE_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Initialize(argv))
+  )
 
 
 
-/**
- * Produce Ok.<Start>. It produces Err.<TypeError> if given invalid
- * arguments. The Start Message is intended to be used as a command
- * to start the Loader.
- * 
- * @function
+/* Array<*> -> Result<TypeError|Initialized>
  *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of MessageHandler expects.
- *
- * @return {Message}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Initialized.
  */
-export function Start
+export const Initialized =
   ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(START_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Start.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
-            )
-    )
-  }
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(INITIALIZED_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Initialized(argv))
+  )
 
 
 
-/**
- * Produce Ok.<Started>. It produces Err.<TypeError> if given
- * invalid arguments. The "Started" Message is Intended to inform
- * that the Loader has been Started.
+/* Array<*> -> Result<TypeError|Start>
  *
- * @function
- *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of MessageHandler expects.
- *
- * @return {Result.<TypeError|Started>}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Start.
  */
-export function Started
+export const Start =
   ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(STARTED_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Started.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
-            )
-    )
-  }
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(START_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Start(argv))
+  )
 
 
 
-/**
- * Produce Ok.<Stop>. It produces Err.<TypeError> if given invalid
- * arguments. The Stop Message is intended to be used as a command
- * to stop the Loader.
+/* Array<*> -> Result<TypeError|Started>
  *
- * @function
- *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of the MessageHandler for this
- *   message expects.
- *
- * @return {Result.<TypeError|Stop>}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Started.
  */
-export function Stop
+export const Started =
   ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(STOP_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Stop.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
-            )
-    )
-  }
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(STARTED_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Started(argv))
+  )
 
 
 
-/**
- * Produce Ok.<Stopped>. It produces Err.<TypeError> if given
- * invalid arguments. The "Stopped" Message is Intended to inform
- * that the Loader has been stopped.
+/* Array<*> -> Result<TypeError|Stop>
  *
- * @function
- *
- * @param {Array.<*>} argv - a user supplied array to be passed to the
- *   MessageHandler function. The content of the array depends on
- *   what the specific implementation of the MessageHandler for this
- *   message expects.
- *
- * @return {Result.<TypeError|Stop>}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Stop.
  */
-export function Stopped
+export const Stop =
   ( argv
-  ) {
-    return (
-      !(argv instanceof Array)
-        ? Result.Err(new TypeError(STOPPED_ARG1_ERROR))
-        : Result.Ok
-            ( Object.freeze
-                ( Object.create
-                    ( Stopped.prototype
-                    , { argv : {value: argv, enumerable : true} }
-                    )
-                )
-            )
-    )
-  }
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(STOP_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Stop(argv))
+  )
 
 
 
-/**
- * Produce true if the given subject is the result of calling one of:
- *   - Initialize(Array)
- *   - Initialized()
- *   - Start()
- *   - Started()
- *   - Stop()
- *   - Stopped()
+/* Array<*> -> Result<TypeError|Stop>
  *
- * Otherwise produce false.
- *
- *
- * @function
- * @param  {*} possibleMessage - This may or may not be a Message.
- * @return {Boolean}
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.Stopped.
  */
-export const is_valid_message =
-  ( possibleMessage
-  ) => (possibleMessage instanceof Initialize)
-    || (possibleMessage instanceof Initialized)
-    || (possibleMessage instanceof Start)
-    || (possibleMessage instanceof Started)
-    || (possibleMessage instanceof Stop)
-    || (possibleMessage instanceof Stopped)
+export const Stopped =
+  ( argv
+  ) => (
+    !(argv instanceof Array)
+      ? Result.Err(new TypeError(STOPPED_ARG1_ERROR))
+      : Result.Ok(LoaderCore.Stopped(argv))
+  )
 
 
 
-/**
- * Produce a new Model by updating the given Model according to the
- * given Message.
+/* Message -> Model -> Result<(TypeError|E)|Model>
  *
- * @function
- * @param  {Message} message - describes how to alter the given Model
- * @param  {Model} model - Model initial state
- * @return {Result.<TypeError|Model>}
- *
- * @TODO!!!
+ * Perform type checking on arguments before passing them to
+ * LoaderCore.update_according_to_message
  */
-export const update =
+export const update_according_to_message =
   ( message
   , model
-  ) => {
-    if (!is_valid_message(message)) {
-      return Result.Err(
-        new TypeError(UPDATE_ARG1_ERROR)
-      )
-    }
+  ) => (
+    !LoaderCore.is_valid_message(message)
+      ? Result.Err(new TypeError(UPDATE_ARG1_ERROR)) :
 
-    if (!(model instanceof Model)) {
-      return Result.Err(
-        new TypeError(UPDATE_ARG2_ERROR)
-      )
-    }
+    !(model instanceof Model)
+      ? Result.Err(new TypeError(UPDATE_ARG2_ERROR))
 
-    return (
-      message instanceof Initialize
-        ? model.initializeHandler(message.argv, model)
-        : Result.Ok(model)
-    )
-  }
+      : LoaderCore.update_according_to_message(message, model)
+  )
