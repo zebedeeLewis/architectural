@@ -195,7 +195,7 @@ export function Model
     return (
       Utils.create_and_freeze
         ( Model.prototype
-        , { state :
+        , { state               :
               { value      : state 
               , enumerable : true
               }
@@ -231,6 +231,25 @@ export function Model
         )
     )
   }
+
+
+
+/* State -> Model -> Model */
+export const set_state_to =
+  ( state
+  , model
+  ) => (
+    Model
+      ( state
+      , model.htmlElementSelector
+      , model.initializeHandler
+      , model.initializedHandler
+      , model.startHandler
+      , model.startedHandler
+      , model.stopHandler
+      , model.stoppedHandler
+      )
+  )
 
 
 
@@ -349,15 +368,46 @@ export const is_valid_message =
 
 
 
-/* Message -> Model -> Result<E|Model>
- *
- * @TODO!!!
- */
+/* Message -> Model -> Result<E|Model> */
 export const update_according_to_message =
   ( message
   , model
   ) => (
     message instanceof Initialize
-      ? model.initializeHandler(message.argv, model)
-      : Result.Ok(model)
+      ? set_state_to
+          ( Initializing()
+          , model.initializeHandler(message.argv, model)
+          ) :
+
+    message instanceof Initialized
+      ? set_state_to
+          ( InitializedState()
+          , model.initializedHandler(message.argv, model)
+          ) :
+
+    message instanceof Start
+      ? set_state_to
+          ( Starting()
+          , model.startHandler(message.argv, model)
+          ) :
+
+    message instanceof Started
+      ? set_state_to
+          ( Running()
+          , model.startedHandler(message.argv, model)
+          ) :
+
+    message instanceof Stop
+      ? set_state_to
+          ( Stopping()
+          , model.stopHandler(message.argv, model)
+          ) :
+
+    message instanceof Stopped
+      ? set_state_to
+          ( Finished()
+          , model.stoppedHandler(message.argv, model)
+          ) :
+
+        Result.Ok(model)
   )

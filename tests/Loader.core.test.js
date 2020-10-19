@@ -536,7 +536,11 @@ describe
             const expectedValue =
               Object.create
                 ( Loader.Model.prototype
-                , { htmlElementSelector :
+                , { state :
+                      { value      : Loader.Initializing()
+                      , enumerable : true
+                      }
+                  , htmlElementSelector :
                       { value      : 'new test'
                       , enumerable : true
                       }
@@ -574,7 +578,11 @@ describe
             const model = 
               Object.create
                 ( Loader.Model.prototype
-                , { htmlElementSelector :
+                , { state :
+                      { value      : Loader.Finished()
+                      , enumerable : true
+                      }
+                  , htmlElementSelector :
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
