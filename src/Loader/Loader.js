@@ -16,7 +16,55 @@
  */
 
 
+import * as Result from '../Result/Result'
 import * as Gsap from 'gsap'
+
+
+
+export const INITIALIZE_ARG1_ERROR = 
+  'First argument to Initialize constructor must be an Array'
+
+export const INITIALIZED_ARG1_ERROR = 
+  'First argument to Initialized constructor must be an Array'
+
+export const START_ARG1_ERROR = 
+  'First argument to Start constructor must be an Array'
+
+export const STARTED_ARG1_ERROR = 
+  'First argument to Started constructor must be an Array'
+
+export const STOP_ARG1_ERROR = 
+  'First argument to Stop constructor must be an Array'
+
+export const STOPPED_ARG1_ERROR = 
+  'First argument to Stopped constructor must be an Array'
+
+export const UPDATE_ARG1_ERROR =
+  'First argument to update function must be a valid Message'
+
+export const UPDATE_ARG2_ERROR =
+  'Second argument to update function must be a valid Model'
+
+export const MODEL_ARG1_ERROR =
+  'First argument to Model constructor must be a string'
+
+export const MODEL_ARG2_ERROR =
+  'Second argument to Model constructor must be a funciton'
+
+export const MODEL_ARG3_ERROR =
+  'Third argument to Model constructor must be a funciton'
+
+export const MODEL_ARG4_ERROR =
+  'Fourth argument to Model constructor must be a funciton'
+
+export const MODEL_ARG5_ERROR =
+  'Fifth argument to Model constructor must be a funciton'
+
+export const MODEL_ARG6_ERROR =
+  'Sixth argument to Model constructor must be a funciton'
+
+export const MODEL_ARG7_ERROR =
+  'Seventh argument to Model constructor must be a funciton'
 
 
 
@@ -85,80 +133,68 @@ export const Model =
   , stoppedHandler
   ) => {
     if (typeof htmlElementSelector !== 'string') {
-      throw new TypeError(
-        'First argument to Model constructor must be a string'
-      )
+      return Result.Err(new TypeError(MODEL_ARG1_ERROR))
     }
 
     if (typeof initializeHandler !== 'function') {
-      throw new TypeError(
-        'Second argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG2_ERROR))
     }
 
     if (typeof initializedHandler !== 'function') {
-      throw new TypeError(
-        'Third argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG3_ERROR))
     }
 
     if (typeof startHandler !== 'function') {
-      throw new TypeError(
-        'Fourth argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG4_ERROR))
     }
     
     if (typeof startedHandler !== 'function') {
-      throw new TypeError(
-        'Fifth argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG5_ERROR))
     }
 
     if (typeof stopHandler !== 'function') {
-      throw new TypeError(
-        'Sixth argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG6_ERROR))
     }
 
     if (typeof stoppedHandler !== 'function') {
-      throw new TypeError(
-        'Seventh argument to Model constructor must be a function'
-      )
+      return Result.Err(new TypeError(MODEL_ARG7_ERROR))
     }
 
-    return Object.freeze(
-      Object.create
-        ( Initialize.prototype
-        , { htmlElementSelector :
-              { value      : htmlElementSelector 
-              , enumerable : true
-              }
-          , initializeHandler   :
-              { value      : initializeHandler 
-              , enumerable : true
-              }
-          , initializedHandler   :
-              { value      : initializedHandler 
-              , enumerable : true
-              }
-          , startHandler         :
-              { value      : startHandler 
-              , enumerable : true
-              }
-          , startedHandler       :
-              { value      : startedHandler 
-              , enumerable : true
-              }
-          , stopHandler          :
-              { value      : stopHandler 
-              , enumerable : true
-              }
-          , stoppedHandler       :
-              { value      : stoppedHandler 
-              , enumerable : true
-              }
-          }
-        )
+    return Result.Ok(
+      Object.freeze(
+        Object.create
+          ( Model.prototype
+          , { htmlElementSelector :
+                { value      : htmlElementSelector 
+                , enumerable : true
+                }
+            , initializeHandler   :
+                { value      : initializeHandler 
+                , enumerable : true
+                }
+            , initializedHandler   :
+                { value      : initializedHandler 
+                , enumerable : true
+                }
+            , startHandler         :
+                { value      : startHandler 
+                , enumerable : true
+                }
+            , startedHandler       :
+                { value      : startedHandler 
+                , enumerable : true
+                }
+            , stopHandler          :
+                { value      : stopHandler 
+                , enumerable : true
+                }
+            , stoppedHandler       :
+                { value      : stoppedHandler 
+                , enumerable : true
+                }
+            }
+          )
+      )
     )
   }
 
@@ -188,8 +224,9 @@ export const Model =
 
 
 /**
- * Produce a new "Initialize" Message. Intended to be used as a command
- * to initialize the Loader.
+ * Produce Ok.<Initialize>. It produces Err.<TypeError> if given invalid
+ * arguments. The "Initialize" Message is Intended to be used as a
+ * command to initialize the Loader.
  *
  *
  * @param {Array.<*>} argv - a user supplied array to be passed to the
@@ -197,36 +234,31 @@ export const Model =
  *   what the specific implementation of MessageHandler expects.
  *
  *
- * @return {Message}
- *
- * @throws {TypeError} The first argument must be an Array
+ * @return {Result.<TypeError|Initialize>}
  */
 export function Initialize
   ( argv
   ) {
-    if (!(argv instanceof Array)) {
-      throw new TypeError(
-        'First argument to Initialize constructor must be an Array'
-      )
-    }
-
-    return Object.freeze(
-      Object.create
-        ( Initialize.prototype
-        , { argv :
-              { value      : argv
-              , enumerable : true
-              }
-          }
-        )
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(INITIALIZE_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Initialize.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
     )
   }
 
 
 
 /**
- * Produce a new "Initialized" Message. Intended to inform that the
- * loader has been initialize.
+ * Produce Ok.<Initialized>. It produces Err.<TypeError> if given
+ * invalid arguments. The "Initialized" Message is Intended to inform
+ * that the Loader has been initialized.
  *
  *
  * @function
@@ -235,29 +267,31 @@ export function Initialize
  *   MessageHandler function. The content of the array depends on
  *   what the specific implementation of MessageHandler expects.
  *
- * @return {Message}
- *
- * @throws {TypeError} The first argument must be an Array
+ * @return {Result.<TypeError|Initialized>}
  */
-export const Initialized =
+export function Initialized
   ( argv
-  ) => Object.freeze(
-    Object.create
-      ( Initialized.prototype
-      , { argv :
-            { value      : argv
-            , enumerable : true
-            }
-        }
-      )
-  )
+  ) {
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(INITIALIZED_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Initialized.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
+    )
+  }
 
 
 
 /**
- * Produce a new "Start" Message. Intended to be used as a command to
- * start the Loader.
- *
+ * Produce Ok.<Start>. It produces Err.<TypeError> if given invalid
+ * arguments. The Start Message is intended to be used as a command
+ * to start the Loader.
  * 
  * @function
  *
@@ -267,24 +301,29 @@ export const Initialized =
  *
  * @return {Message}
  */
-export const Start =
+export function Start
   ( argv
-  ) => Object.freeze(
-    Object.create
-      ( Start.prototype
-      , { argv :
-            { value      : argv
-            , enumerable : true
-            }
-        }
-      )
-  )
+  ) {
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(START_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Start.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
+    )
+  }
 
 
 
 /**
- * Produce a new "Started" Message. Intended to inform that the Loader
- * has been successfully started.
+ * Produce Ok.<Started>. It produces Err.<TypeError> if given
+ * invalid arguments. The "Started" Message is Intended to inform
+ * that the Loader has been Started.
  *
  * @function
  *
@@ -292,26 +331,31 @@ export const Start =
  *   MessageHandler function. The content of the array depends on
  *   what the specific implementation of MessageHandler expects.
  *
- * @return {Message}
+ * @return {Result.<TypeError|Started>}
  */
-export const Started =
+export function Started
   ( argv
-  ) => Object.freeze(
-    Object.create
-      ( Started.prototype
-      , { argv :
-            { value      : argv
-            , enumerable : true
-            }
-        }
-      )
-  ) 
+  ) {
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(STARTED_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Started.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
+    )
+  }
 
 
 
 /**
- * Produce a new "Stop" Message. Intended to be used as a command to
- * stop the Loader.
+ * Produce Ok.<Stop>. It produces Err.<TypeError> if given invalid
+ * arguments. The Stop Message is intended to be used as a command
+ * to stop the Loader.
  *
  * @function
  *
@@ -320,26 +364,31 @@ export const Started =
  *   what the specific implementation of the MessageHandler for this
  *   message expects.
  *
- * @return {Message}
+ * @return {Result.<TypeError|Stop>}
  */
-export const Stop =
+export function Stop
   ( argv
-  ) =>  Object.freeze(
-    Object.create
-      ( Stop.prototype
-      , { argv :
-            { value      : argv
-            , enumerable : true
-            }
-        }
-      )
-  )
+  ) {
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(STOP_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Stop.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
+    )
+  }
 
 
 
 /**
- * Produce a new "Stopped" Message. Intended to inform that the loader
- * has been successfully stopped.
+ * Produce Ok.<Stopped>. It produces Err.<TypeError> if given
+ * invalid arguments. The "Stopped" Message is Intended to inform
+ * that the Loader has been stopped.
  *
  * @function
  *
@@ -348,20 +397,24 @@ export const Stop =
  *   what the specific implementation of the MessageHandler for this
  *   message expects.
  *
- * @return {Message}
+ * @return {Result.<TypeError|Stop>}
  */
-export const Stopped =
+export function Stopped
   ( argv
-  ) => Object.freeze(
-    Object.create
-      ( Stopped.prototype
-      , { argv :
-            { value      : argv
-            , enumerable : true
-            }
-        }
-      )
-  )
+  ) {
+    return (
+      !(argv instanceof Array)
+        ? Result.Err(new TypeError(STOPPED_ARG1_ERROR))
+        : Result.Ok
+            ( Object.freeze
+                ( Object.create
+                    ( Stopped.prototype
+                    , { argv : {value: argv, enumerable : true} }
+                    )
+                )
+            )
+    )
+  }
 
 
 
@@ -399,13 +452,7 @@ export const is_valid_message =
  * @function
  * @param  {Message} message - describes how to alter the given Model
  * @param  {Model} model - Model initial state
- * @return {Model}
- *
- * @throws {TypeError} "First argument to update function must be a
- *   valid Message"
-
- * @throws {TypeError} "Second argument to update function must be a
- *   valid Model"
+ * @return {Result.<TypeError|Model>}
  *
  * @TODO!!!
  */
@@ -414,20 +461,20 @@ export const update =
   , model
   ) => {
     if (!is_valid_message(message)) {
-      throw new TypeError(
-        'First argument to update function must be a valid Message'
+      return Result.Err(
+        new TypeError(UPDATE_ARG1_ERROR)
       )
     }
 
     if (!(model instanceof Model)) {
-      throw new TypeError(
-        'Second argument to update function must be a valid Model'
+      return Result.Err(
+        new TypeError(UPDATE_ARG2_ERROR)
       )
     }
 
     return (
       message instanceof Initialize
-        ? model.messageHandler(message.argv, model)
-        : model
+        ? model.initializeHandler(message.argv, model)
+        : Result.Ok(model)
     )
   }

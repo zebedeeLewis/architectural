@@ -1,15 +1,27 @@
 import * as Loader from "../src/Loader/Loader"
+import * as Result from "../src/Result/Result"
 
 
 describe
   ( 'Initialize'
   , () => {
-      it( 'throws a TypeError if the first argument is not an Array'
+      it( 'Produce a Result.<TypeError> if the first argument is not an'
+        + ' Array.'
         , () => {
-            const actualValue =
-              () => Loader.Initialize(2)
+            const error = new TypeError(Loader.INITIALIZE_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
 
-            return expect(actualValue).toThrow(TypeError)
+            const actualValue = Loader.Initialize(2)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
@@ -17,12 +29,21 @@ describe
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Initialize(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Initialize.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -40,16 +61,45 @@ describe
 describe
   ( 'Initialized'
   , () => {
-      it( 'produces a new Initialized message when given valid arguments'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
+        + ' Array.'
+        , () => {
+            const error = new TypeError(Loader.INITIALIZED_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue = Loader.Initialized(2)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces a new Ok.<Initialized> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Initialized(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Initialized.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -67,16 +117,45 @@ describe
 describe
   ( 'Start'
   , () => {
-      it( 'produces a new Start message when given valid arguments'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
+        + ' Array.'
+        , () => {
+            const error = new TypeError(Loader.START_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue = Loader.Start(2)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces a new Ok.<Start> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Start(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Start.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -94,16 +173,45 @@ describe
 describe
   ( 'Started'
   , () => {
-      it( 'produces a new Started message when given valid arguments'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
+        + ' Array.'
+        , () => {
+            const error = new TypeError(Loader.STARTED_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue = Loader.Started(2)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces a new Ok.<Started> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Started(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Started.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -121,16 +229,45 @@ describe
 describe
   ( 'Stop'
   , () => {
-      it( 'produces a new Stop message when given valid arguments'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
+        + ' Array.'
+        , () => {
+            const error = new TypeError(Loader.STOP_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue = Loader.Stop(2)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces a new Ok.<Stop> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Stop(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Stop.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -148,16 +285,45 @@ describe
 describe
   ( 'Stopped'
   , () => {
-      it( 'produces a new Stopped message when given valid arguments'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
+        + ' Array.'
+        , () => {
+            const error = new TypeError(Loader.STOPPED_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue = Loader.Stopped(2)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'produces Ok.<Stopped> when given valid arguments'
         , () => {
             const argv = [1, 2, 3]
             const actualValue = Loader.Stopped(argv)
-
-            const expectedValue =
+            const value =
               Object.create
                 ( Loader.Stopped.prototype
                 , { argv :
                       { value      : argv
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
                   }
@@ -171,69 +337,68 @@ describe
   )
 
 
-
 describe
   ( 'is_valid_message'
   , () => {
       it( 'produces true if the given subject is the results of calling'
         + ' Initialize' 
         , () => {
-            const subject = Loader.Initialize([])
-            const expectedValue = true
+            const subject = Loader.Initialize([]).value
             const actualValue = Loader.is_valid_message(subject)
+            const expectedValue = true
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
 
       it( 'produces true if the given subject is the results of calling'
         + ' Initialized' 
         , () => {
-            const subject = Loader.Initialized([])
+            const subject = Loader.Initialized([]).value
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
 
       it( 'produces true if the given subject is the results of calling'
         + ' Start' 
         , () => {
-            const subject = Loader.Start()
+            const subject = Loader.Start([]).value
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
 
       it( 'produces true if the given subject is the results of calling'
         + ' Started' 
         , () => {
-            const subject = Loader.Started()
+            const subject = Loader.Started([]).value
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
 
       it( 'produces true if the given subject is the results of calling'
         + ' Stop' 
         , () => {
-            const subject = Loader.Stop()
+            const subject = Loader.Stop([]).value
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
 
       it( 'produces true if the given subject is the results of calling'
         + ' Stopped' 
         , () => {
-            const subject = Loader.Stopped()
+            const subject = Loader.Stopped([]).value
             const expectedValue = true
             const actualValue = Loader.is_valid_message(subject)
 
@@ -247,7 +412,7 @@ describe
             const expectedValue = false
             const actualValue = Loader.is_valid_message(subject)
 
-            return expect(actualValue).toEqual(expectedValue)
+            return expect(actualValue).toBe(expectedValue)
           }
         )
     }
@@ -258,10 +423,22 @@ describe
 describe
   ( 'Model'
   , () => {
-      it( 'Throws a TypeError if the first argument is not a string'
+      it( 'Produce a Err.<TypeError> if the first argument is not a '
+        + 'string.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 1
                 , stub
@@ -271,15 +448,27 @@ describe
                 , stub
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the seconde argument is not a function'
+      it( 'Produce a Err.<TypeError> if the second argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG2_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , null
@@ -289,15 +478,27 @@ describe
                 , stub
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the third argument is not a function'
+      it( 'Produce a Err.<TypeError> if the third argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG3_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , stub
@@ -307,15 +508,27 @@ describe
                 , stub
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the fourth argument is not a function'
+      it( 'Produce a Err.<TypeError> if the fourth argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG4_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , stub
@@ -325,15 +538,27 @@ describe
                 , stub
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the fifth argument is not a function'
+      it( 'Produce a Err.<TypeError> if the fifth argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG5_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , stub
@@ -343,15 +568,27 @@ describe
                 , stub
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the sixth argument is not a function'
+      it( 'Produce a Err.<TypeError> if the sixth argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG6_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , stub
@@ -361,15 +598,27 @@ describe
                 , null
                 , stub
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Throws a TypeError if the seventh argument is not a function'
+      it( 'Produce a Err.<TypeError> if the seventh argument is not a '
+        + 'function.'
         , () => {
             const stub = ()=>null
-            const actualValue = () => (
+            const error = new TypeError(Loader.MODEL_ARG7_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
               Loader.Model
                 ( 'test'
                 , stub
@@ -379,12 +628,12 @@ describe
                 , stub
                 , null
                 )
-            )
-            return expect(actualValue).toThrow(TypeError)
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'Produces a new Model when given proper arguments'
+      it( 'produces Ok.<Model> when given valid arguments'
         , () => {
             const stub = () => null
             const htmlElementSelector = 'test'
@@ -398,39 +647,50 @@ describe
                 , stub
                 , stub
                 )
+            const value =
+                Object.create
+                  ( Loader.Model.prototype
+                  , { htmlElementSelector :
+                        { value      : htmlElementSelector
+                        , enumerable : true
+                        }
+                    , initializeHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , initializedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stopHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stoppedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    }
+                  )
+
             const expectedValue =
               Object.create
-                ( Loader.Model.prototype
-                , { htmlElementSelector :
-                      { value      : htmlElementSelector
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : value
                       , enumerable : true
                       }
-                  , initializeHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
-                  , initializedHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
-                  , startHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
-                  , startedHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
-                  , stopHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
-                  , stoppedHandler :
-                     { value      : stub
-                     , enumerable : true
-                     }
                   }
                 )
+
             return expect(actualValue).toEqual(expectedValue)
           }
         )
@@ -442,7 +702,7 @@ describe
 describe
   ( 'update'
   , () => {
-      it( 'throws a TypeError if the first argument is not a valid'
+      it( 'Produce a Err.<TypeError> if the first argument is not an'
         + ' message.'
         , () => {
             const message = 'adfasdf'
@@ -461,28 +721,93 @@ describe
                       }
                   }
                 )
-            const actualValue = () => Loader.update(message, model)
+            const actualValue = Loader.update(message, model)
+            const error = new TypeError(Loader.UPDATE_ARG1_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
 
-            return expect(actualValue).toThrow(TypeError)
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'throws a TypeError if the second argument is not a valid'
+      it( 'Produce a Err.<TypeError> if the second argument is not an'
         + ' Model.'
         , () => {
-            const message = Loader.Start()
+            const message = Loader.Start([]).value
             const model = { }
-            const actualValue = () => Loader.update(message, model)
+            const actualValue = Loader.update(message, model)
+            const error = new TypeError(Loader.UPDATE_ARG2_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
 
-            return expect(actualValue).toThrow(TypeError)
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
 
-      it( 'calls the InitializeHandler on the given Model when given '
-        + ' an "Initialize" Message.'
+      it( 'produces Ok.<Model> when given an "Initialize" Message,'
+        + ' where the returned Model is the result of calling the'
+        + ' initializeHandeler on the given Model'
         , () => {
+            const model2 = 
+              Object.create
+                ( Loader.Model.prototype
+                , { htmlElementSelector :
+                      { value      : 'new test'
+                      , enumerable : true
+                      }
+                  , initializeHandler : 
+                      { value      : messageHandler
+                      , enumerable : true
+                      }
+                  , initializedHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , startHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , startedHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , stopHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , stoppedHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  }
+                )
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : model2
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const stub = ()=>null
             const htmlElementSelector = 'test'
-            const messageHandler = jest.fn()
+            const messageHandler = jest.fn(() => expectedValue )
             const argv = [1,2,3]
             const model = 
               Object.create
@@ -491,265 +816,41 @@ describe
                       { value      : htmlElementSelector
                       , enumerable : true
                       }
-                  , messageHandler : 
+                  , initializeHandler : 
                       { value      : messageHandler
+                      , enumerable : true
+                      }
+                  , initializedHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , startHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , startedHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , stopHandler : 
+                      { value      : stub
+                      , enumerable : true
+                      }
+                  , stoppedHandler : 
+                      { value      : stub
                       , enumerable : true
                       }
                   }
                 )
 
-            const message = Loader.Initialize (argv)
+            const message = Loader.Initialize(argv).value
 
-            Loader.update(message, model)
+            const actualValue = Loader.update(message, model)
 
             expect(messageHandler).toHaveBeenCalledTimes(1)
             expect(messageHandler).toHaveBeenCalledWith(argv, model)
-          }
-        )
-
-    /*
-      it( 'Transfers the value of "htmlElementSelector" from the'
-        + ' Message to the Model when given an Initialize Message.'
-        , () => {
-            const messageHandler = () => null
-            const htmlElementSelector = 'test1234'
-            const message =
-              Loader.Initialize
-                ( htmlElementSelector
-                , messageHandler
-                )
-            const model =
-              Object.create
-                ( Loader.Model.prototype
-                , { htmlElementSelector : {value : ''}
-                  , messageHandler : {value : messageHandler}
-                  }
-                )
-            const actualValue = Loader.update(message, model)
-
-            const expectedValue =
-              Object.create
-                ( Loader.Model.prototype
-                , { htmlElementSelector : {value : htmlElementSelector}
-                  , messageHandler : {value : messageHandler}
-                  }
-                )
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-        */
-    }
-  )
-
-
-
-/*
-describe
-  ( 'new_message'
-  , () => {
-      it( 'produces null when given an invalid message id'
-        , () => {
-            const actualValue = create_new_message('make_noodles', [])
-
-            return expect(actualValue).toBeNull()
-          }
-        )
-
-      it( 'produces null if second argument is not an Array'
-        , () => {
-            const actualValue =
-              create_new_message(MessageId.START_LOADER, null)
-
-            return expect(actualValue).toBeNull()
-          }
-        )
-
-      it( 'produces a new message once given valid arguments'
-        , () => {
-            const messageId = MessageId.START_LOADER
-            const argv = []
-            const expectedValue =
-              { id : messageId
-              , argv : argv
-              }
-            const actualValue =
-              create_new_message(messageId, argv)
-
-            return expect(actualValue).toEqual(expectedValue)
+            expect(actualValue).toEqual(expectedValue)
           }
         )
     }
   )
-
-
-
-describe
-  ( 'is_valid_message_id'
-  , () => {
-      it( 'produces false when given an invalid message id'
-        , () => {
-            const messageId = 'this should not be valid'
-            const actualValue =
-              is_valid_message_id(messageId)
-            const expectedValue = false
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces true when given a valid message id'
-        , () => {
-            const messageId = MessageId.START_LOADER
-            const actualValue =
-              is_valid_message_id(messageId)
-            const expectedValue = true
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
-
-
-
-
-
-
-describe
-  ( 'is_valid_message'
-  , () => {
-      it( 'produces false if argument does not have an id'
-        , () => {
-            const argv = []
-            const message =
-              { argv : argv }
-
-            const expectedValue = false
-
-            const actualValue =
-              is_valid_message(message)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if argument does not have a valid id'
-        , () => {
-            const messageId = 'this should not be valid'
-            const argv = []
-
-            const message =
-              { id   : messageId
-              , argv : argv
-              }
-
-            const expectedValue = false
-
-            const actualValue =
-              is_valid_message(message)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if argument does not have an argv'
-        , () => {
-            const messageId = MessageId.START_LOADER
-
-            const message =
-              { id : messageId }
-
-            const expectedValue = false
-
-            const actualValue =
-              is_valid_message(message)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if argv is not an Array'
-        , () => {
-            const messageId = MessageId.START_LOADER
-
-            const message =
-              { id   : messageId 
-              , argv : 23
-              }
-
-            const expectedValue = false
-
-            const actualValue =
-              is_valid_message(message)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_valid_model'
-  , () => {
-      it( 'produces false if given model does not have a status property'
-        , () => {
-            const model =
-              { htmlElement : null
-              }
-            const expectedValue = false
-            const actualValue =
-              is_valid_model(model)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if given model does not have an htmlElement'
-        + ' property'
-        , () => {
-            const model =
-              { status: ModelStatus.INITIALIZED
-              }
-            const expectedValue = false
-            const actualValue =
-              is_valid_model(model)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces false if given model status is not one of the'
-        + ' enumerated module status.'
-        , () => {
-            const model =
-              { status      : 2345
-              , htmlElement : null
-              }
-            const expectedValue = false
-            const actualValue =
-              is_valid_model(model)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given model status is one of the'
-        + ' enumerated module status and it has an htmlElement property'
-        , () => {
-            const model =
-              { status      : ModelStatus.INITIALIZED
-              , htmlElement : null
-              }
-            const expectedValue = true
-            const actualValue =
-              is_valid_model(model)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
-*/
