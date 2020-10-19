@@ -9,7 +9,38 @@ describe
         , () => {
             const actualValue = Loader.Initializing()
             const expectedValue =
-              Object.create(Loader.Initializing.prototype)
+              Object.create
+                ( Loader.Initializing.prototype
+                , { id :
+                      { value      : 'Initializing'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'InitializedState'
+  , () => {
+      it( 'produces an InitializedState'
+        , () => {
+            const actualValue = Loader.InitializedState()
+            const expectedValue =
+              Object.create
+                ( Loader.InitializedState.prototype
+                , { id :
+                      { value      : 'InitializedState'
+                      , enumerable : true
+                      }
+                  }
+                )
 
             return expect(actualValue).toEqual(expectedValue)
           }

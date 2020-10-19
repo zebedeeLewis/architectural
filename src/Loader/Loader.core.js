@@ -35,16 +35,43 @@ import * as Utils from "../Utils"
  * Describes the current state of a Loader at a given point.
  *
  * @typedef { ( Initializing
+ *            | InitializedState
  *            )
  *          } State
  */
 
 
 
-/* Message */
+/* State */
 export function Initializing
   () {
-    return Utils.create_and_freeze(Initializing.prototype)
+    return (
+      Utils.create_and_freeze
+        ( Initializing.prototype
+        , { id :
+              { value      : 'Initializing'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
+
+
+
+/* State */
+export function InitializedState
+  () {
+    return (
+      Utils.create_and_freeze
+        ( InitializedState.prototype
+        , { id :
+              { value      : 'InitializedState'
+              , enumerable : true
+              }
+          }
+        )
+    )
   }
 
 
