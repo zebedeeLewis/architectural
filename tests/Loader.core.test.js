@@ -3,6 +3,89 @@ import * as Loader from "../src/Loader/Loader.core"
 
 
 describe
+  ( 'is_valid_state'
+  , () => {
+      it( 'produces true if the given subject is the results of calling'
+        + ' Initializing' 
+        , () => {
+            const subject = Loader.Initializing()
+            const actualValue = Loader.is_valid_state(subject)
+            const expectedValue = true
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' InitializedState' 
+        , () => {
+            const subject = Loader.InitializedState()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Starting' 
+        , () => {
+            const subject = Loader.Starting()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Running' 
+        , () => {
+            const subject = Loader.Running()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Stopping' 
+        , () => {
+            const subject = Loader.Stopping()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
+      it( 'produces true if the given subject is the results of calling'
+        + ' Finished' 
+        , () => {
+            const subject = Loader.Finished()
+            const expectedValue = true
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'otherwise produces false.' 
+        , () => {
+            const subject = {}
+            const expectedValue = false
+            const actualValue = Loader.is_valid_state(subject)
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'Initializing'
   , () => {
       it( 'produces an Initializing State'
@@ -383,11 +466,13 @@ describe
   , () => {
       it( 'produces a Model when given valid arguments'
         , () => {
+            const state = Loader.Running()
             const stub = () => null
             const htmlElementSelector = 'test'
             const actualValue =
               Loader.Model
-                ( htmlElementSelector
+                ( state
+                , htmlElementSelector
                 , stub
                 , stub
                 , stub
@@ -398,7 +483,11 @@ describe
             const expectedValue =
                 Object.create
                   ( Loader.Model.prototype
-                  , { htmlElementSelector :
+                  , { state :
+                        { value      : state
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
                         { value      : htmlElementSelector
                         , enumerable : true
                         }

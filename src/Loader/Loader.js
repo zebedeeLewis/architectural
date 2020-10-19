@@ -29,29 +29,33 @@ export const UPDATE_ARG2_ERROR =
   'Second argument to update function must be a valid Model'
 
 export const MODEL_ARG1_ERROR =
-  'First argument to Model constructor must be a string'
+  'First argument to Model constructor must be a State'
 
 export const MODEL_ARG2_ERROR =
-  'Second argument to Model constructor must be a funciton'
+  'First argument to Model constructor must be a string'
 
 export const MODEL_ARG3_ERROR =
-  'Third argument to Model constructor must be a funciton'
+  'Second argument to Model constructor must be a funciton'
 
 export const MODEL_ARG4_ERROR =
-  'Fourth argument to Model constructor must be a funciton'
+  'Third argument to Model constructor must be a funciton'
 
 export const MODEL_ARG5_ERROR =
-  'Fifth argument to Model constructor must be a funciton'
+  'Fourth argument to Model constructor must be a funciton'
 
 export const MODEL_ARG6_ERROR =
-  'Sixth argument to Model constructor must be a funciton'
+  'Fifth argument to Model constructor must be a funciton'
 
 export const MODEL_ARG7_ERROR =
+  'Sixth argument to Model constructor must be a funciton'
+
+export const MODEL_ARG8_ERROR =
   'Seventh argument to Model constructor must be a funciton'
 
 
 
-/* string ->
+/* State ->
+ * string ->
  * MessageHandler ->
  * MessageHandler ->
  * MessageHandler ->
@@ -64,7 +68,8 @@ export const MODEL_ARG7_ERROR =
  * LoaderCore.Model.
  */
 export const Model =
-  ( htmlElementSelector
+  ( state
+  , htmlElementSelector
   , initializeHandler
   , initializedHandler
   , startHandler
@@ -72,30 +77,34 @@ export const Model =
   , stopHandler
   , stoppedHandler
   ) => (
-    (typeof htmlElementSelector !== 'string')
+    (!LoaderCore.is_valid_state(state))
       ? Result.Err(new TypeError(MODEL_ARG1_ERROR)) :
 
-    (typeof initializeHandler !== 'function')
+    (typeof htmlElementSelector !== 'string')
       ? Result.Err(new TypeError(MODEL_ARG2_ERROR)) :
 
-    (typeof initializedHandler !== 'function')
+    (typeof initializeHandler !== 'function')
       ? Result.Err(new TypeError(MODEL_ARG3_ERROR)) :
 
-    (typeof startHandler !== 'function')
+    (typeof initializedHandler !== 'function')
       ? Result.Err(new TypeError(MODEL_ARG4_ERROR)) :
+
+    (typeof startHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG5_ERROR)) :
     
     (typeof startedHandler !== 'function')
-      ? Result.Err(new TypeError(MODEL_ARG5_ERROR)) :
-
-    (typeof stopHandler !== 'function')
       ? Result.Err(new TypeError(MODEL_ARG6_ERROR)) :
 
+    (typeof stopHandler !== 'function')
+      ? Result.Err(new TypeError(MODEL_ARG7_ERROR)) :
+
     (typeof stoppedHandler !== 'function')
-      ? Result.Err(new TypeError(MODEL_ARG7_ERROR))
+      ? Result.Err(new TypeError(MODEL_ARG8_ERROR))
 
       : Result.Ok(
           LoaderCore.Model
-            ( htmlElementSelector
+            ( state
+            , htmlElementSelector
             , initializeHandler
             , initializedHandler
             , startHandler

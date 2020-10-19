@@ -281,7 +281,7 @@ describe
   ( 'Model'
   , () => {
       it( 'Produce a Err.<TypeError> if the first argument is not a '
-        + 'string.'
+        + 'State.'
         , () => {
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG1_ERROR)
@@ -297,7 +297,8 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 1
+                ( null
+                , 'test'
                 , stub
                 , stub
                 , stub
@@ -311,8 +312,9 @@ describe
         )
 
       it( 'Produce a Err.<TypeError> if the second argument is not a '
-        + 'function.'
+        + 'string.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG2_ERROR)
             const expectedValue =
@@ -327,8 +329,9 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
-                , null
+                ( state
+                , 1
+                , stub
                 , stub
                 , stub
                 , stub
@@ -343,6 +346,7 @@ describe
       it( 'Produce a Err.<TypeError> if the third argument is not a '
         + 'function.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG3_ERROR)
             const expectedValue =
@@ -357,9 +361,10 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
-                , stub
+                ( state
+                , 'test'
                 , null
+                , stub
                 , stub
                 , stub
                 , stub
@@ -373,6 +378,7 @@ describe
       it( 'Produce a Err.<TypeError> if the fourth argument is not a '
         + 'function.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG4_ERROR)
             const expectedValue =
@@ -387,10 +393,11 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
-                , stub
+                ( state
+                , 'test'
                 , stub
                 , null
+                , stub
                 , stub
                 , stub
                 , stub
@@ -403,6 +410,7 @@ describe
       it( 'Produce a Err.<TypeError> if the fifth argument is not a '
         + 'function.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG5_ERROR)
             const expectedValue =
@@ -417,11 +425,12 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
-                , stub
+                ( state
+                , 'test'
                 , stub
                 , stub
                 , null
+                , stub
                 , stub
                 , stub
                 )
@@ -433,6 +442,7 @@ describe
       it( 'Produce a Err.<TypeError> if the sixth argument is not a '
         + 'function.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG6_ERROR)
             const expectedValue =
@@ -447,12 +457,13 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
-                , stub
+                ( state
+                , 'test'
                 , stub
                 , stub
                 , stub
                 , null
+                , stub
                 , stub
                 )
 
@@ -463,6 +474,7 @@ describe
       it( 'Produce a Err.<TypeError> if the seventh argument is not a '
         + 'function.'
         , () => {
+            const state = LoaderCore.Running()
             const stub = ()=>null
             const error = new TypeError(Loader.MODEL_ARG7_ERROR)
             const expectedValue =
@@ -477,7 +489,40 @@ describe
 
             const actualValue =
               Loader.Model
-                ( 'test'
+                ( state
+                , 'test'
+                , stub
+                , stub
+                , stub
+                , stub
+                , null
+                , stub
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'Produce a Err.<TypeError> if the eighth argument is not a '
+        + 'function.'
+        , () => {
+            const state = LoaderCore.Running()
+            const stub = ()=>null
+            const error = new TypeError(Loader.MODEL_ARG8_ERROR)
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : error
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            const actualValue =
+              Loader.Model
+                ( state
+                , 'test'
                 , stub
                 , stub
                 , stub
@@ -492,11 +537,13 @@ describe
 
       it( 'produces Ok.<Model> when given valid arguments'
         , () => {
+            const state = LoaderCore.Running()
             const stub = () => null
             const htmlElementSelector = 'test'
             const actualValue =
               Loader.Model
-                ( htmlElementSelector
+                ( state
+                , htmlElementSelector
                 , stub
                 , stub
                 , stub
@@ -511,7 +558,8 @@ describe
                 , { value :
                       { value      :
                           LoaderCore.Model
-                            ( htmlElementSelector
+                            ( state
+                            , htmlElementSelector
                             , stub
                             , stub
                             , stub

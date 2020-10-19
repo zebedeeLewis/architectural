@@ -2,11 +2,6 @@
  * provided with correct data. So they do not perform any kind of check
  * to ascertain the correctness of the given data. That function is
  * fulfilled by the wrapper Module "Loader.js".
- * 
- * TODO:
- *   - add a "state" field on the Model object and create a "State" type
- *     with constructors for "Initializing", "Starting", "Running",
- *     "Stopping", "Finished".
  */
 
 import * as Utils from "../Utils"
@@ -36,9 +31,25 @@ import * as Utils from "../Utils"
  *
  * @typedef { ( Initializing
  *            | InitializedState
+ *            | Starting
+ *            | Running
+ *            | Stopping
+ *            | Finished
  *            )
  *          } State
  */
+
+
+
+/* * -> Boolean */
+export const is_valid_state =
+  ( possibleState
+  ) => (possibleState instanceof Initializing)
+    || (possibleState instanceof InitializedState)
+    || (possibleState instanceof Starting)
+    || (possibleState instanceof Running)
+    || (possibleState instanceof Stopping)
+    || (possibleState instanceof Finished)
 
 
 
@@ -147,7 +158,8 @@ export function Finished
 /**
  * Represents a snapshot of the Loader at a given point.
  *
- * @typedef { { htmlElementId      : string
+ * @typedef { { state              : State
+ *            , htmlElementId      : string
  *            , initializeHandler  : MessageHandler
  *            , initializedHandler : MessageHandler
  *            , startHandler       : MessageHandler
@@ -160,7 +172,8 @@ export function Finished
 
 
 
-/* string ->
+/* State ->
+ * string ->
  * MessageHandler ->
  * MessageHandler ->
  * MessageHandler ->
@@ -170,7 +183,8 @@ export function Finished
  * Model
  */
 export function Model
-  ( htmlElementSelector
+  ( state
+  , htmlElementSelector
   , initializeHandler
   , initializedHandler
   , startHandler
@@ -181,7 +195,11 @@ export function Model
     return (
       Utils.create_and_freeze
         ( Model.prototype
-        , { htmlElementSelector :
+        , { state :
+              { value      : state 
+              , enumerable : true
+              }
+          , htmlElementSelector :
               { value      : htmlElementSelector 
               , enumerable : true
               }
@@ -319,7 +337,7 @@ export function Stopped
 
 
 
-/* Array<*> -> Boolean */
+/* * -> Boolean */
 export const is_valid_message =
   ( possibleMessage
   ) => (possibleMessage instanceof Initialize)
