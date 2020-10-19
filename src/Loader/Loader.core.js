@@ -4,7 +4,7 @@
  * fulfilled by the wrapper Module "Loader.js".
  * 
  * TODO:
- *   - add a "state" field on the Model object and create a "Status" type
+ *   - add a "state" field on the Model object and create a "State" type
  *     with constructors for "Initializing", "Starting", "Running",
  *     "Stopping", "Finished".
  */
@@ -28,6 +28,24 @@ import * as Utils from "../Utils"
  *
  * @return {Result.<E|Model>}
  */
+
+
+
+/**
+ * Describes the current state of a Loader at a given point.
+ *
+ * @typedef { ( Initializing
+ *            )
+ *          } State
+ */
+
+
+
+/* Message */
+export function Initializing
+  () {
+    return Utils.create_and_freeze(Initializing.prototype)
+  }
 
 
 
@@ -76,23 +94,23 @@ export function Model
               { value      : initializeHandler 
               , enumerable : true
               }
-          , initializedHandler   :
+          , initializedHandler  :
               { value      : initializedHandler 
               , enumerable : true
               }
-          , startHandler         :
+          , startHandler        :
               { value      : startHandler 
               , enumerable : true
               }
-          , startedHandler       :
+          , startedHandler      :
               { value      : startedHandler 
               , enumerable : true
               }
-          , stopHandler          :
+          , stopHandler         :
               { value      : stopHandler 
               , enumerable : true
               }
-          , stoppedHandler       :
+          , stoppedHandler      :
               { value      : stoppedHandler 
               , enumerable : true
               }

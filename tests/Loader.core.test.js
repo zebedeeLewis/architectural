@@ -3,6 +3,23 @@ import * as Loader from "../src/Loader/Loader.core"
 
 
 describe
+  ( 'Initializing'
+  , () => {
+      it( 'produces an Initializing State'
+        , () => {
+            const actualValue = Loader.Initializing()
+            const expectedValue =
+              Object.create(Loader.Initializing.prototype)
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'Initialize'
   , () => {
       it( 'produces an Initialize message when given valid arguments'
