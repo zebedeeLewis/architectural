@@ -76,6 +76,74 @@ export function InitializedState
 
 
 
+/* State */
+export function Starting
+  () {
+    return (
+      Utils.create_and_freeze
+        ( Starting.prototype
+        , { id :
+              { value      : 'Starting'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
+
+
+
+/* State */
+export function Running
+  () {
+    return (
+      Utils.create_and_freeze
+        ( Running.prototype
+        , { id :
+              { value      : 'Running'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
+
+
+
+/* State */
+export function Stopping
+  () {
+    return (
+      Utils.create_and_freeze
+        ( Stopping.prototype
+        , { id :
+              { value      : 'Stopping'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
+
+
+
+/* State */
+export function Finished
+  () {
+    return (
+      Utils.create_and_freeze
+        ( Finished.prototype
+        , { id :
+              { value      : 'Finished'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
+
+
+
 /**
  * Represents a snapshot of the Loader at a given point.
  *

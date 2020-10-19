@@ -51,6 +51,102 @@ describe
 
 
 describe
+  ( 'Starting'
+  , () => {
+      it( 'produces a Starting State'
+        , () => {
+            const actualValue = Loader.Starting()
+            const expectedValue =
+              Object.create
+                ( Loader.Starting.prototype
+                , { id :
+                      { value      : 'Starting'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Running'
+  , () => {
+      it( 'produces a Running State'
+        , () => {
+            const actualValue = Loader.Running()
+            const expectedValue =
+              Object.create
+                ( Loader.Running.prototype
+                , { id :
+                      { value      : 'Running'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Stopping'
+  , () => {
+      it( 'produces a Stopping State'
+        , () => {
+            const actualValue = Loader.Stopping()
+            const expectedValue =
+              Object.create
+                ( Loader.Stopping.prototype
+                , { id :
+                      { value      : 'Stopping'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Finished'
+  , () => {
+      it( 'produces a Finished State'
+        , () => {
+            const actualValue = Loader.Finished()
+            const expectedValue =
+              Object.create
+                ( Loader.Finished.prototype
+                , { id :
+                      { value      : 'Finished'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'Initialize'
   , () => {
       it( 'produces an Initialize message when given valid arguments'
