@@ -1,3 +1,8 @@
+/**
+ * @TODO:
+ *   - all functions that accept or Return a Result.Err, should return
+ *     Result.Err<LoaderCore.Failure>
+ */
 
 import * as Result from '../Result/Result'
 import * as LoaderCore from './Loader.core'

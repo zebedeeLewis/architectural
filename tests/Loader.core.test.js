@@ -1,10 +1,22 @@
 import * as Loader from "../src/Loader/Loader.core"
+import * as Result from "../src/Result"
 
 
 
 describe
   ( 'is_valid_state'
   , () => {
+      it( 'produces true if the given subject is the results of calling'
+        + ' Unset' 
+        , () => {
+            const subject = Loader.Unset()
+            const actualValue = Loader.is_valid_state(subject)
+            const expectedValue = true
+
+            return expect(actualValue).toBe(expectedValue)
+          }
+        )
+
       it( 'produces true if the given subject is the results of calling'
         + ' Initializing' 
         , () => {
@@ -78,6 +90,30 @@ describe
             const actualValue = Loader.is_valid_state(subject)
 
             return expect(actualValue).toBe(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'Unset'
+  , () => {
+      it( 'produces an Unset State'
+        , () => {
+            const actualValue = Loader.Unset()
+            const expectedValue =
+              Object.create
+                ( Loader.Unset.prototype
+                , { id :
+                      { value      : 'Unset'
+                      , enumerable : true
+                      }
+                  }
+                )
+
+            return expect(actualValue).toEqual(expectedValue)
           }
         )
     }
@@ -627,99 +663,822 @@ describe
 
 
 describe
-  ( 'update_according_to_message'
+  ( 'Failure'
   , () => {
-      it( 'produces a Model when given an "Initialize" Message,'
-        + ' where the returned Model is the result of calling the'
-        + ' initializeHandeler on the given Model'
+      it( 'produces a Failure'
         , () => {
+            const stub = () => null
+            const htmlElementSelector = 'test'
+
+            const error = 2
+            const initialModel =
+                Object.create
+                  ( Loader.Model.prototype
+                  , { state :
+                        { value      : Loader.Running()
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
+                        { value      : htmlElementSelector
+                        , enumerable : true
+                        }
+                    , initializeHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , initializedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stopHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stoppedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    }
+                  )
+
+            const actualValue = Loader.Failure(error, initialModel)
+
             const expectedValue =
               Object.create
-                ( Loader.Model.prototype
-                , { state :
-                      { value      : Loader.Initializing()
-                      , enumerable : true
-                      }
-                  , htmlElementSelector :
-                      { value      : 'new test'
-                      , enumerable : true
-                      }
-                  , initializeHandler : 
-                      { value      : messageHandler
-                      , enumerable : true
-                      }
-                  , initializedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stopHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stoppedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
+                ( Loader.Failure.prototype
+                , { error : { value: error, enumerable : true }
+                  , model : { value: initialModel, enumerable : true }
                   }
                 )
 
-            const stub = ()=>null
-            const htmlElementSelector = 'test'
-            const messageHandler = jest.fn(() => expectedValue )
-            const argv = [1,2,3]
-            const model = 
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'set_state_or_forward_failure'
+  , () => {
+      it( 'produces a copy of the model in the result, with the new '
+        + 'models state set to the given state when given a Result.Ok '
+        + 'value.'
+        , () => {
+            const stub = () => null
+            const produce_test_model_at_state =
+              ( state
+              ) => (
+                Object.create
+                  ( Loader.Model.prototype
+                  , { state :
+                        { value      : state
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
+                        { value      : 'new test'
+                        , enumerable : true
+                        }
+                    , initializeHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , initializedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , startHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , startedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , stopHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , stoppedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    }
+                  )
+              )
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const newState = Loader.Initializing()
+
+
+            const expectedModel =
+              produce_test_model_at_state(newState)
+
+
+            const inputResult =
               Object.create
-                ( Loader.Model.prototype
-                , { state :
-                      { value      : Loader.Finished()
-                      , enumerable : true
-                      }
-                  , htmlElementSelector :
-                      { value      : htmlElementSelector
-                      , enumerable : true
-                      }
-                  , initializeHandler : 
-                      { value      : messageHandler
-                      , enumerable : true
-                      }
-                  , initializedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , startedHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stopHandler : 
-                      { value      : stub
-                      , enumerable : true
-                      }
-                  , stoppedHandler : 
-                      { value      : stub
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : initialModel
                       , enumerable : true
                       }
                   }
                 )
 
-            const message = Loader.Initialize(argv)
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : expectedModel
+                      , enumerable : true
+                      }
+                  }
+                )
+
 
             const actualValue =
-              Loader.update_according_to_message(message, model)
+              Loader.set_state_or_forward_failure
+                ( newState
+                , inputResult
+                )
 
-            expect(messageHandler).toHaveBeenCalledTimes(1)
-            expect(messageHandler).toHaveBeenCalledWith(argv, model)
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'forwards all Result.Err'
+        , () => {
+            const stub = () => null
+            const produce_test_model_at_state =
+              ( state
+              ) => (
+                Object.create
+                  ( Loader.Model.prototype
+                  , { state :
+                        { value      : state
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
+                        { value      : 'new test'
+                        , enumerable : true
+                        }
+                    , initializeHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , initializedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , startHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , startedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , stopHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    , stoppedHandler : 
+                        { value      : stub
+                        , enumerable : true
+                        }
+                    }
+                  )
+              )
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const error = 'test error'
+
+
+            const failure =
+              ( Loader.Failure.prototype
+              , { error : { value: error, enumerable : true }
+                , model : { value: initialModel, enumerable : true }
+                }
+              )
+
+
+            const result =
+              Object.create
+                ( Result.Err.prototype
+                , { error :
+                      { value      : failure
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            const expectedValue = result
+
+
+            const actualValue =
+              Loader.set_state_or_forward_failure
+                ( Loader.Initializing()
+                , result
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
+  ( 'update_according_to_message'
+  , () => {
+      it( 'sets the given Models state to Initializing when given the '
+        + 'Initialize Message.'
+        , () => {
+            const newState = Loader.Initializing()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Initialize([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'sets the given Models state to InitializedState when given the '
+        + 'Initialized Message.'
+        , () => {
+            const newState = Loader.InitializedState()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Initialized([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'sets the given Models state to Starting when given the Start '
+        + 'Message.'
+        , () => {
+            const newState = Loader.Starting()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Start([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'sets the given Models state to Running when given the Started '
+        + 'Message.'
+        , () => {
+            const newState = Loader.Running()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Started([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'sets the given Models state to Stopping when given the Stop '
+        + 'Message.'
+        , () => {
+            const newState = Loader.Stopping()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Stop([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'sets the given Models state to Finished when given the Stopped '
+        + 'Message.'
+        , () => {
+            const newState = Loader.Finished()
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Ok.prototype
+                , { value :
+                      { value      : produce_test_model_at_state(newState)
+                      , enumerable : true
+                      }
+                  }
+                )
+
+
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : () => expectedValue
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = Loader.Stopped([])
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+
+            expect(actualValue).toEqual(expectedValue)
+          }
+        )
+
+      it( 'Produces a Failure if given an unrecognized Message'
+        , () => {
+            function produce_test_model_at_state
+              ( state
+              ) {
+                const stub = () => null
+
+                return (
+                  Object.create
+                    ( Loader.Model.prototype
+                    , { state :
+                          { value      : state
+                          , enumerable : true
+                          }
+                      , htmlElementSelector :
+                          { value      : 'new test'
+                          , enumerable : true
+                          }
+                      , initializeHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , initializedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , startedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stopHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      , stoppedHandler : 
+                          { value      : stub
+                          , enumerable : true
+                          }
+                      }
+                    )
+                )
+              }
+
+
+            const message = {}
+
+
+            const initialModel =
+              produce_test_model_at_state(Loader.Unset())
+
+
+            const actualValue =
+              Loader.update_according_to_message
+                ( message
+                , initialModel
+                )
+
+            const failure =
+              Object.create
+                ( Loader.Failure.prototype
+                , { error :
+                      { value: Loader.UPDATE_ERROR
+                      , enumerable : true
+                      }
+                  , model : { value: initialModel, enumerable : true }
+                  }
+                )
+
+
+            const expectedValue =
+              Object.create
+                ( Result.Err.prototype
+                , { error : { value: failure, enumerable : true }
+                  }
+                )
+
+
             expect(actualValue).toEqual(expectedValue)
           }
         )

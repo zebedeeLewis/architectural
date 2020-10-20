@@ -5,6 +5,11 @@
  */
 
 import * as Utils from "../Utils"
+import * as Result from "../Result"
+
+
+
+export const UPDATE_ERROR = 'Unable to update Model'
 
 
 
@@ -21,7 +26,7 @@ import * as Utils from "../Utils"
  *   function performs it's internal transformations on the model before
  *   passing it to this handler.
  *
- * @return {Result.<E|Model>}
+ * @return {Result.<Failure|Model>}
  */
 
 
@@ -29,7 +34,8 @@ import * as Utils from "../Utils"
 /**
  * Describes the current state of a Loader at a given point.
  *
- * @typedef { ( Initializing
+ * @typedef { ( Unset
+ *            | Initializing
  *            | InitializedState
  *            | Starting
  *            | Running
@@ -44,12 +50,30 @@ import * as Utils from "../Utils"
 /* * -> Boolean */
 export const is_valid_state =
   ( possibleState
-  ) => (possibleState instanceof Initializing)
+  ) => (possibleState instanceof Unset)
+    || (possibleState instanceof Initializing)
     || (possibleState instanceof InitializedState)
     || (possibleState instanceof Starting)
     || (possibleState instanceof Running)
     || (possibleState instanceof Stopping)
     || (possibleState instanceof Finished)
+
+
+
+/* State */
+export function Unset
+  () {
+    return (
+      Utils.create_and_freeze
+        ( Unset.prototype
+        , { id :
+              { value      : 'Unset'
+              , enumerable : true
+              }
+          }
+        )
+    )
+  }
 
 
 
@@ -368,46 +392,86 @@ export const is_valid_message =
 
 
 
-/* Message -> Model -> Result<E|Model> */
+/**
+ * Provides information about a failed loader operation.
+ *
+ * @typedef {{ error : *, model : Model}} Failure
+ */
+
+
+
+/* * -> Model -> Failure */
+export function Failure
+  ( error
+  , model
+  ) {
+    return (
+      Utils.create_and_freeze
+        ( Failure.prototype
+        , { error : { value: error, enumerable : true }
+          , model : { value: model, enumerable : true }
+          }
+        )
+    )
+  }
+
+
+
+/* State -> Result<Failure|Model> -> Result<Failure|Model> */
+export const set_state_or_forward_failure =
+  ( newState
+  , result
+  ) => (
+    result instanceof Result.Ok
+      ? Result.Ok(set_state_to(newState, result.value)) :
+
+    result instanceof Result.Err
+      ? result : result
+  )
+
+
+
+/* Message -> Model -> Result<Failure|Model> */
 export const update_according_to_message =
   ( message
   , model
   ) => (
     message instanceof Initialize
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( Initializing()
           , model.initializeHandler(message.argv, model)
           ) :
 
     message instanceof Initialized
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( InitializedState()
           , model.initializedHandler(message.argv, model)
           ) :
 
     message instanceof Start
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( Starting()
           , model.startHandler(message.argv, model)
           ) :
 
     message instanceof Started
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( Running()
           , model.startedHandler(message.argv, model)
           ) :
 
     message instanceof Stop
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( Stopping()
           , model.stopHandler(message.argv, model)
           ) :
 
     message instanceof Stopped
-      ? set_state_to
+      ? set_state_or_forward_failure
           ( Finished()
           , model.stoppedHandler(message.argv, model)
           ) :
 
-        Result.Ok(model)
+      Result.Err( Failure(UPDATE_ERROR, model) )
   )
+
