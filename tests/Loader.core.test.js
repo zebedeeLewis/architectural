@@ -527,6 +527,106 @@ describe
 
 
 describe
+  ( 'set_state_to'
+  , () => {
+      it( 'produces a Model from the given Model with the state set to '
+        + 'the given state'
+        , () => {
+            const stub = () => null
+            const htmlElementSelector = 'test'
+
+            const initialModel =
+                Object.create
+                  ( Loader.Model.prototype
+                  , { state :
+                        { value      : Loader.Running()
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
+                        { value      : htmlElementSelector
+                        , enumerable : true
+                        }
+                    , initializeHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , initializedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stopHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stoppedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    }
+                  )
+
+
+            const actualValue =
+              Loader.set_state_to
+                ( Loader.Starting()
+                , initialModel
+                )
+
+            const expectedValue =
+                Object.create
+                  ( Loader.Model.prototype
+                  , { state :
+                        { value      : Loader.Starting()
+                        , enumerable : true
+                        }
+                    , htmlElementSelector :
+                        { value      : htmlElementSelector
+                        , enumerable : true
+                        }
+                    , initializeHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , initializedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , startedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stopHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    , stoppedHandler :
+                       { value      : stub
+                       , enumerable : true
+                       }
+                    }
+                  )
+
+            return expect(actualValue).toEqual(expectedValue)
+          }
+        )
+    }
+  )
+
+
+
+describe
   ( 'update_according_to_message'
   , () => {
       it( 'produces a Model when given an "Initialize" Message,'

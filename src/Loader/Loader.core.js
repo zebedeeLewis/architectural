@@ -236,11 +236,11 @@ export function Model
 
 /* State -> Model -> Model */
 export const set_state_to =
-  ( state
+  ( newState
   , model
   ) => (
     Model
-      ( state
+      ( newState
       , model.htmlElementSelector
       , model.initializeHandler
       , model.initializedHandler
