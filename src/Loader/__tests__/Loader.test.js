@@ -1,6 +1,6 @@
-import * as Loader from "../src/Loader/Loader"
-import * as LoaderCore from "../src/Loader/Loader.core"
-import * as Result from "../src/Result/Result"
+import * as Loader from "..//Loader"
+import * as LoaderCore from "../Loader.core"
+import * as Result from "../../Result"
 
 
 describe

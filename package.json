@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --config config/webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
-    "test": "jest --coverage --no-cache --watch-all",
+    "test": "jest --coverage --no-cache --config ./config/jest.config.js --watch-all",
     "docs": "jsdoc --destination documentation --configure config/jsdoc.config.js"
   },
   "keywords": [
@@ -23,6 +23,7 @@
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
+    "@types/jest": "^26.0.15",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.1.0",
@@ -47,6 +48,9 @@
     "sass-loader": "^10.0.2",
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^4.2.2",
+    "ts-jest": "^26.4.1",
+    "ts-loader": "^8.0.6",
+    "typescript": "^4.0.3",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",

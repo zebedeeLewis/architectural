@@ -1,4 +1,4 @@
-import * as Result from "../src/Result/Result"
+import * as Result from "../Result"
 
 
 

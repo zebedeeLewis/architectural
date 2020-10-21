@@ -426,7 +426,9 @@ export const set_state_or_forward_failure =
       ? Result.Ok(set_state_to(newState, result.value)) :
 
     result instanceof Result.Err
-      ? result : result
+      ? result : 
+    
+      result
   )
 
 

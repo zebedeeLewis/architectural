@@ -1,5 +1,5 @@
-import * as Loader from "../src/Loader/Loader.core"
-import * as Result from "../src/Result"
+import * as Loader from "../Loader.core"
+import * as Result from "../../Result"
 
 
 

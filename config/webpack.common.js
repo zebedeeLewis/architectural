@@ -89,6 +89,11 @@ module.exports =
           ]
         }
   
+      , { test    : /\.tsx?$/
+        , use     : 'ts-loader'
+        , exclude : /node_modules/
+        }
+
       , { test      : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
         , loader    : 'file-loader'
         , options   :
