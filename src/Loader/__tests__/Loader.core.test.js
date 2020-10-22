@@ -1,95 +1,114 @@
-import * as Loader from "../Loader.core"
-import * as Result from "../../Result"
+import * as Loader from "../Loader"
+import * as Result from "../../Result/Result"
+
+
+
+const STATE_UNSET = Loader.Unset()
+const STATE_INITIALIZING = Loader.Initializing()
+const STATE_INITIALIZED = Loader.InitializedState()
+const STATE_STARTING = Loader.Starting()
+const STATE_RUNNING = Loader.Running()
+const STATE_STOPPING = Loader.Stopping()
+const STATE_FINISHED = Loader.Finished()
+
+
+
+const MESSAGE_INITIALIZE = Loader.Initialize([])
+const MESSAGE_INITIALIZED = Loader.Initialized([])
+const MESSAGE_START = Loader.Start([])
+const MESSAGE_STARTED = Loader.Started([])
+const MESSAGE_STOP = Loader.Stop([])
+const MESSAGE_STOPPED = Loader.Stopped([])
+
+
+
+function make_test_value__result_err
+  ( error
+  ) {
+    return Result.ErrFactory({error})
+  }
+
+
+
+function make_test_value__result_ok
+  ( value
+  ) {
+    return Result.OkFactory({value})
+  }
+
+
+
+function dummyHandler
+  ( argv
+  , model
+  ) {
+    return make_test_value__result_ok(model)
+  }
+
+
+
+function make_test_value__model
+  () {
+    return Loader.ModelFactory(
+      { state                : Loader.Unset
+      , htmlElementSelector  : 'testHtmlSelector'
+      , initializeHandler    : dummyHandler
+      , initializedHandler   : dummyHandler
+      , startHandler         : dummyHandler
+      , startedHandler       : dummyHandler
+      , stopHandler          : dummyHandler
+      , stoppedHandler       : dummyHandler
+      }
+    )
+  }
+
+
+
+function make_test_value__failure
+  ( error
+  , model
+  ) {
+    return Loader.FailureFactory({error, model})
+  }
 
 
 
 describe
-  ( 'is_valid_state'
+  ( 'is_unset_state'
   , () => {
-      it( 'produces true if the given subject is the results of calling'
-        + ' Unset' 
+      it( 'Produces true if the given value is a Unset State'
         , () => {
-            const subject = Loader.Unset()
-            const actualValue = Loader.is_valid_state(subject)
-            const expectedValue = true
+            function do_test(state) {
+              const actualValue =
+                Loader.is_unset_state(state)
 
-            return expect(actualValue).toBe(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_UNSET)
           }
         )
 
-      it( 'produces true if the given subject is the results of calling'
-        + ' Initializing' 
+      it( 'Produces false if the given value is not a Unset State'
         , () => {
-            const subject = Loader.Initializing()
-            const actualValue = Loader.is_valid_state(subject)
-            const expectedValue = true
+            function do_test(state) {
+              const actualValue =
+                Loader.is_unset_state(state)
 
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
+              expect(actualValue).toBe(false)
+            }
 
-      it( 'produces true if the given subject is the results of calling'
-        + ' InitializedState' 
-        , () => {
-            const subject = Loader.InitializedState()
-            const expectedValue = true
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Starting' 
-        , () => {
-            const subject = Loader.Starting()
-            const expectedValue = true
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Running' 
-        , () => {
-            const subject = Loader.Running()
-            const expectedValue = true
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Stopping' 
-        , () => {
-            const subject = Loader.Stopping()
-            const expectedValue = true
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Finished' 
-        , () => {
-            const subject = Loader.Finished()
-            const expectedValue = true
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'otherwise produces false.' 
-        , () => {
-            const subject = {}
-            const expectedValue = false
-            const actualValue = Loader.is_valid_state(subject)
-
-            return expect(actualValue).toBe(expectedValue)
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZED)
+            do_test(STATE_STARTING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_INITIALIZING)
           }
         )
     }
@@ -98,22 +117,41 @@ describe
 
 
 describe
-  ( 'Unset'
+  ( 'is_initializing_state'
   , () => {
-      it( 'produces an Unset State'
+      it( 'Produces true if the given value is a Initializing State'
         , () => {
-            const actualValue = Loader.Unset()
-            const expectedValue =
-              Object.create
-                ( Loader.Unset.prototype
-                , { id :
-                      { value      : 'Unset'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_initializing_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_INITIALIZING)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Initializing State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_initializing_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZED)
+            do_test(STATE_STARTING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -122,22 +160,41 @@ describe
 
 
 describe
-  ( 'Initializing'
+  ( 'is_initialized_state'
   , () => {
-      it( 'produces an Initializing State'
+      it( 'Produces true if the given value is a Initialized State'
         , () => {
-            const actualValue = Loader.Initializing()
-            const expectedValue =
-              Object.create
-                ( Loader.Initializing.prototype
-                , { id :
-                      { value      : 'Initializing'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_initialized_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_INITIALIZED)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Initialized State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_initialized_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_STARTING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -146,22 +203,41 @@ describe
 
 
 describe
-  ( 'InitializedState'
+  ( 'is_starting_state'
   , () => {
-      it( 'produces an InitializedState'
+      it( 'Produces true if the given value is a Starting State'
         , () => {
-            const actualValue = Loader.InitializedState()
-            const expectedValue =
-              Object.create
-                ( Loader.InitializedState.prototype
-                , { id :
-                      { value      : 'InitializedState'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_starting_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_STARTING)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Starting State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_starting_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_RUNNING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -170,22 +246,41 @@ describe
 
 
 describe
-  ( 'Starting'
+  ( 'is_running_state'
   , () => {
-      it( 'produces a Starting State'
+      it( 'Produces true if the given value is a Running State'
         , () => {
-            const actualValue = Loader.Starting()
-            const expectedValue =
-              Object.create
-                ( Loader.Starting.prototype
-                , { id :
-                      { value      : 'Starting'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_running_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_RUNNING)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Running State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_running_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_STARTING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -194,22 +289,41 @@ describe
 
 
 describe
-  ( 'Running'
+  ( 'is_stopping_state'
   , () => {
-      it( 'produces a Running State'
+      it( 'Produces true if the given value is a Stopping State'
         , () => {
-            const actualValue = Loader.Running()
-            const expectedValue =
-              Object.create
-                ( Loader.Running.prototype
-                , { id :
-                      { value      : 'Running'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_stopping_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_STOPPING)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Stopping State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_stopping_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_STARTING)
+            do_test(STATE_RUNNING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -218,22 +332,41 @@ describe
 
 
 describe
-  ( 'Stopping'
+  ( 'is_finished_state'
   , () => {
-      it( 'produces a Stopping State'
+      it( 'Produces true if the given value is a Finished State'
         , () => {
-            const actualValue = Loader.Stopping()
-            const expectedValue =
-              Object.create
-                ( Loader.Stopping.prototype
-                , { id :
-                      { value      : 'Stopping'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(state) {
+              const actualValue =
+                Loader.is_finished_state(state)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_FINISHED)
+          }
+        )
+
+      it( 'Produces false if the given value is not a Finished State'
+        , () => {
+            function do_test(state) {
+              const actualValue =
+                Loader.is_finished_state(state)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valid message')
+            do_test(true)
+            do_test(false)
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_STARTING)
+            do_test(STATE_RUNNING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_UNSET)
           }
         )
     }
@@ -242,22 +375,41 @@ describe
 
 
 describe
-  ( 'Finished'
+  ( 'is_state'
   , () => {
-      it( 'produces a Finished State'
+      it( 'Produces true if the given value is a valid State'
         , () => {
-            const actualValue = Loader.Finished()
-            const expectedValue =
-              Object.create
-                ( Loader.Finished.prototype
-                , { id :
-                      { value      : 'Finished'
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleState) {
+              const actualValue =
+                Loader.is_state(possibleState)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(STATE_INITIALIZING)
+            do_test(STATE_STARTING)
+            do_test(STATE_RUNNING)
+            do_test(STATE_STOPPING)
+            do_test(STATE_FINISHED)
+            do_test(STATE_UNSET)
+          }
+        )
+
+      it( 'Produces false if the given value is not a valid State'
+        , () => {
+            function do_test(possibleState) {
+              const actualValue =
+                Loader.is_state(possibleState)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
           }
         )
     }
@@ -266,23 +418,41 @@ describe
 
 
 describe
-  ( 'Initialize'
+  ( 'is_initialize_message'
   , () => {
-      it( 'produces an Initialize message when given valid arguments'
+      it( 'Produces true if the given value is a "Initialize" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Initialize(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Initialize.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_initialize_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_INITIALIZE)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Initialize" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_initialize_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOP)
+            do_test(MESSAGE_STOPPED)
           }
         )
     }
@@ -291,23 +461,40 @@ describe
 
 
 describe
-  ( 'Initialized'
+  ( 'is_initialized_message'
   , () => {
-      it( 'produces an "Initialized" messge when given valid arguments'
+      it( 'Produces true if the given value is a "Initialized" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Initialized(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Initialized.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_initialized_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_INITIALIZED)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Initialized" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue = Loader.is_initialized_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOP)
+            do_test(MESSAGE_STOPPED)
           }
         )
     }
@@ -316,23 +503,41 @@ describe
 
 
 describe
-  ( 'Start'
+  ( 'is_start_message'
   , () => {
-      it( 'produces a "Start" Message when given valid arguments'
+      it( 'Produces true if the given value is a "Start" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Start(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Start.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_start_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_START)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Start" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_start_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOP)
+            do_test(MESSAGE_STOPPED)
           }
         )
     }
@@ -341,23 +546,41 @@ describe
 
 
 describe
-  ( 'Started'
+  ( 'is_started_message'
   , () => {
-      it( 'produces a "Started" Message when given valid arguments'
+      it( 'Produces true if the given value is a "Started" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Started(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Started.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_started_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_STARTED)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Started" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_started_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STOP)
+            do_test(MESSAGE_STOPPED)
           }
         )
     }
@@ -366,23 +589,39 @@ describe
 
 
 describe
-  ( 'Stop'
+  ( 'is_stop_message'
   , () => {
-      it( 'produces a "Stop" Message when given valid arguments'
+      it( 'Produces true if the given value is a "Stop" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Stop(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Stop.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue = Loader.is_stop_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_STOP)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Stop" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue = Loader.is_stop_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOPPED)
           }
         )
     }
@@ -391,105 +630,82 @@ describe
 
 
 describe
-  ( 'Stopped'
+  ( 'is_stopped_message'
   , () => {
-      it( 'produces a "Stopped" Message when given valid arguments'
+      it( 'Produces true if the given value is a "Stopped" Message'
         , () => {
-            const argv = [1, 2, 3]
-            const actualValue = Loader.Stopped(argv)
-            const expectedValue =
-              Object.create
-                ( Loader.Stopped.prototype
-                , { argv :
-                      { value      : argv
-                      , enumerable : true
-                      }
-                  }
-                )
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_stopped_message(possibleMessage)
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_STOPPED)
+          }
+        )
+
+      it( 'Produces false if the given value is not a "Stopped" Message'
+        , () => {
+            function do_test(possibleMessage) {
+              const actualValue =
+                Loader.is_stopped_message(possibleMessage)
+
+              expect(actualValue).toBe(false)
+            }
+
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOP)
           }
         )
     }
   )
 
 
+
 describe
-  ( 'is_valid_message'
+  ( 'is_message'
   , () => {
-      it( 'produces true if the given subject is the results of calling'
-        + ' Initialize' 
+      it( 'Produces true if the given value is a valid Message'
         , () => {
-            const subject = Loader.Initialize([])
-            const actualValue = Loader.is_valid_message(subject)
-            const expectedValue = true
+            function do_test(possibleMessage) {
+              const actualValue = Loader.is_message(possibleMessage)
 
-            return expect(actualValue).toBe(expectedValue)
+              expect(actualValue).toBe(true)
+            }
+
+            do_test(MESSAGE_INITIALIZE)
+            do_test(MESSAGE_INITIALIZED)
+            do_test(MESSAGE_START)
+            do_test(MESSAGE_STARTED)
+            do_test(MESSAGE_STOP)
+            do_test(MESSAGE_STOPPED)
           }
         )
 
-      it( 'produces true if the given subject is the results of calling'
-        + ' Initialized' 
+      it( 'Produces false if the given value is not a valid Message'
         , () => {
-            const subject = Loader.Initialized([])
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
+            function do_test(possibleMessage) {
+              const actualValue = Loader.is_message(possibleMessage)
 
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
+              expect(actualValue).toBe(false)
+            }
 
-      it( 'produces true if the given subject is the results of calling'
-        + ' Start' 
-        , () => {
-            const subject = Loader.Start([])
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Started' 
-        , () => {
-            const subject = Loader.Started([])
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Stop' 
-        , () => {
-            const subject = Loader.Stop([])
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
-          }
-        )
-
-      it( 'produces true if the given subject is the results of calling'
-        + ' Stopped' 
-        , () => {
-            const subject = Loader.Stopped([])
-            const expectedValue = true
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'otherwise produces false.' 
-        , () => {
-            const subject = {}
-            const expectedValue = false
-            const actualValue = Loader.is_valid_message(subject)
-
-            return expect(actualValue).toBe(expectedValue)
+            do_test(1)
+            do_test({})
+            do_test([])
+            do_test('this is not a valide message')
+            do_test(true)
+            do_test(false)
           }
         )
     }
@@ -500,61 +716,36 @@ describe
 describe
   ( 'Model'
   , () => {
-      it( 'produces a Model when given valid arguments'
+      it( 'Produces a new Model'
         , () => {
-            const state = Loader.Running()
-            const stub = () => null
-            const htmlElementSelector = 'test'
-            const actualValue =
-              Loader.Model
-                ( state
-                , htmlElementSelector
-                , stub
-                , stub
-                , stub
-                , stub
-                , stub
-                , stub
-                )
-            const expectedValue =
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : state
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : htmlElementSelector
-                        , enumerable : true
-                        }
-                    , initializeHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , initializedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stopHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stoppedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    }
+            function do_test() {
+              const state = STATE_UNSET
+              const selector = 'testHtmlSelector'
+
+              const expectedValue =
+                make_test_value__model()
+                  .set('state', state)
+                  .set('htmlElementSelector', selector)
+
+              const actualValue = 
+                Loader.Model
+                  ( state
+                  , selector
+                  , dummyHandler
+                  , dummyHandler
+                  , dummyHandler
+                  , dummyHandler
+                  , dummyHandler
+                  , dummyHandler
                   )
 
-            return expect(actualValue).toEqual(expectedValue)
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
+
+              expect(expectedValue.equals(actualValue)).toBe(true)
+            }
+
+            do_test()
           }
         )
     }
@@ -563,923 +754,371 @@ describe
 
 
 describe
-  ( 'set_state_to'
+  ( 'set_model_state_or_forward_failure'
   , () => {
-      it( 'produces a Model from the given Model with the state set to '
-        + 'the given state'
+
+      it( 'Sets the state of the Model wrapped in the given Result to '
+        + 'the given state if Result is an Ok<T>.'
         , () => {
-            const stub = () => null
-            const htmlElementSelector = 'test'
+            function do_test(initialState, newState) {
+              const initialModel = make_test_value__model()
 
-            const initialModel =
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : Loader.Running()
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : htmlElementSelector
-                        , enumerable : true
-                        }
-                    , initializeHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , initializedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stopHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stoppedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    }
-                  )
+              const initialResult = 
+                make_test_value__result_ok(initialModel)
+                  .set('state', initialState)
 
+              const expectedValue = newState
 
-            const actualValue =
-              Loader.set_state_to
-                ( Loader.Starting()
-                , initialModel
-                )
+              const actualValue =
+                Loader.set_model_state_or_forward_failure
+                  ( newState
+                  , initialResult
+                  ).get('value', undefined)
+                   .get('state', undefined)
 
-            const expectedValue =
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : Loader.Starting()
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : htmlElementSelector
-                        , enumerable : true
-                        }
-                    , initializeHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , initializedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stopHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stoppedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    }
-                  )
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
-            return expect(actualValue).toEqual(expectedValue)
+              expect(actualValue).toEqual(expectedValue)
+            }
+
+            do_test(STATE_UNSET, STATE_INITIALIZING)
+            do_test(STATE_STARTING, STATE_RUNNING)
+            do_test(STATE_STARTING, STATE_FINISHED)
           }
         )
+
+      it( 'Returns the given result unchanged if it is not a Ok<Model> '
+        + '(.i.e. if it is an Err<Failure>.'
+        , () => {
+            function do_test() {
+              const initialModel = make_test_value__model()
+
+              const initialResult = 
+                make_test_value__result_err
+                  ( make_test_value__failure
+                      ( 'this is a test error'
+                      , initialModel
+                      )
+                  )
+
+              const newState = STATE_INITIALIZING
+
+              const expectedValue = initialResult
+
+              const actualValue =
+                Loader.set_model_state_or_forward_failure
+                  ( newState
+                  , initialResult
+                  )
+
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
+
+              expect(expectedValue.equals(actualValue)).toBe(true)
+            }
+
+            do_test()
+          }
+        )
+
     }
   )
 
 
 
 describe
-  ( 'Failure'
+  ( 'update_model_according_to_message'
   , () => {
-      it( 'produces a Failure'
+
+      it( 'Produces an Result.Err<Failure> when given an unrecognized '
+        + 'Message.'
         , () => {
-            const stub = () => null
-            const htmlElementSelector = 'test'
+            function do_test(message) {
+              const state = STATE_UNSET
 
-            const error = 2
-            const initialModel =
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : Loader.Running()
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : htmlElementSelector
-                        , enumerable : true
-                        }
-                    , initializeHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , initializedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , startedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stopHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    , stoppedHandler :
-                       { value      : stub
-                       , enumerable : true
-                       }
-                    }
-                  )
+              const initialModel =
+                make_test_value__model().set('state', state)
 
-            const actualValue = Loader.Failure(error, initialModel)
-
-            const expectedValue =
-              Object.create
-                ( Loader.Failure.prototype
-                , { error : { value: error, enumerable : true }
-                  , model : { value: initialModel, enumerable : true }
-                  }
-                )
-
-            return expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'set_state_or_forward_failure'
-  , () => {
-      it( 'produces a copy of the model in the result, with the new '
-        + 'models state set to the given state when given a Result.Ok '
-        + 'value.'
-        , () => {
-            const stub = () => null
-            const produce_test_model_at_state =
-              ( state
-              ) => (
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : state
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : 'new test'
-                        , enumerable : true
-                        }
-                    , initializeHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , initializedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , startHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , startedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , stopHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , stoppedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    }
+              const expectedValue = make_test_value__result_err(
+                make_test_value__failure
+                  ( Loader.UPDATE_ERROR
+                  , initialModel
                   )
               )
 
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const newState = Loader.Initializing()
-
-
-            const expectedModel =
-              produce_test_model_at_state(newState)
-
-
-            const inputResult =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : initialModel
-                      , enumerable : true
-                      }
-                  }
-                )
-
-
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : expectedModel
-                      , enumerable : true
-                      }
-                  }
-                )
-
-
-            const actualValue =
-              Loader.set_state_or_forward_failure
-                ( newState
-                , inputResult
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
-          }
-        )
-
-      it( 'forwards all Result.Err'
-        , () => {
-            const stub = () => null
-            const produce_test_model_at_state =
-              ( state
-              ) => (
-                Object.create
-                  ( Loader.Model.prototype
-                  , { state :
-                        { value      : state
-                        , enumerable : true
-                        }
-                    , htmlElementSelector :
-                        { value      : 'new test'
-                        , enumerable : true
-                        }
-                    , initializeHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , initializedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , startHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , startedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , stopHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    , stoppedHandler : 
-                        { value      : stub
-                        , enumerable : true
-                        }
-                    }
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
                   )
+
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
+
+              expect(expectedValue.equals(actualValue)).toBe(true)
+            }
+
+            do_test({})
+            do_test(1)
+            do_test('this is not a valid message')
+          }
+        )
+
+
+      it( 'Calls the MessageHandler associated with the given message '
+        + 'once, and produces the return value of the MessageHandler.'
+        , () => {
+            function do_test(message, handlerName, state) {
+              const handlerStub = jest.fn(
+                () => make_test_value__result_ok(
+                  make_test_value__model().set('state', state)
+                )
               )
 
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
+              const initialModel =
+                make_test_value__model()
+                  .set('state', state)
+                  .set(handlerName, handlerStub)
 
-
-            const error = 'test error'
-
-
-            const failure =
-              ( Loader.Failure.prototype
-              , { error : { value: error, enumerable : true }
-                , model : { value: initialModel, enumerable : true }
-                }
+              const expectedValue = make_test_value__result_ok(
+                make_test_value__model().set('state', state)
               )
 
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  )
 
-            const result =
-              Object.create
-                ( Result.Err.prototype
-                , { error :
-                      { value      : failure
-                      , enumerable : true
-                      }
-                  }
-                )
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(handlerStub).toHaveBeenCalledTimes(1)
+              expect(expectedValue.equals(actualValue)).toBe(true)
+            }
 
-            const expectedValue = result
+            do_test
+              ( MESSAGE_INITIALIZE
+              , 'initializeHandler'
+              , STATE_INITIALIZING
+              )
 
+            do_test
+              ( MESSAGE_INITIALIZED
+              , 'initializedHandler'
+              , STATE_INITIALIZED
+              )
 
-            const actualValue =
-              Loader.set_state_or_forward_failure
-                ( Loader.Initializing()
-                , result
-                )
+            do_test
+              ( MESSAGE_START
+              , 'startHandler'
+              , STATE_STARTING
+              )
 
+            do_test
+              ( MESSAGE_STARTED
+              , 'startedHandler'
+              , STATE_RUNNING
+              )
 
-            expect(actualValue).toEqual(expectedValue)
-          }
-        )
-    }
-  )
+            do_test
+              ( MESSAGE_STOP
+              , 'stopHandler'
+              , STATE_STOPPING
+              )
 
-
-
-describe
-  ( 'update_according_to_message'
-  , () => {
-      it( 'sets the given Models state to Initializing when given the '
-        + 'Initialize Message.'
-        , () => {
-            const newState = Loader.Initializing()
-
-
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
-
-
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
-
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
-
-
-            const message = Loader.Initialize([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test
+              ( MESSAGE_STOPPED
+              , 'stoppedHandler'
+              , STATE_FINISHED
+              )
           }
         )
 
-      it( 'sets the given Models state to InitializedState when given the '
-        + 'Initialized Message.'
+
+      it( 'Produces a new Model in the "Initializing" State when given '
+        + 'an "Initialize" Message'
         , () => {
-            const newState = Loader.InitializedState()
+            function do_test() {
+              const initialState = STATE_UNSET
 
+              const initialModel =
+                make_test_value__model()
 
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
+              const expectedValue = STATE_INITIALIZING
 
+              const message = MESSAGE_INITIALIZE
 
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const message = Loader.Initialized([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
 
-      it( 'sets the given Models state to Starting when given the Start '
-        + 'Message.'
+
+      it( 'Produces a new Model in the "InitializedState" State when '
+        + 'given an "Initialized" Message.'
         , () => {
-            const newState = Loader.Starting()
+            function do_test() {
+              const initialState = STATE_UNSET
 
+              const initialModel =
+                make_test_value__model()
 
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
+              const expectedValue = STATE_INITIALIZED
 
+              const message = MESSAGE_INITIALIZED
 
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const message = Loader.Start([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
 
-      it( 'sets the given Models state to Running when given the Started '
-        + 'Message.'
+
+      it( 'Produces a new Model in the "Starting" State when given a '
+        + '"Start" Message.'
         , () => {
-            const newState = Loader.Running()
+            function do_test() {
+              const initialState = STATE_UNSET
 
+              const initialModel =
+                make_test_value__model()
 
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
+              const expectedValue = STATE_STARTING
 
+              const message = MESSAGE_START
 
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const message = Loader.Started([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
 
-      it( 'sets the given Models state to Stopping when given the Stop '
-        + 'Message.'
+
+      it( 'Produces a new Model in the "Running" State whengiven a '
+        + '"Started" Message.'
         , () => {
-            const newState = Loader.Stopping()
+            function do_test() {
+              const initialState = STATE_UNSET
 
+              const initialModel =
+                make_test_value__model()
 
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
+              const expectedValue = STATE_RUNNING
 
+              const message = MESSAGE_STARTED
 
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const message = Loader.Stop([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
 
-      it( 'sets the given Models state to Finished when given the Stopped '
-        + 'Message.'
+
+      it( 'Produces a new Model in the "Stopping" State whengiven a '
+        + '"Stop" Message.'
         , () => {
-            const newState = Loader.Finished()
+            function do_test() {
+              const initialState = STATE_UNSET
 
+              const initialModel =
+                make_test_value__model()
 
-            const expectedValue =
-              Object.create
-                ( Result.Ok.prototype
-                , { value :
-                      { value      : produce_test_model_at_state(newState)
-                      , enumerable : true
-                      }
-                  }
-                )
+              const expectedValue = STATE_STOPPING
 
+              const message = MESSAGE_STOP
 
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : () => expectedValue
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const message = Loader.Stopped([])
-
-
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
-
-
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
 
-      it( 'Produces a Failure if given an unrecognized Message'
+
+      it( 'Produces a new Model in the "Finished" State whengiven a '
+        + '"Stopped" Message.'
         , () => {
-            function produce_test_model_at_state
-              ( state
-              ) {
-                const stub = () => null
+            function do_test() {
+              const initialState = STATE_UNSET
 
-                return (
-                  Object.create
-                    ( Loader.Model.prototype
-                    , { state :
-                          { value      : state
-                          , enumerable : true
-                          }
-                      , htmlElementSelector :
-                          { value      : 'new test'
-                          , enumerable : true
-                          }
-                      , initializeHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , initializedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , startedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stopHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      , stoppedHandler : 
-                          { value      : stub
-                          , enumerable : true
-                          }
-                      }
-                    )
-                )
-              }
+              const initialModel =
+                make_test_value__model()
 
+              const expectedValue = STATE_FINISHED
 
-            const message = {}
+              const message = MESSAGE_STOPPED
 
+              const actualValue = 
+                Loader.update_model_according_to_message
+                  ( message
+                  , initialModel
+                  ).get('value')
+                   .get('state')
 
-            const initialModel =
-              produce_test_model_at_state(Loader.Unset())
+              // console.log('Expected: ', expectedValue.toString())
+              // console.log('Actual: ', actualValue.toString())
 
+              expect(expectedValue).toEqual(actualValue)
+            }
 
-            const actualValue =
-              Loader.update_according_to_message
-                ( message
-                , initialModel
-                )
-
-            const failure =
-              Object.create
-                ( Loader.Failure.prototype
-                , { error :
-                      { value: Loader.UPDATE_ERROR
-                      , enumerable : true
-                      }
-                  , model : { value: initialModel, enumerable : true }
-                  }
-                )
-
-
-            const expectedValue =
-              Object.create
-                ( Result.Err.prototype
-                , { error : { value: failure, enumerable : true }
-                  }
-                )
-
-
-            expect(actualValue).toEqual(expectedValue)
+            do_test()
           }
         )
     }

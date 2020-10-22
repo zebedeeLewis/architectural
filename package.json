@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "@splidejs/splide": "^2.4.14",
-    "gsap": "^3.5.1"
+    "gsap": "^3.5.1",
+    "immutable": "^4.0.0-rc.12"
   }
 }
