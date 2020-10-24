@@ -1,24 +1,6 @@
 import * as Loader from "../Loader"
 import * as Result from "../../Result/Result"
-
-
-
-const STATE_UNSET = Loader.Unset()
-const STATE_INITIALIZING = Loader.Initializing()
-const STATE_INITIALIZED = Loader.InitializedState()
-const STATE_STARTING = Loader.Starting()
-const STATE_RUNNING = Loader.Running()
-const STATE_STOPPING = Loader.Stopping()
-const STATE_FINISHED = Loader.Finished()
-
-
-
-const MESSAGE_INITIALIZE = Loader.Initialize([])
-const MESSAGE_INITIALIZED = Loader.Initialized([])
-const MESSAGE_START = Loader.Start([])
-const MESSAGE_STARTED = Loader.Started([])
-const MESSAGE_STOP = Loader.Stop([])
-const MESSAGE_STOPPED = Loader.Stopped([])
+import * as TestHelper from "./TestHelper"
 
 
 
@@ -50,7 +32,7 @@ function dummyHandler
 function make_test_value__model
   () {
     return Loader.ModelFactory(
-      { state                : Loader.Unset
+      { state                : TestHelper.STATE_UNSET
       , htmlElementSelector  : 'testHtmlSelector'
       , initializeHandler    : dummyHandler
       , initializedHandler   : dummyHandler
@@ -74,350 +56,6 @@ function make_test_value__failure
 
 
 describe
-  ( 'is_unset_state'
-  , () => {
-      it( 'Produces true if the given value is a Unset State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_unset_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_UNSET)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Unset State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_unset_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZED)
-            do_test(STATE_STARTING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_INITIALIZING)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_initializing_state'
-  , () => {
-      it( 'Produces true if the given value is a Initializing State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_initializing_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_INITIALIZING)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Initializing State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_initializing_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZED)
-            do_test(STATE_STARTING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_initialized_state'
-  , () => {
-      it( 'Produces true if the given value is a Initialized State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_initialized_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_INITIALIZED)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Initialized State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_initialized_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_STARTING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_starting_state'
-  , () => {
-      it( 'Produces true if the given value is a Starting State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_starting_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_STARTING)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Starting State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_starting_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_RUNNING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_running_state'
-  , () => {
-      it( 'Produces true if the given value is a Running State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_running_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_RUNNING)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Running State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_running_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_STARTING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_stopping_state'
-  , () => {
-      it( 'Produces true if the given value is a Stopping State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_stopping_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_STOPPING)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Stopping State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_stopping_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_STARTING)
-            do_test(STATE_RUNNING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_finished_state'
-  , () => {
-      it( 'Produces true if the given value is a Finished State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_finished_state(state)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_FINISHED)
-          }
-        )
-
-      it( 'Produces false if the given value is not a Finished State'
-        , () => {
-            function do_test(state) {
-              const actualValue =
-                Loader.is_finished_state(state)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valid message')
-            do_test(true)
-            do_test(false)
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_STARTING)
-            do_test(STATE_RUNNING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_UNSET)
-          }
-        )
-    }
-  )
-
-
-
-describe
-  ( 'is_state'
-  , () => {
-      it( 'Produces true if the given value is a valid State'
-        , () => {
-            function do_test(possibleState) {
-              const actualValue =
-                Loader.is_state(possibleState)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(STATE_INITIALIZING)
-            do_test(STATE_STARTING)
-            do_test(STATE_RUNNING)
-            do_test(STATE_STOPPING)
-            do_test(STATE_FINISHED)
-            do_test(STATE_UNSET)
-          }
-        )
-
-      it( 'Produces false if the given value is not a valid State'
-        , () => {
-            function do_test(possibleState) {
-              const actualValue =
-                Loader.is_state(possibleState)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valide message')
-            do_test(true)
-            do_test(false)
-          }
-        )
-    }
-  )
-
-
-
-describe
   ( 'is_initialize_message'
   , () => {
       it( 'Produces true if the given value is a "Initialize" Message'
@@ -429,7 +67,7 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
           }
         )
 
@@ -448,11 +86,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOP)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
     }
@@ -472,14 +110,15 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
           }
         )
 
       it( 'Produces false if the given value is not a "Initialized" Message'
         , () => {
             function do_test(possibleMessage) {
-              const actualValue = Loader.is_initialized_message(possibleMessage)
+              const actualValue =
+                Loader.is_initialized_message(possibleMessage)
 
               expect(actualValue).toBe(false)
             }
@@ -490,11 +129,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOP)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
     }
@@ -514,7 +153,7 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_START)
+            do_test(TestHelper.MESSAGE_START)
           }
         )
 
@@ -533,11 +172,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOP)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
     }
@@ -557,7 +196,7 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STARTED)
           }
         )
 
@@ -576,11 +215,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STOP)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
     }
@@ -599,7 +238,7 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOP)
           }
         )
 
@@ -617,11 +256,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
     }
@@ -641,7 +280,7 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
 
@@ -660,11 +299,11 @@ describe
             do_test('this is not a valide message')
             do_test(true)
             do_test(false)
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOP)
           }
         )
     }
@@ -683,12 +322,12 @@ describe
               expect(actualValue).toBe(true)
             }
 
-            do_test(MESSAGE_INITIALIZE)
-            do_test(MESSAGE_INITIALIZED)
-            do_test(MESSAGE_START)
-            do_test(MESSAGE_STARTED)
-            do_test(MESSAGE_STOP)
-            do_test(MESSAGE_STOPPED)
+            do_test(TestHelper.MESSAGE_INITIALIZE)
+            do_test(TestHelper.MESSAGE_INITIALIZED)
+            do_test(TestHelper.MESSAGE_START)
+            do_test(TestHelper.MESSAGE_STARTED)
+            do_test(TestHelper.MESSAGE_STOP)
+            do_test(TestHelper.MESSAGE_STOPPED)
           }
         )
 
@@ -719,7 +358,7 @@ describe
       it( 'Produces a new Model'
         , () => {
             function do_test() {
-              const state = STATE_UNSET
+              const state = TestHelper.STATE_UNSET
               const selector = 'testHtmlSelector'
 
               const expectedValue =
@@ -782,9 +421,9 @@ describe
               expect(actualValue).toEqual(expectedValue)
             }
 
-            do_test(STATE_UNSET, STATE_INITIALIZING)
-            do_test(STATE_STARTING, STATE_RUNNING)
-            do_test(STATE_STARTING, STATE_FINISHED)
+            do_test(TestHelper.STATE_UNSET, TestHelper.STATE_INITIALIZING)
+            do_test(TestHelper.STATE_STARTING, TestHelper.STATE_RUNNING)
+            do_test(TestHelper.STATE_STARTING, TestHelper.STATE_FINISHED)
           }
         )
 
@@ -802,7 +441,7 @@ describe
                       )
                   )
 
-              const newState = STATE_INITIALIZING
+              const newState = TestHelper.STATE_INITIALIZING
 
               const expectedValue = initialResult
 
@@ -835,7 +474,7 @@ describe
         + 'Message.'
         , () => {
             function do_test(message) {
-              const state = STATE_UNSET
+              const state = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model().set('state', state)
@@ -899,39 +538,39 @@ describe
             }
 
             do_test
-              ( MESSAGE_INITIALIZE
+              ( TestHelper.MESSAGE_INITIALIZE
               , 'initializeHandler'
-              , STATE_INITIALIZING
+              , TestHelper.STATE_INITIALIZING
               )
 
             do_test
-              ( MESSAGE_INITIALIZED
+              ( TestHelper.MESSAGE_INITIALIZED
               , 'initializedHandler'
-              , STATE_INITIALIZED
+              , TestHelper.STATE_INITIALIZED
               )
 
             do_test
-              ( MESSAGE_START
+              ( TestHelper.MESSAGE_START
               , 'startHandler'
-              , STATE_STARTING
+              , TestHelper.STATE_STARTING
               )
 
             do_test
-              ( MESSAGE_STARTED
+              ( TestHelper.MESSAGE_STARTED
               , 'startedHandler'
-              , STATE_RUNNING
+              , TestHelper.STATE_RUNNING
               )
 
             do_test
-              ( MESSAGE_STOP
+              ( TestHelper.MESSAGE_STOP
               , 'stopHandler'
-              , STATE_STOPPING
+              , TestHelper.STATE_STOPPING
               )
 
             do_test
-              ( MESSAGE_STOPPED
+              ( TestHelper.MESSAGE_STOPPED
               , 'stoppedHandler'
-              , STATE_FINISHED
+              , TestHelper.STATE_FINISHED
               )
           }
         )
@@ -941,14 +580,14 @@ describe
         + 'an "Initialize" Message'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_INITIALIZING
+              const expectedValue = TestHelper.STATE_INITIALIZING
 
-              const message = MESSAGE_INITIALIZE
+              const message = TestHelper.MESSAGE_INITIALIZE
 
               const actualValue = 
                 Loader.update_model_according_to_message
@@ -972,14 +611,14 @@ describe
         + 'given an "Initialized" Message.'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_INITIALIZED
+              const expectedValue = TestHelper.STATE_INITIALIZED
 
-              const message = MESSAGE_INITIALIZED
+              const message = TestHelper.MESSAGE_INITIALIZED
 
               const actualValue = 
                 Loader.update_model_according_to_message
@@ -1003,14 +642,14 @@ describe
         + '"Start" Message.'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_STARTING
+              const expectedValue = TestHelper.STATE_STARTING
 
-              const message = MESSAGE_START
+              const message = TestHelper.MESSAGE_START
 
               const actualValue = 
                 Loader.update_model_according_to_message
@@ -1034,14 +673,14 @@ describe
         + '"Started" Message.'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_RUNNING
+              const expectedValue = TestHelper.STATE_RUNNING
 
-              const message = MESSAGE_STARTED
+              const message = TestHelper.MESSAGE_STARTED
 
               const actualValue = 
                 Loader.update_model_according_to_message
@@ -1065,14 +704,14 @@ describe
         + '"Stop" Message.'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_STOPPING
+              const expectedValue = TestHelper.STATE_STOPPING
 
-              const message = MESSAGE_STOP
+              const message = TestHelper.MESSAGE_STOP
 
               const actualValue = 
                 Loader.update_model_according_to_message
@@ -1096,14 +735,14 @@ describe
         + '"Stopped" Message.'
         , () => {
             function do_test() {
-              const initialState = STATE_UNSET
+              const initialState = TestHelper.STATE_UNSET
 
               const initialModel =
                 make_test_value__model()
 
-              const expectedValue = STATE_FINISHED
+              const expectedValue = TestHelper.STATE_FINISHED
 
-              const message = MESSAGE_STOPPED
+              const message = TestHelper.MESSAGE_STOPPED
 
               const actualValue = 
                 Loader.update_model_according_to_message

@@ -1,8 +1,9 @@
 
-import * as Result from "../Result";
-import * as I from "immutable";
+import * as Result from "../Result"
+import * as State from "./State"
+import * as I from "immutable"
 
-import type {  RecordOf, Record } from 'immutable';
+import type {  RecordOf, Record } from 'immutable'
 
 
 
@@ -28,135 +29,9 @@ const dummyHandler : MessageHandler =
 
 
 
-/** Describes the current state of a Loader at a given point. */
-export type State
-  = 'Unset'
-  | 'Initializing'
-  | 'InitializedState'
-  | 'Starting'
-  | 'Running'
-  | 'Stopping'
-  | 'Finished'
-
-
-
-export function Unset
-  () : State {
-    return 'Unset'
-  }
-
-
-
-export function Initializing
-  () : State {
-    return 'Initializing'
-  }
-
-
-
-export function InitializedState
-  () : State {
-    return 'InitializedState'
-  }
-
-
-
-export function Starting
-  () : State {
-    return 'Starting'
-  }
-
-
-
-export function Running
-  () : State {
-    return 'Running'
-  }
-
-
-
-export function Stopping
-  () : State {
-    return 'Stopping'
-  }
-
-
-
-export function Finished
-  () : State {
-    return 'Finished'
-  }
-
-
-
-export function is_unset_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Unset()
-  }
-
-
-
-export function is_initializing_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Initializing()
-  }
-
-
-
-export function is_initialized_state
-  (possibleState : any) : boolean {
-    return possibleState === InitializedState()
-  }
-
-
-
-export function is_starting_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Starting()
-  }
-
-
-
-export function is_running_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Running()
-  }
-
-
-
-export function is_stopping_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Stopping()
-  }
-
-
-
-export function is_finished_state
-  ( possibleState : any ) : boolean {
-    return possibleState === Finished()
-  }
-
-
-
-export function is_state
-  ( possibleState : any ) : possibleState is State {
-    return (
-         is_initializing_state(possibleState)
-      || is_initialized_state(possibleState)
-      || is_starting_state(possibleState)
-      || is_running_state(possibleState)
-      || is_stopping_state(possibleState)
-      || is_finished_state(possibleState)
-      || is_unset_state(possibleState)
-    )
-  }
-
-
-
-
 /** Represents a snapshot of the Loader at a given point. */
 interface ModelInterface
-  { state               : State
+  { state               : State.State
   , htmlElementSelector : string
   , initializeHandler   : MessageHandler
   , initializedHandler  : MessageHandler
@@ -174,7 +49,7 @@ export type Model = RecordOf<ModelInterface>
 
 export const ModelFactory : Record.Factory<ModelInterface> =
   I.Record
-    ( { state               : 'Unset' 
+    ( { state               : State.Unset()
       , htmlElementSelector : 'selector' 
       , initializeHandler   : dummyHandler
       , initializedHandler  : dummyHandler 
@@ -189,7 +64,7 @@ export const ModelFactory : Record.Factory<ModelInterface> =
 
 
 export function Model
-  ( state                : State
+  ( state                : State.State
   , htmlElementSelector  : string
   , initializeHandler    : MessageHandler
   , initializedHandler   : MessageHandler
@@ -218,7 +93,7 @@ const dummyModel = ModelFactory()
 
 
 export function set_state_to
-  ( newState : State
+  ( newState : State.State
   , model    : Model
   ) : Model {
     return I.update(model, 'state', () => newState)
@@ -466,7 +341,7 @@ export function Failure
 
 
 export function set_model_state_or_forward_failure
-  ( newState : State
+  ( newState : State.State
   , result   : Result.Result<Failure, Model>
   ) : Result.Result<Failure, Model>  {
 
@@ -493,42 +368,42 @@ export function update_model_according_to_message
     if( is_initialize_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( Initializing()
+          ( State.Initializing()
           , model.initializeHandler(message.argv, model)
           )
       )
     } else if( is_initialized_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( InitializedState()
+          ( State.InitializedState()
           , model.initializedHandler(message.argv, model)
           )
       )
     } else if( is_start_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( Starting()
+          ( State.Starting()
           , model.startHandler(message.argv, model)
           )
       )
     } else if( is_started_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( Running()
+          ( State.Running()
           , model.startedHandler(message.argv, model)
           )
       )
     } else if( is_stop_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( Stopping()
+          ( State.Stopping()
           , model.stopHandler(message.argv, model)
           )
       )
     } else if( is_stopped_message(message) ) {
       return (
         set_model_state_or_forward_failure
-          ( Finished()
+          ( State.Finished()
           , model.stoppedHandler(message.argv, model)
           )
       )
@@ -537,4 +412,30 @@ export function update_model_according_to_message
     }
 
   }
+
+
+
+export function init_model
+  ( htmlElementSelector  : string
+  , initializeHandler    : MessageHandler
+  , initializedHandler   : MessageHandler
+  , startHandler         : MessageHandler
+  , startedHandler       : MessageHandler
+  , stopHandler          : MessageHandler
+  , stoppedHandler       : MessageHandler
+  ) : Model {
+    return (
+      Model
+        ( State.Unset()
+        , htmlElementSelector
+        , initializeHandler
+        , initializedHandler
+        , startHandler
+        , startedHandler
+        , stopHandler
+        , stoppedHandler
+        )
+    )
+  }
+
 

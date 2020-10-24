@@ -1,4 +1,4 @@
-import * as Result from "../Result.ts"
+import * as Result from "../Result"
 import * as I from "immutable"
 
 
