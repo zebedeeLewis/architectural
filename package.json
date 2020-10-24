@@ -8,7 +8,8 @@
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
     "test": "jest --coverage --no-cache --config ./config/jest.config.js --watch-all",
     "docs": "jsdoc --destination documentation --configure config/jsdoc.config.js",
-    "ts:watch" : "tsc --watch src/modules/Controller/Controller.ts src/modules/Loader/Loader.ts  src/modules/Result/Result.ts --outDir ./dist/"
+    "ts:watch" : "tsc --sourceMap --watch src/modules/Controller/Controller.ts src/modules/Loader/Loader.ts  src/modules/Result/Result.ts --outDir ./dist/",
+    "ts" : "tsc --sourceMap --watch src/modules/*.ts --outDir ./dist/"
   },
   "keywords": [
     "webpack",

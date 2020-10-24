@@ -1,7 +1,6 @@
 
-import * as Loader from "../Loader"
-import * as Result from "../../Result/Result"
 import * as State from "../State"
+import * as Message from "../Message"
 
 
 
@@ -15,9 +14,9 @@ export const STATE_FINISHED = State.Finished()
 
 
 
-export const MESSAGE_INITIALIZE = Loader.Initialize([])
-export const MESSAGE_INITIALIZED = Loader.Initialized([])
-export const MESSAGE_START = Loader.Start([])
-export const MESSAGE_STARTED = Loader.Started([])
-export const MESSAGE_STOP = Loader.Stop([])
-export const MESSAGE_STOPPED = Loader.Stopped([])
+export const MESSAGE_INITIALIZE = Message.Initialize([])
+export const MESSAGE_INITIALIZED = Message.Initialized([])
+export const MESSAGE_START = Message.Start([])
+export const MESSAGE_STARTED = Message.Started([])
+export const MESSAGE_STOP = Message.Stop([])
+export const MESSAGE_STOPPED = Message.Stopped([])

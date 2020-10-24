@@ -1,6 +1,7 @@
 
 import * as Result from "../Result"
 import * as State from "./State"
+import * as Message from "./Message"
 import * as I from "immutable"
 
 import type {  RecordOf, Record } from 'immutable'
@@ -29,7 +30,6 @@ const dummyHandler : MessageHandler =
 
 
 
-/** Represents a snapshot of the Loader at a given point. */
 interface ModelInterface
   { state               : State.State
   , htmlElementSelector : string
@@ -43,6 +43,7 @@ interface ModelInterface
 
 
 
+/** Represents a snapshot of the Loader at a given point. */
 export type Model = RecordOf<ModelInterface>
 
 
@@ -101,214 +102,6 @@ export function set_state_to
 
 
 
-/**
- * Represents a message indicating a milestone in the Loaders
- * progression.
- */
-type Message 
-  = Initialize
-  | Initialized
-  | Start
-  | Started
-  | Stop
-  | Stopped
-
-
-
-interface MessageInterface { argv : Array<any> }
-
-
-
-type Initialize = RecordOf<MessageInterface>
-
-
-
-const InitializeFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Initialize')
-
-
-
-export function Initialize
-  ( argv : Array<any>
-  ) : Message {
-    return InitializeFactory({argv})
-  }
-
-
-
-type Initialized = RecordOf<MessageInterface>
-
-
-
-const InitializedFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Initialized')
-
-
-
-export function Initialized
-  ( argv : Array<any>
-  ) : Message {
-    return InitializedFactory({argv})
-  }
-
-
-
-type Start = RecordOf<MessageInterface>
-
-
-
-const StartFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Start')
-
-
-
-export function Start
-  ( argv : Array<any>
-  ) : Message {
-    return StartFactory({argv})
-  }
-
-
-
-type Started = RecordOf<MessageInterface>
-
-
-
-const StartedFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Started')
-
-
-
-export function Started
-  ( argv : Array<any>
-  ) : Message {
-    return StartedFactory({argv})
-  }
-
-
-
-type Stop = RecordOf<MessageInterface>
-
-
-
-const StopFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Stop')
-
-
-
-
-export function Stop
-  ( argv : Array<any>
-  ) : Message {
-    return StopFactory({argv})
-  }
-
-
-
-type Stopped = RecordOf<MessageInterface>
-
-
-
-const StoppedFactory : Record.Factory<MessageInterface> =
-  I.Record({argv : []}, 'Stopped')
-
-
-
-export function Stopped
-  ( argv : Array<any>
-  ) : Message {
-    return StoppedFactory({argv})
-  }
-
-
-
-export function is_initialize_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Initialize(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_initialized_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Initialized(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_start_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Start(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_started_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Started(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_stop_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Stop(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_stopped_message
-  ( possibleMessage : any
-  ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Stopped(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_message
-  ( possibleMessage : any
-  ) : possibleMessage is Message {
-    return (
-         is_initialize_message(possibleMessage)
-      || is_initialized_message(possibleMessage)
-      || is_start_message(possibleMessage)
-      || is_started_message(possibleMessage)
-      || is_stop_message(possibleMessage)
-      || is_stopped_message(possibleMessage)
-    )
-  }
-
-
-
 interface FailureInterface
   { error  : any
   , model  : Model
@@ -361,46 +154,46 @@ export function set_model_state_or_forward_failure
 
 
 export function update_model_according_to_message
-  ( message : Message
+  ( message : Message.Message
   , model   : Model
   ) : Result.Result<Failure, Model> {
 
-    if( is_initialize_message(message) ) {
+    if( Message.is_initialize(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.Initializing()
           , model.initializeHandler(message.argv, model)
           )
       )
-    } else if( is_initialized_message(message) ) {
+    } else if( Message.is_initialized(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.InitializedState()
           , model.initializedHandler(message.argv, model)
           )
       )
-    } else if( is_start_message(message) ) {
+    } else if( Message.is_start(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.Starting()
           , model.startHandler(message.argv, model)
           )
       )
-    } else if( is_started_message(message) ) {
+    } else if( Message.is_started(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.Running()
           , model.startedHandler(message.argv, model)
           )
       )
-    } else if( is_stop_message(message) ) {
+    } else if( Message.is_stop(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.Stopping()
           , model.stopHandler(message.argv, model)
           )
       )
-    } else if( is_stopped_message(message) ) {
+    } else if( Message.is_stopped(message) ) {
       return (
         set_model_state_or_forward_failure
           ( State.Finished()
