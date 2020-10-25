@@ -25,7 +25,7 @@ const dummyHandler : MessageHandler =
   ( argv
   , model
   ) => (
-    Result.Ok(model)
+    Result.Ok({ value : model})
   )
 
 
@@ -119,10 +119,14 @@ export function set_model_state_or_forward_failure
   ) : Result.Result<Failure, Model>  {
 
     if( Result.is_ok(result) ) {
-      return Result.Ok(
-        set_state_to
-          ( newState
-          , Result.get_ok_value(result)
+      return (
+        Result.Ok
+          ( { value :
+                set_state_to
+                  ( newState
+                  , Result.get_ok_value(result)
+                  )
+            }
           )
       )
     } else {

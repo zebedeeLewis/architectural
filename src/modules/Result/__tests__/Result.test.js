@@ -4,7 +4,7 @@ import * as I from "immutable"
 
 
 function make_test_value__ok(value) {
-  return Result.Ok(value)
+  return Result.Ok({value})
 }
 
 
@@ -53,7 +53,7 @@ describe
         , () => {
             function do_test(value) {
               const expectedValue = make_test_value__ok(value)
-              const actualValue = Result.Ok(value)
+              const actualValue = Result.Ok({value})
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())

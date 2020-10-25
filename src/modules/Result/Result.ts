@@ -35,7 +35,7 @@ export type Err<E> = RecordOf< ErrInterface<E> >
 
 
 
-export type ErrFactory<E> =
+type ErrFactory<E> =
   ( date : Partial< ErrInterface<E> > ) => Err<E>
 
 
@@ -75,16 +75,13 @@ export type Ok<T> = RecordOf< OkInterface<T> >
 
 
 
-export const OkFactory : Record.Factory< OkInterface<any> > =
+type OkFactory<T> =
+  ( date : Partial< OkInterface<T> > ) => Ok<T>
+
+
+
+export const Ok : OkFactory<any> =
   I.Record({value : 'initial'}, 'Ok')
-
-
-
-export function Ok<T>
-  ( value : T
-  ) : Ok<T> {
-    return OkFactory({value})
-  }
 
 
 
@@ -92,7 +89,9 @@ export function Ok<T>
 export function is_ok<E, T>
   ( result : Result<E, T>
   ) : result is Ok<T> {
-    return (result as Ok<T>).equals(Ok(result.get('value', undefined)))
+    const _result = result as Ok<T>
+
+    return _result.equals(Ok(_result.toObject()))
   }
 
 
