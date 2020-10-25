@@ -13,10 +13,11 @@ export const STATE_STOPPING = State.Stopping()
 export const STATE_FINISHED = State.Finished()
 
 
+const argv = []
 
-export const MESSAGE_INITIALIZE = Message.Initialize([])
-export const MESSAGE_INITIALIZED = Message.Initialized([])
-export const MESSAGE_START = Message.Start([])
-export const MESSAGE_STARTED = Message.Started([])
-export const MESSAGE_STOP = Message.Stop([])
-export const MESSAGE_STOPPED = Message.Stopped([])
+export const MESSAGE_INITIALIZE = Message.Initialize({argv})
+export const MESSAGE_INITIALIZED = Message.Initialized({argv})
+export const MESSAGE_START = Message.Start({argv})
+export const MESSAGE_STARTED = Message.Started({argv})
+export const MESSAGE_STOP = Message.Stop({argv})
+export const MESSAGE_STOPPED = Message.Stopped({argv})

@@ -52,7 +52,7 @@ export type Model = RecordOf<ModelInterface>
 
 
 
-export type ModelFactory =
+type ModelFactory =
   ( data : ModelInterface ) => Model
 
 
@@ -87,8 +87,8 @@ export function set_state_to
 
 
 interface FailureInterface
-  { error?  : any
-  , model?  : Model
+  { error  : any
+  , model  : Model
   }
 
 
@@ -99,7 +99,7 @@ type Failure = RecordOf<FailureInterface>
 
 
 export type FailureFactory =
-  ( data : FailureInterface ) => Failure
+  ( data : Partial<FailureInterface> ) => Failure
 
 
 

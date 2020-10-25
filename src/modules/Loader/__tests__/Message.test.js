@@ -260,12 +260,12 @@ describe
 
 
 describe
-  ( 'is'
+  ( 'is_message'
   , () => {
       it( 'Produces true if the given value is a valid Message'
         , () => {
             function do_test(possibleMessage) {
-              const actualValue = Message.is(possibleMessage)
+              const actualValue = Message.is_message(possibleMessage)
 
               expect(actualValue).toBe(true)
             }
@@ -282,7 +282,7 @@ describe
       it( 'Produces false if the given value is not a valid Message'
         , () => {
             function do_test(possibleMessage) {
-              const actualValue = Message.is(possibleMessage)
+              const actualValue = Message.is_message(possibleMessage)
 
               expect(actualValue).toBe(false)
             }

@@ -24,20 +24,17 @@ interface MessageInterface { argv : Array<any> }
 
 
 
+type MessageFactory<M> =
+  ( data : Partial<MessageInterface> ) => M
+
+
+
 type Initialize = RecordOf<MessageInterface>
 
 
 
-const InitializeFactory : Record.Factory<MessageInterface> =
+export const Initialize : MessageFactory<Initialize> =
   I.Record({argv : []}, 'Initialize')
-
-
-
-export function Initialize
-  ( argv : Array<any>
-  ) : Message {
-    return InitializeFactory({argv})
-  }
 
 
 
@@ -45,16 +42,8 @@ type Initialized = RecordOf<MessageInterface>
 
 
 
-const InitializedFactory : Record.Factory<MessageInterface> =
+export const Initialized : MessageFactory<Initialized> =
   I.Record({argv : []}, 'Initialized')
-
-
-
-export function Initialized
-  ( argv : Array<any>
-  ) : Message {
-    return InitializedFactory({argv})
-  }
 
 
 
@@ -62,16 +51,8 @@ type Start = RecordOf<MessageInterface>
 
 
 
-const StartFactory : Record.Factory<MessageInterface> =
+export const Start : MessageFactory<Start> =
   I.Record({argv : []}, 'Start')
-
-
-
-export function Start
-  ( argv : Array<any>
-  ) : Message {
-    return StartFactory({argv})
-  }
 
 
 
@@ -79,16 +60,8 @@ type Started = RecordOf<MessageInterface>
 
 
 
-const StartedFactory : Record.Factory<MessageInterface> =
+export const Started : MessageFactory<Started> =
   I.Record({argv : []}, 'Started')
-
-
-
-export function Started
-  ( argv : Array<any>
-  ) : Message {
-    return StartedFactory({argv})
-  }
 
 
 
@@ -96,17 +69,8 @@ type Stop = RecordOf<MessageInterface>
 
 
 
-const StopFactory : Record.Factory<MessageInterface> =
+export const Stop : MessageFactory<Stop> =
   I.Record({argv : []}, 'Stop')
-
-
-
-
-export function Stop
-  ( argv : Array<any>
-  ) : Message {
-    return StopFactory({argv})
-  }
 
 
 
@@ -114,15 +78,21 @@ type Stopped = RecordOf<MessageInterface>
 
 
 
-const StoppedFactory : Record.Factory<MessageInterface> =
+export const Stopped : MessageFactory<Stopped> =
   I.Record({argv : []}, 'Stopped')
 
 
 
-export function Stopped
-  ( argv : Array<any>
-  ) : Message {
-    return StoppedFactory({argv})
+function is_message_of_type<M extends Message>
+  ( constructor     : MessageFactory<M>
+  , possibleMessage : any
+  ) : boolean {
+    const _possibleMessage = possibleMessage as M
+
+    return (
+         I.Record.isRecord(_possibleMessage)
+      && constructor(_possibleMessage.toObject()).equals(possibleMessage)
+    )
   }
 
 
@@ -130,11 +100,7 @@ export function Stopped
 export function is_initialize
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Initialize(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Initialize, possibleMessage)
   }
 
 
@@ -142,11 +108,7 @@ export function is_initialize
 export function is_initialized
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Initialized(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Initialized, possibleMessage)
   }
 
 
@@ -154,11 +116,7 @@ export function is_initialized
 export function is_start
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Start(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Start, possibleMessage)
   }
 
 
@@ -166,11 +124,7 @@ export function is_start
 export function is_started
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Started(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Started, possibleMessage)
   }
 
 
@@ -178,11 +132,7 @@ export function is_started
 export function is_stop
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Stop(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Stop, possibleMessage)
   }
 
 
@@ -190,16 +140,12 @@ export function is_stop
 export function is_stopped
   ( possibleMessage : any
   ) : boolean {
-    return (
-         I.Record.isRecord(possibleMessage)
-      && Stopped(possibleMessage.get('argv', undefined))
-           .equals(possibleMessage)
-    )
+    return is_message_of_type(Stopped, possibleMessage)
   }
 
 
 
-export function is
+export function is_message
   ( possibleMessage : any
   ) : possibleMessage is Message {
     return (
