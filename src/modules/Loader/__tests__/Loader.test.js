@@ -31,16 +31,18 @@ function dummyHandler
 
 function make_test_value__model
   () {
-    return Loader.ModelFactory(
-      { state                : TestHelper.STATE_UNSET
-      , htmlElementSelector  : 'testHtmlSelector'
-      , initializeHandler    : dummyHandler
-      , initializedHandler   : dummyHandler
-      , startHandler         : dummyHandler
-      , startedHandler       : dummyHandler
-      , stopHandler          : dummyHandler
-      , stoppedHandler       : dummyHandler
-      }
+    return (
+      Loader.Model
+        ( { state                : TestHelper.STATE_UNSET
+          , htmlElementSelector  : 'testHtmlSelector'
+          , initializeHandler    : dummyHandler
+          , initializedHandler   : dummyHandler
+          , startHandler         : dummyHandler
+          , startedHandler       : dummyHandler
+          , stopHandler          : dummyHandler
+          , stoppedHandler       : dummyHandler
+          }
+        )
     )
   }
 
@@ -71,18 +73,20 @@ describe
 
               const actualValue = 
                 Loader.Model
-                  ( state
-                  , selector
-                  , dummyHandler
-                  , dummyHandler
-                  , dummyHandler
-                  , dummyHandler
-                  , dummyHandler
-                  , dummyHandler
+                  ( { state               : state
+                    , htmlElementSelector : selector
+                    , initializeHandler   : dummyHandler
+                    , initializedHandler  : dummyHandler 
+                    , startHandler        : dummyHandler
+                    , startedHandler      : dummyHandler 
+                    , stopHandler         : dummyHandler 
+                    , stoppedHandler      : dummyHandler 
+                    }
                   )
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+
+              console.log('Expected: ', expectedValue.toString())
+              console.log('Actual: ', actualValue.toString())
 
               expect(expectedValue.equals(actualValue)).toBe(true)
             }

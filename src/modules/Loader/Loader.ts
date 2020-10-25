@@ -31,24 +31,33 @@ const dummyHandler : MessageHandler =
 
 
 interface ModelInterface
-  { state               : State.State
-  , htmlElementSelector : string
-  , initializeHandler   : MessageHandler
-  , initializedHandler  : MessageHandler
-  , startHandler        : MessageHandler
-  , startedHandler      : MessageHandler
-  , stopHandler         : MessageHandler
-  , stoppedHandler      : MessageHandler
+  { state?               : State.State
+  , htmlElementSelector? : string
+  , initializeHandler?   : MessageHandler
+  , initializedHandler?  : MessageHandler
+  , startHandler?        : MessageHandler
+  , startedHandler?      : MessageHandler
+  , stopHandler?         : MessageHandler
+  , stoppedHandler?      : MessageHandler
   }
 
 
 
-/** Represents a snapshot of the Loader at a given point. */
+/**
+ * Represents a snapshot of the Loader at a given point. The Loader
+ * Model provides a context for the interpretation of the messages
+ * in the Message module and the states in the State module.
+ */
 export type Model = RecordOf<ModelInterface>
 
 
 
-export const ModelFactory : Record.Factory<ModelInterface> =
+export type ModelFactory =
+  ( data : ModelInterface ) => Model
+
+
+
+export const Model : ModelFactory =
   I.Record
     ( { state               : State.Unset()
       , htmlElementSelector : 'selector' 
@@ -64,32 +73,7 @@ export const ModelFactory : Record.Factory<ModelInterface> =
 
 
 
-export function Model
-  ( state                : State.State
-  , htmlElementSelector  : string
-  , initializeHandler    : MessageHandler
-  , initializedHandler   : MessageHandler
-  , startHandler         : MessageHandler
-  , startedHandler       : MessageHandler
-  , stopHandler          : MessageHandler
-  , stoppedHandler       : MessageHandler
-  ) : Model {
-    return ModelFactory(
-      { state
-      , htmlElementSelector
-      , initializeHandler
-      , initializedHandler
-      , startHandler
-      , startedHandler
-      , stopHandler
-      , stoppedHandler
-      }
-    )
-  }
-
-
-
-const dummyModel = ModelFactory()
+const dummyModel = Model({})
 
 
 
@@ -219,14 +203,15 @@ export function init_model
   ) : Model {
     return (
       Model
-        ( State.Unset()
-        , htmlElementSelector
-        , initializeHandler
-        , initializedHandler
-        , startHandler
-        , startedHandler
-        , stopHandler
-        , stoppedHandler
+        ( { state : State.Unset()
+          , htmlElementSelector
+          , initializeHandler
+          , initializedHandler
+          , startHandler
+          , startedHandler
+          , stopHandler
+          , stoppedHandler
+          }
         )
     )
   }
