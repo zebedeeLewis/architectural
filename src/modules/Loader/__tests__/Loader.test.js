@@ -52,7 +52,7 @@ function make_test_value__failure
   ( error
   , model
   ) {
-    return Loader.FailureFactory({error, model})
+    return Loader.Failure({error, model})
   }
 
 

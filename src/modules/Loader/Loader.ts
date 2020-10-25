@@ -87,8 +87,8 @@ export function set_state_to
 
 
 interface FailureInterface
-  { error  : any
-  , model  : Model
+  { error?  : any
+  , model?  : Model
   }
 
 
@@ -98,7 +98,12 @@ type Failure = RecordOf<FailureInterface>
 
 
 
-export const FailureFactory : Record.Factory<FailureInterface> =
+export type FailureFactory =
+  ( data : FailureInterface ) => Failure
+
+
+
+export const Failure : FailureFactory =
   I.Record
     ( { error : 'initial'
       , model : dummyModel
@@ -106,14 +111,24 @@ export const FailureFactory : Record.Factory<FailureInterface> =
     , 'Failure'
     )
 
+/*
+export const FailureFactory : Record.Factory<FailureInterface> =
+  I.Record
+    ( { error : 'initial'
+      , model : dummyModel
+      }
+    , 'Failure'
+    )
+*/
 
-
+/*
 export function Failure
   ( error : any
   , model : Model
   ) : Failure {
     return FailureFactory( {error, model} )
   }
+  */
 
 
 
@@ -185,7 +200,15 @@ export function update_model_according_to_message
           )
       )
     } else {
-      return Result.Err( Failure(UPDATE_ERROR, model) )
+      return (
+        Result.Err
+          ( Failure
+              ( { error :UPDATE_ERROR
+                , model
+                }
+              )
+          )
+      )
     }
 
   }
