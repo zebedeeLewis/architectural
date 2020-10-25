@@ -23,7 +23,7 @@ export function is_result<E, T>
 
 
 
-interface ErrInterface<E> { error : E }
+interface ErrInterface<E> { error? : E }
 
 
 
@@ -35,16 +35,13 @@ export type Err<E> = RecordOf< ErrInterface<E> >
 
 
 
-export const ErrFactory : Record.Factory< ErrInterface<any> > =
+export type ErrFactory<E> =
+  ( date : Partial< ErrInterface<E> > ) => Err<E>
+
+
+
+export const Err : ErrFactory<any> =
   I.Record({error : 'initial'}, 'Err')
-
-
-
-export function Err<E>
-  ( error : E
-  ) : Err<E> {
-    return ErrFactory({error})
-  }
 
 
 
@@ -52,8 +49,10 @@ export function Err<E>
 export function is_err<E, T>
   ( result : Result<E, T>
   ) : result is Err<E> {
+    const _result = result as Err<E>
+
     return (
-      (result as Err<E>).equals(Err(result.get('error', undefined)))
+      _result.equals(Err(_result.toObject()))
     )
   }
 
@@ -61,7 +60,7 @@ export function is_err<E, T>
 
 export function get_err_value<E>
   ( result : Err<E>
-  ) {
+  ) : E {
     return result.get('error', undefined)
   }
 
@@ -100,7 +99,7 @@ export function is_ok<E, T>
 
 export function get_ok_value<T>
   ( result : Ok<T>
-  ) {
+  ) : T {
     return result.get('value', undefined)
   }
 

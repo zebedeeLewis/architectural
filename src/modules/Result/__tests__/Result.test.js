@@ -3,20 +3,27 @@ import * as I from "immutable"
 
 
 
+function make_test_value__ok(value) {
+  return Result.Ok(value)
+}
+
+
+
+function make_test_value__err(error) {
+  return Result.Err({error})
+}
+
+
+
 describe
   ( 'Err'
   , () => {
-      function make_test_value__err(error) {
-        return I.Record({error}, 'Err')()
-      }
-
-
       it( 'Produces an Err<E> Result when given a first argument. '
         + 'of type "E", where "E" can be any type.'
         , () => {
             function do_test(error) {
               const expectedValue = make_test_value__err(error)
-              const actualValue = Result.Err(error)
+              const actualValue = Result.Err({error})
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -41,11 +48,6 @@ describe
 describe
   ( 'Ok'
   , () => {
-      function make_test_value__ok(value) {
-        return I.Record({value}, 'Ok')()
-      }
-
-
       it( 'Produces an Ok<T> Result when given a first argument. '
         + 'of type "T", where "T" can be any type.'
         , () => {
@@ -76,16 +78,6 @@ describe
 describe
   ( 'is_ok'
   , () => {
-      function make_test_value__ok(value) {
-        return Result.OkFactory({value})
-      }
-
-
-      function make_test_value__err(error) {
-        return Result.ErrFactory({error})
-      }
-
-
       it( 'Produces true if the given Result is an OK<T>, where '
         + '"T" can be any type.'
         , () => {
@@ -133,16 +125,6 @@ describe
 describe
   ( 'is_err'
   , () => {
-      function make_test_value__ok(value) {
-        return Result.OkFactory({value})
-      }
-
-
-      function make_test_value__err(error) {
-        return Result.ErrFactory({error})
-      }
-
-
       it( 'Produces true if the given Result is an Err<E>, where '
         + '"E" can be any type.'
         , () => {
