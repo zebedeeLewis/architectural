@@ -59,6 +59,14 @@ export function is_err<E, T>
 
 
 
+export function get_err_value<E>
+  ( result : Err<E>
+  ) {
+    return result.get('error', undefined)
+  }
+
+
+
 interface OkInterface<T> { value : T }
 
 
@@ -88,5 +96,12 @@ export function is_ok<E, T>
     return (result as Ok<T>).equals(Ok(result.get('value', undefined)))
   }
 
+
+
+export function get_ok_value<T>
+  ( result : Ok<T>
+  ) {
+    return result.get('value', undefined)
+  }
 
 

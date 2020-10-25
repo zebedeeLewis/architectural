@@ -4,7 +4,7 @@ import * as State from "./State"
 import * as Message from "./Message"
 import * as I from "immutable"
 
-import type {  RecordOf, Record } from 'immutable'
+import type {  RecordOf } from 'immutable'
 
 
 
@@ -111,25 +111,6 @@ export const Failure : FailureFactory =
     , 'Failure'
     )
 
-/*
-export const FailureFactory : Record.Factory<FailureInterface> =
-  I.Record
-    ( { error : 'initial'
-      , model : dummyModel
-      }
-    , 'Failure'
-    )
-*/
-
-/*
-export function Failure
-  ( error : any
-  , model : Model
-  ) : Failure {
-    return FailureFactory( {error, model} )
-  }
-  */
-
 
 
 export function set_model_state_or_forward_failure
@@ -141,7 +122,7 @@ export function set_model_state_or_forward_failure
       return Result.Ok(
         set_state_to
           ( newState
-          , result.get('value', undefined)
+          , Result.get_ok_value(result)
           )
       )
     } else {
