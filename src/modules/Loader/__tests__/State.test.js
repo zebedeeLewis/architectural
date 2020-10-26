@@ -4,13 +4,13 @@ import * as TestHelper from "./TestHelper"
 
 
 describe
-  ( 'is_unset_state'
+  ( 'is_unset'
   , () => {
       it( 'Produces true if the given value is a Unset State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_unset_state(state)
+                State.is_unset(state)
 
               expect(actualValue).toBe(true)
             }
@@ -23,7 +23,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_unset_state(state)
+                State.is_unset(state)
 
               expect(actualValue).toBe(false)
             }
@@ -47,13 +47,13 @@ describe
 
 
 describe
-  ( 'is_initializing_state'
+  ( 'is_initializing'
   , () => {
       it( 'Produces true if the given value is a Initializing State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_initializing_state(state)
+                State.is_initializing(state)
 
               expect(actualValue).toBe(true)
             }
@@ -66,7 +66,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_initializing_state(state)
+                State.is_initializing(state)
 
               expect(actualValue).toBe(false)
             }
@@ -90,13 +90,13 @@ describe
 
 
 describe
-  ( 'is_initialized_state'
+  ( 'is_initialized'
   , () => {
       it( 'Produces true if the given value is a Initialized State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_initialized_state(state)
+                State.is_initialized(state)
 
               expect(actualValue).toBe(true)
             }
@@ -109,7 +109,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_initialized_state(state)
+                State.is_initialized(state)
 
               expect(actualValue).toBe(false)
             }
@@ -133,13 +133,13 @@ describe
 
 
 describe
-  ( 'is_starting_state'
+  ( 'is_starting'
   , () => {
       it( 'Produces true if the given value is a Starting State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_starting_state(state)
+                State.is_starting(state)
 
               expect(actualValue).toBe(true)
             }
@@ -152,7 +152,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_starting_state(state)
+                State.is_starting(state)
 
               expect(actualValue).toBe(false)
             }
@@ -176,13 +176,13 @@ describe
 
 
 describe
-  ( 'is_running_state'
+  ( 'is_running'
   , () => {
       it( 'Produces true if the given value is a Running State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_running_state(state)
+                State.is_running(state)
 
               expect(actualValue).toBe(true)
             }
@@ -195,7 +195,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_running_state(state)
+                State.is_running(state)
 
               expect(actualValue).toBe(false)
             }
@@ -219,13 +219,13 @@ describe
 
 
 describe
-  ( 'is_stopping_state'
+  ( 'is_stopping'
   , () => {
       it( 'Produces true if the given value is a Stopping State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_stopping_state(state)
+                State.is_stopping(state)
 
               expect(actualValue).toBe(true)
             }
@@ -238,7 +238,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_stopping_state(state)
+                State.is_stopping(state)
 
               expect(actualValue).toBe(false)
             }
@@ -262,13 +262,13 @@ describe
 
 
 describe
-  ( 'is_finished_state'
+  ( 'is_finished'
   , () => {
       it( 'Produces true if the given value is a Finished State'
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_finished_state(state)
+                State.is_finished(state)
 
               expect(actualValue).toBe(true)
             }
@@ -281,7 +281,7 @@ describe
         , () => {
             function do_test(state) {
               const actualValue =
-                State.is_finished_state(state)
+                State.is_finished(state)
 
               expect(actualValue).toBe(false)
             }

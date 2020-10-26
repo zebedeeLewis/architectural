@@ -17,7 +17,7 @@ export const UPDATE_ERROR = 'Unable to update Model'
  * update_model function in response a Message.
  */
 export type MessageHandler =
-  (argv   : Array<any>
+  ( argv  : Array<any>
   , model : Model
   ) => Result.Result<Controller.Failure<Model, string>, Model>
 
@@ -33,14 +33,14 @@ const dummyHandler : MessageHandler =
 
 
 interface ModelInterface
-  { state?               : State.State
-  , htmlElementSelector? : string
-  , initializeHandler?   : MessageHandler
-  , initializedHandler?  : MessageHandler
-  , startHandler?        : MessageHandler
-  , startedHandler?      : MessageHandler
-  , stopHandler?         : MessageHandler
-  , stoppedHandler?      : MessageHandler
+  { state               : State.State
+  , htmlElementSelector : string
+  , initializeHandler   : MessageHandler
+  , initializedHandler  : MessageHandler
+  , startHandler        : MessageHandler
+  , startedHandler      : MessageHandler
+  , stopHandler         : MessageHandler
+  , stoppedHandler      : MessageHandler
   }
 
 
@@ -55,7 +55,7 @@ export type Model = RecordOf<ModelInterface>
 
 
 type ModelFactory =
-  ( data : ModelInterface ) => Model
+  ( data : Partial<ModelInterface> ) => Model
 
 
 
@@ -84,6 +84,14 @@ export function set_state_to
   , model    : Model
   ) : Model {
     return I.update(model, 'state', () => newState)
+  }
+
+
+
+export function get_state_from
+  ( model    : Model
+  ) : State.State {
+    return model.get('state', undefined)
   }
 
 

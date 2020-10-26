@@ -1,6 +1,7 @@
 import * as Loader from "../Loader"
 import * as Result from "../../Result/Result"
 import * as TestHelper from "./TestHelper"
+import diff from  "jest-diff"
 
 
 
@@ -84,9 +85,12 @@ describe
                     }
                   )
 
-
-              console.log('Expected: ', expectedValue.toString())
-              console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue.equals(actualValue)).toBe(true)
             }
@@ -120,8 +124,12 @@ describe
                   , initialModel
                   )
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue.equals(actualValue)).toBe(true)
             }
@@ -157,8 +165,12 @@ describe
                   , initialModel
                   )
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(handlerStub).toHaveBeenCalledTimes(1)
               expect(expectedValue.equals(actualValue)).toBe(true)
@@ -222,8 +234,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }
@@ -252,8 +268,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }
@@ -282,8 +302,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }
@@ -312,8 +336,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }
@@ -342,8 +370,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }
@@ -372,8 +404,12 @@ describe
                   , initialModel
                   ).get('state')
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(expectedValue).toEqual(actualValue)
             }

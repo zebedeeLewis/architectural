@@ -1,5 +1,6 @@
 import * as Result from "../Result"
 import * as I from "immutable"
+import diff from  "jest-diff"
 
 
 
@@ -25,8 +26,12 @@ describe
               const expectedValue = make_test_value__err(error)
               const actualValue = Result.Err({error})
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(actualValue.hashCode())
                 .toBe(expectedValue.hashCode())
@@ -55,8 +60,12 @@ describe
               const expectedValue = make_test_value__ok(value)
               const actualValue = Result.Ok({value})
 
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
               expect(actualValue.hashCode())
                 .toBe(expectedValue.hashCode())
@@ -83,12 +92,17 @@ describe
         , () => {
             function do_test(value) {
               const testValue = make_test_value__ok(value)
+              const expectedValue = true
               const actualValue = Result.is_ok(testValue)
 
-              // console.log('Expected: ', testValue.equals(testValue))
-              // console.log('Actual: ', actualValue)
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
-              expect(actualValue).toBe(true)
+              expect(actualValue).toBe(expectedValue)
             }
 
             do_test('test error')
@@ -104,12 +118,17 @@ describe
         , () => {
             function do_test(value) {
               const testValue = make_test_value__err(value)
+              const expectedValue = false
               const actualValue = Result.is_ok(testValue)
 
-              // console.log('Expected: ', testValue.equals(testValue))
-              // console.log('Actual: ', actualValue)
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
-              expect(actualValue).toBe(false)
+              expect(actualValue).toBe(expectedValue)
             }
 
             do_test('test error')
@@ -130,12 +149,18 @@ describe
         , () => {
             function do_test(value) {
               const testValue = make_test_value__err(value)
+              const expectedValue = true
               const actualValue = Result.is_err(testValue)
 
-              // console.log('Expected: ', testValue.equals(testValue))
-              // console.log('Actual: ', actualValue)
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
-              expect(actualValue).toBe(true)
+
+              expect(actualValue).toBe(expectedValue)
             }
 
             do_test('test error')
@@ -151,12 +176,17 @@ describe
         , () => {
             function do_test(value) {
               const testValue = make_test_value__ok(value)
+              const expectedValue = false
               const actualValue = Result.is_err(testValue)
 
-              // console.log('Expected: ', testValue.equals(testValue))
-              // console.log('Actual: ', actualValue)
+              console.log
+                ( diff
+                    ( expectedValue
+                    , actualValue
+                    )
+                )
 
-              expect(actualValue).toBe(false)
+              expect(actualValue).toBe(expectedValue)
             }
 
             do_test('test error')

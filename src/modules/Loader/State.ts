@@ -64,49 +64,49 @@ export function Finished
 
 
 
-export function is_unset_state
+export function is_unset
   ( possibleState : any ) : boolean {
     return possibleState === Unset()
   }
 
 
 
-export function is_initializing_state
+export function is_initializing
   ( possibleState : any ) : boolean {
     return possibleState === Initializing()
   }
 
 
 
-export function is_initialized_state
+export function is_initialized
   (possibleState : any) : boolean {
     return possibleState === InitializedState()
   }
 
 
 
-export function is_starting_state
+export function is_starting
   ( possibleState : any ) : boolean {
     return possibleState === Starting()
   }
 
 
 
-export function is_running_state
+export function is_running
   ( possibleState : any ) : boolean {
     return possibleState === Running()
   }
 
 
 
-export function is_stopping_state
+export function is_stopping
   ( possibleState : any ) : boolean {
     return possibleState === Stopping()
   }
 
 
 
-export function is_finished_state
+export function is_finished
   ( possibleState : any ) : boolean {
     return possibleState === Finished()
   }
@@ -116,13 +116,13 @@ export function is_finished_state
 export function is_state
   ( possibleState : any ) : possibleState is State {
     return (
-         is_initializing_state(possibleState)
-      || is_initialized_state(possibleState)
-      || is_starting_state(possibleState)
-      || is_running_state(possibleState)
-      || is_stopping_state(possibleState)
-      || is_finished_state(possibleState)
-      || is_unset_state(possibleState)
+         is_initializing(possibleState)
+      || is_initialized(possibleState)
+      || is_starting(possibleState)
+      || is_running(possibleState)
+      || is_stopping(possibleState)
+      || is_finished(possibleState)
+      || is_unset(possibleState)
     )
   }
 

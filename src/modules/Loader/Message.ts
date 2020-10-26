@@ -2,6 +2,7 @@
 import * as State from "./State"
 import * as Controller from "../Controller"
 import * as I from "immutable"
+import diff from  "jest-diff"
 
 import type {  RecordOf, Record } from 'immutable'
 
