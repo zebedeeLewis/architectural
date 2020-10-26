@@ -12,7 +12,8 @@ interface FailureInterface<Model, Error>
 
 
 /** Provides information about a failed model update operation. */
-type Failure<Model, Error> = RecordOf< FailureInterface<Model, Error> >
+export type Failure<Model, Error> =
+  RecordOf< FailureInterface<Model, Error> >
 
 
 

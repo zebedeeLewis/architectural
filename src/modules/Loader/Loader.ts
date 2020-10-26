@@ -8,7 +8,6 @@ import * as I from "immutable"
 import type {  RecordOf } from 'immutable'
 
 
-
 export const UPDATE_ERROR = 'Unable to update Model'
 
 
@@ -18,7 +17,9 @@ export const UPDATE_ERROR = 'Unable to update Model'
  * update_model function in response a Message.
  */
 export type MessageHandler =
-  (argv : Array<any>, model : Model) => Result.Result<Failure, Model>
+  (argv   : Array<any>
+  , model : Model
+  ) => Result.Result<Controller.Failure<Model, string>, Model>
 
 
 
@@ -84,33 +85,6 @@ export function set_state_to
   ) : Model {
     return I.update(model, 'state', () => newState)
   }
-
-
-
-interface FailureInterface
-  { error  : any
-  , model  : Model
-  }
-
-
-
-/** Provides information about a failed loader operation. */
-type Failure = RecordOf<FailureInterface>
-
-
-
-export type FailureFactory =
-  ( data : Partial<FailureInterface> ) => Failure
-
-
-
-export const Failure : FailureFactory =
-  I.Record
-    ( { error : 'initial'
-      , model : dummyModel
-      }
-    , 'Failure'
-    )
 
 
 
