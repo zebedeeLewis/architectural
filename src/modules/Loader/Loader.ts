@@ -2,6 +2,7 @@
 import * as Result from "../Result"
 import * as State from "./State"
 import * as Message from "./Message"
+import * as Controller from "../Controller"
 import * as I from "immutable"
 
 import type {  RecordOf } from 'immutable'
@@ -14,7 +15,7 @@ export const UPDATE_ERROR = 'Unable to update Model'
 
 /**
  * Represents a function to be called by the
- * update_model_according_to_message function in response a Message.
+ * update_model function in response a Message.
  */
 export type MessageHandler =
   (argv : Array<any>, model : Model) => Result.Result<Failure, Model>
@@ -113,87 +114,103 @@ export const Failure : FailureFactory =
 
 
 
-export function set_model_state_or_forward_failure
-  ( newState : State.State
-  , result   : Result.Result<Failure, Model>
-  ) : Result.Result<Failure, Model>  {
-
-    if( Result.is_ok(result) ) {
-      return (
-        Result.Ok
-          ( { value :
-                set_state_to
-                  ( newState
-                  , Result.get_ok_value(result)
-                  )
-            }
-          )
-      )
-    } else {
-      return result
-    }
-
-  }
-
-
-
-export function update_model_according_to_message
-  ( message : Message.Message
-  , model   : Model
-  ) : Result.Result<Failure, Model> {
+export const update_model : Controller.Updater<Model, Message.Message> =
+  ( message
+  , model
+  ) => {
 
     if( Message.is_initialize(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.Initializing()
-          , model.initializeHandler(message.argv, model)
-          )
-      )
+      const result = model.initializeHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.Initializing()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else if( Message.is_initialized(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.InitializedState()
-          , model.initializedHandler(message.argv, model)
-          )
-      )
+      const result = model.initializedHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.InitializedState()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else if( Message.is_start(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.Starting()
-          , model.startHandler(message.argv, model)
-          )
-      )
+      const result = model.startHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.Starting()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else if( Message.is_started(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.Running()
-          , model.startedHandler(message.argv, model)
-          )
-      )
+      const result = model.startedHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.Running()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else if( Message.is_stop(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.Stopping()
-          , model.stopHandler(message.argv, model)
-          )
-      )
+      const result = model.stopHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.Stopping()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else if( Message.is_stopped(message) ) {
-      return (
-        set_model_state_or_forward_failure
-          ( State.Finished()
-          , model.stoppedHandler(message.argv, model)
-          )
-      )
+      const result = model.stoppedHandler(message.argv, model)
+
+      if( Result.is_ok(result) ) {
+        return (
+          set_state_to
+            ( State.Finished()
+            , Result.get_ok_value(result)
+            )
+        )
+      }
+
+      return model
+
+
     } else {
-      return (
-        Result.Err
-          ( Failure
-              ( { error :UPDATE_ERROR
-                , model
-                }
-              )
-          )
-      )
+      return model
     }
 
   }

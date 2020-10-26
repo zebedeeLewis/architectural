@@ -15,7 +15,7 @@ function make_test_value__result_err
 function make_test_value__result_ok
   ( value
   ) {
-    return Result.OkFactory({value})
+    return Result.Ok({value})
   }
 
 
@@ -100,84 +100,10 @@ describe
 
 
 describe
-  ( 'set_model_state_or_forward_failure'
+  ( 'update_model'
   , () => {
 
-      it( 'Sets the state of the Model wrapped in the given Result to '
-        + 'the given state if Result is an Ok<T>.'
-        , () => {
-            function do_test(initialState, newState) {
-              const initialModel = make_test_value__model()
-
-              const initialResult = 
-                make_test_value__result_ok(initialModel)
-                  .set('state', initialState)
-
-              const expectedValue = newState
-
-              const actualValue =
-                Loader.set_model_state_or_forward_failure
-                  ( newState
-                  , initialResult
-                  ).get('value', undefined)
-                   .get('state', undefined)
-
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
-
-              expect(actualValue).toEqual(expectedValue)
-            }
-
-            do_test(TestHelper.STATE_UNSET, TestHelper.STATE_INITIALIZING)
-            do_test(TestHelper.STATE_STARTING, TestHelper.STATE_RUNNING)
-            do_test(TestHelper.STATE_STARTING, TestHelper.STATE_FINISHED)
-          }
-        )
-
-      it( 'Returns the given result unchanged if it is not a Ok<Model> '
-        + '(.i.e. if it is an Err<Failure>.'
-        , () => {
-            function do_test() {
-              const initialModel = make_test_value__model()
-
-              const initialResult = 
-                make_test_value__result_err
-                  ( make_test_value__failure
-                      ( 'this is a test error'
-                      , initialModel
-                      )
-                  )
-
-              const newState = TestHelper.STATE_INITIALIZING
-
-              const expectedValue = initialResult
-
-              const actualValue =
-                Loader.set_model_state_or_forward_failure
-                  ( newState
-                  , initialResult
-                  )
-
-              // console.log('Expected: ', expectedValue.toString())
-              // console.log('Actual: ', actualValue.toString())
-
-              expect(expectedValue.equals(actualValue)).toBe(true)
-            }
-
-            do_test()
-          }
-        )
-
-    }
-  )
-
-
-
-describe
-  ( 'update_model_according_to_message'
-  , () => {
-
-      it( 'Produces an Result.Err<Failure> when given an unrecognized '
+      it( 'Produces the given Model when given an unrecognized '
         + 'Message.'
         , () => {
             function do_test(message) {
@@ -186,15 +112,10 @@ describe
               const initialModel =
                 make_test_value__model().set('state', state)
 
-              const expectedValue = make_test_value__result_err(
-                make_test_value__failure
-                  ( Loader.UPDATE_ERROR
-                  , initialModel
-                  )
-              )
+              const expectedValue = initialModel
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
                   )
@@ -227,12 +148,11 @@ describe
                   .set('state', state)
                   .set(handlerName, handlerStub)
 
-              const expectedValue = make_test_value__result_ok(
+              const expectedValue = 
                 make_test_value__model().set('state', state)
-              )
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
                   )
@@ -297,11 +217,10 @@ describe
               const message = TestHelper.MESSAGE_INITIALIZE
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -328,11 +247,10 @@ describe
               const message = TestHelper.MESSAGE_INITIALIZED
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -359,11 +277,10 @@ describe
               const message = TestHelper.MESSAGE_START
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -390,11 +307,10 @@ describe
               const message = TestHelper.MESSAGE_STARTED
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -421,11 +337,10 @@ describe
               const message = TestHelper.MESSAGE_STOP
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())
@@ -452,11 +367,10 @@ describe
               const message = TestHelper.MESSAGE_STOPPED
 
               const actualValue = 
-                Loader.update_model_according_to_message
+                Loader.update_model
                   ( message
                   , initialModel
-                  ).get('value')
-                   .get('state')
+                  ).get('state')
 
               // console.log('Expected: ', expectedValue.toString())
               // console.log('Actual: ', actualValue.toString())

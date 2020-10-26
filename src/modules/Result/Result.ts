@@ -66,6 +66,15 @@ export function get_err_value<E>
 
 
 
+export function set_err_value<E>
+  ( error
+  , result : Err<E>
+  ) : Err<E> {
+    return result.set('error', error)
+  }
+
+
+
 interface OkInterface<T> { value : T }
 
 
@@ -101,5 +110,16 @@ export function get_ok_value<T>
   ) : T {
     return result.get('value', undefined)
   }
+
+
+
+export function set_ok_value<T>
+  ( value
+  , result : Ok<T>
+  ) : Ok<T> {
+    return result.set('value', value)
+  }
+
+
 
 
