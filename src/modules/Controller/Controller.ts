@@ -34,18 +34,11 @@ export const Failure : FailureFactory =
 
 
 /**
- * Interface for a function that knows how to update a model
- * of a given type
+ * Interface for a function that knows how to update the model
+ * of the given type.
  */
 export type Updater<Model, Message> =
   ( message : Message, model : Model ) => Model
-
-
-
-const dummyUpdater : Updater<any, any> =
-  ( message
-  , model
-  ) => model
 
 
 
@@ -76,8 +69,8 @@ type ControllerFactory =
 
 export const Controller : ControllerFactory =
   I.Record
-    ( { model   : 'tempModel'
-      , updater  : dummyUpdater
+    ( { model    : 'tempModel'
+      , updater  : (message, model) => model
       }
     , 'Controller'
     )
