@@ -1,5 +1,6 @@
 
 import * as State from "./State"
+import * as Controller from "../Controller"
 import * as I from "immutable"
 
 import type {  RecordOf, Record } from 'immutable'
@@ -20,16 +21,12 @@ export type Message
 
 
 
-interface MessageInterface { argv : Array<any> }
-
-
-
 type MessageFactory<M> =
-  ( data : Partial<MessageInterface> ) => M
+  ( data : Partial<Controller.MessageInterface> ) => M
 
 
 
-type Initialize = RecordOf<MessageInterface>
+type Initialize = RecordOf<Controller.MessageInterface>
 
 
 
@@ -38,7 +35,7 @@ export const Initialize : MessageFactory<Initialize> =
 
 
 
-type Initialized = RecordOf<MessageInterface>
+type Initialized = RecordOf<Controller.MessageInterface>
 
 
 
@@ -47,7 +44,7 @@ export const Initialized : MessageFactory<Initialized> =
 
 
 
-type Start = RecordOf<MessageInterface>
+type Start = RecordOf<Controller.MessageInterface>
 
 
 
@@ -56,7 +53,7 @@ export const Start : MessageFactory<Start> =
 
 
 
-type Started = RecordOf<MessageInterface>
+type Started = RecordOf<Controller.MessageInterface>
 
 
 
@@ -65,7 +62,7 @@ export const Started : MessageFactory<Started> =
 
 
 
-type Stop = RecordOf<MessageInterface>
+type Stop = RecordOf<Controller.MessageInterface>
 
 
 
@@ -74,7 +71,7 @@ export const Stop : MessageFactory<Stop> =
 
 
 
-type Stopped = RecordOf<MessageInterface>
+type Stopped = RecordOf<Controller.MessageInterface>
 
 
 

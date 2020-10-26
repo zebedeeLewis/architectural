@@ -4,6 +4,7 @@ import * as I from "immutable"
 import type {  RecordOf, Record } from 'immutable'
 
 
+
 interface FailureInterface<Model, Error>
   { error  : Error
   , model  : Model
@@ -45,6 +46,10 @@ const dummyUpdater : Updater<any, any> =
   ( message
   , model
   ) => model
+
+
+
+export interface MessageInterface { argv : Array<any> }
 
 
 
