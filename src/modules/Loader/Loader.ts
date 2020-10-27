@@ -199,28 +199,5 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
 
-export function init_model
-  ( htmlElementSelector  : string
-  , initializeHandler    : MessageHandler
-  , initializedHandler   : MessageHandler
-  , startHandler         : MessageHandler
-  , startedHandler       : MessageHandler
-  , stopHandler          : MessageHandler
-  , stoppedHandler       : MessageHandler
-  ) : Model {
-    return (
-      Model
-        ( { state : State.Unset()
-          , htmlElementSelector
-          , initializeHandler
-          , initializedHandler
-          , startHandler
-          , startedHandler
-          , stopHandler
-          , stoppedHandler
-          }
-        )
-    )
-  }
-
+export const init_model = Model
 
