@@ -77,7 +77,7 @@ export const Controller : ControllerFactory =
 
 
 
-export function get_model<Model, Message>
+export function get_model_from<Model, Message>
   ( controller : Controller<Model, Message>
   ) : Model {
     return controller.get('model', undefined)
@@ -85,7 +85,7 @@ export function get_model<Model, Message>
 
 
 
-export function set_model<Model, Message>
+export function set_model_to<Model, Message>
   ( newModel   : Model
   , controller : Controller<Model, Message>
   ) : Controller<Model, Message> {
@@ -94,7 +94,7 @@ export function set_model<Model, Message>
 
 
 
-export function get_updater<Model, Message>
+export function get_updater_from<Model, Message>
   ( controller : Controller<Model, Message>
   ) : Updater<Model, Message> {
     return controller.get('updater', undefined)
@@ -102,7 +102,7 @@ export function get_updater<Model, Message>
 
 
 
-export function set_updater<Model, Message>
+export function set_updater_to<Model, Message>
   ( newUpdater : Updater<Model, Message>
   , controller : Controller<Model, Message>
   ) : Controller<Model, Message> {
@@ -115,13 +115,13 @@ export function dispatch_message<Model, Message>
   ( message    : Message
   , controller : Controller<Model, Message>
   ) : Controller<Model, Message> {
-    const update_model = get_updater(controller)
+    const update_model = get_updater_from(controller)
 
     return (
-      set_model
+      set_model_to
         ( update_model
             ( message
-            , get_model(controller)
+            , get_model_from(controller)
             )
         , controller
         )

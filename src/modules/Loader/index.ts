@@ -2,8 +2,7 @@
 
 export type
   { MessageHandler
-  , Model
-  }
+  } from './Loader'
 
 
 

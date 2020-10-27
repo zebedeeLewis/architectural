@@ -3,6 +3,9 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackInjector = require('html-webpack-injector')
+const InlineChunkHtmlPlugin = 
+  require('react-dev-utils/InlineChunkHtmlPlugin');
 
 
 
@@ -15,11 +18,13 @@ const html_webpack_plugins_from_source_descriptors =
       }
     ) =>
       new HtmlWebpackPlugin(
-        { title    : html_page_title
-        , favicon  : paths.src + '/images/favicon.png'
-        , template : html_template
-        , filename : html_output_filename
-        , chunks   : chunks
+        { title        : html_page_title
+        , favicon      : paths.src + '/images/favicon.png'
+        , template     : html_template
+        , filename     : html_output_filename
+        , chunks       : chunks
+        , inlineSource : 'common.js'
+        , inject       : true
         }
       )
   )
@@ -49,14 +54,22 @@ const source_descriptors =
     , html_page_title      : 'Title 1'
     , html_template        : path.join(paths.src, 'html', 'index.html')
     , html_output_filename : 'index.html'
-    , chunks               : [ 'index' ]
+    , chunks               :
+        [ 'index'
+        , 'common_js_head'
+        , 'common_css_head'
+        ]
     }
   ]
 
 
 
 module.exports =
-  { entry  : entries_from_source_descriptors(source_descriptors)
+  { entry  : 
+      { ... entries_from_source_descriptors(source_descriptors)
+      , common_js_head : path.join(paths.src, 'common.js')
+      , common_css_head : path.join(paths.src, 'scss', 'common.scss')
+      }
   , plugins:
     [ new CleanWebpackPlugin()
   
@@ -71,6 +84,14 @@ module.exports =
     , ...  html_webpack_plugins_from_source_descriptors(
         source_descriptors
       )
+
+    , new HtmlWebpackInjector()
+    , new InlineChunkHtmlPlugin
+        ( HtmlWebpackPlugin
+        , [ /common_js_head/
+          , /common_css_head/
+          ]
+        )
     ]
   
   , module: 
