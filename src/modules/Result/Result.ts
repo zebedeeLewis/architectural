@@ -23,7 +23,7 @@ export function is_result<E, T>
 
 
 
-interface ErrInterface<E> { error? : E }
+interface ErrInterface<E> { error : E }
 
 
 
@@ -67,7 +67,7 @@ export function get_err_value<E>
 
 
 export function set_err_value<E>
-  ( error
+  ( error  : E
   , result : Err<E>
   ) : Err<E> {
     return result.set('error', error)
@@ -114,7 +114,7 @@ export function get_ok_value<T>
 
 
 export function set_ok_value<T>
-  ( value
+  ( value  : T
   , result : Ok<T>
   ) : Ok<T> {
     return result.set('value', value)

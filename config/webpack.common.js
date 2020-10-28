@@ -23,7 +23,7 @@ const html_webpack_plugins_from_source_descriptors =
         , template     : html_template
         , filename     : html_output_filename
         , chunks       : chunks
-        , inlineSource : 'common.js'
+        , inlineSource : 'common.ts'
         , inject       : true
         }
       )
@@ -50,7 +50,7 @@ const entries_from_source_descriptors =
 
 const source_descriptors =
   [ { entry_name           : 'index'
-    , entry_filename       : path.join(paths.src, 'index.js')
+    , entry_filename       : path.join(paths.src, 'index.ts')
     , html_page_title      : 'Title 1'
     , html_template        : path.join(paths.src, 'html', 'index.html')
     , html_output_filename : 'index.html'
@@ -67,7 +67,7 @@ const source_descriptors =
 module.exports =
   { entry  : 
       { ... entries_from_source_descriptors(source_descriptors)
-      , common_js_head : path.join(paths.src, 'common.js')
+      , common_js_head : path.join(paths.src, 'common.ts')
       , common_css_head : path.join(paths.src, 'scss', 'common.scss')
       }
   , plugins:
@@ -95,7 +95,7 @@ module.exports =
     ]
   
   , module: 
-    { rules: 
+    { rules:
       [ { test      : /\.js$/
         , exclude   : /node_modules/
         , use       :
@@ -124,5 +124,8 @@ module.exports =
         }
       ]
     }
+  , resolve :
+      { extensions : ['.js', '.ts', '.scss', '.css' ]
+      }
   }
 

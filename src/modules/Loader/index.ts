@@ -55,7 +55,6 @@ export
   , Finished
   , is_unset
   , is_initializing
-  , is_initialized
   , is_starting
   , is_running
   , is_stopping
