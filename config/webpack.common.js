@@ -4,51 +4,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackInjector = require('html-webpack-injector')
-const InlineChunkHtmlPlugin = 
-  require('react-dev-utils/InlineChunkHtmlPlugin');
 
 
 
-const html_webpack_plugins_from_source_descriptors =
-  ( source_descriptors ) => source_descriptors.map(
-    ( { html_page_title
-      , html_template
-      , html_output_filename
-      , chunks
-      }
-    ) =>
-      new HtmlWebpackPlugin(
-        { title        : html_page_title
-        , favicon      : paths.src + '/images/favicon.png'
-        , template     : html_template
-        , filename     : html_output_filename
-        , chunks       : chunks
-        , inlineSource : 'common.ts'
-        , inject       : true
-        }
-      )
-  )
-
-
-
-const entries_from_source_descriptors =
-  (source_descriptors) =>
-    source_descriptors.reduce
-      ( ( entries
-        , { entry_name
-          , entry_filename
-          }
-        ) => (
-          { [entry_name] : entry_filename
-          , ... entries
-          }
-        )
-      , {}
-      )
-
-
-
-const source_descriptors =
+const page_descriptors =
   [ { entry_name           : 'index'
     , entry_filename       : path.join(paths.src, 'index.ts')
     , html_page_title      : 'Title 1'
@@ -57,19 +16,59 @@ const source_descriptors =
     , chunks               :
         [ 'index'
         , 'common_js_head'
-        , 'common_css_head'
+        , 'common_css_inline'
         ]
     }
   ]
 
 
 
+const entries =
+  page_descriptors.reduce
+    ( ( entries
+      , { entry_name
+        , entry_filename
+        }
+      ) => (
+        { [entry_name] : entry_filename
+        , ... entries
+        }
+      )
+    , {}
+    )
+
+
+
+const html_webpack_plugins =
+  page_descriptors.map
+    ( ( { html_page_title
+        , html_template
+        , html_output_filename
+        , chunks
+        }
+      ) =>
+        new HtmlWebpackPlugin(
+          { title        : html_page_title
+          , favicon      : paths.src + '/images/favicon.png'
+          , template     : html_template
+          , filename     : html_output_filename
+          , chunks       : chunks
+          , inject       : true
+          , minify       : false
+          }
+        )
+    )
+
+
+
 module.exports =
   { entry  : 
-      { ... entries_from_source_descriptors(source_descriptors)
+      { ... entries
       , common_js_head : path.join(paths.src, 'common.ts')
-      , common_css_head : path.join(paths.src, 'scss', 'common.scss')
+      , common_css_inline:
+          path.join(paths.src, 'scss', 'common.inline.scss')
       }
+
   , plugins:
     [ new CleanWebpackPlugin()
   
@@ -81,38 +80,17 @@ module.exports =
         }
       )
   
-    , ...  html_webpack_plugins_from_source_descriptors(
-        source_descriptors
-      )
+    , ... html_webpack_plugins
 
+      // inject files into head or body
     , new HtmlWebpackInjector()
-    , new InlineChunkHtmlPlugin
-        ( HtmlWebpackPlugin
-        , [ /common_js_head/
-          , /common_css_head/
-          ]
-        )
     ]
   
   , module: 
     { rules:
-      [ { test      : /\.js$/
+      [ { test      : /(\.tsx?|\.jsx?)$/
+        , use       : 'ts-loader'
         , exclude   : /node_modules/
-        , use       :
-          [ { loader  : 'babel-loader'
-            , options :
-              { configFile: path.join(paths.config, '.babelrc') }
-            }
-          , { loader  : 'eslint-loader'
-            , options :
-              { configFile: path.join(paths.config, '.eslintrc') }
-            }
-          ]
-        }
-  
-      , { test    : /\.tsx?$/
-        , use     : 'ts-loader'
-        , exclude : /node_modules/
         }
 
       , { test      : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
@@ -124,6 +102,7 @@ module.exports =
         }
       ]
     }
+
   , resolve :
       { extensions : ['.js', '.ts', '.scss', '.css' ]
       }

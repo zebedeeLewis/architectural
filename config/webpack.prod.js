@@ -4,21 +4,32 @@ const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const OptimizeCSSAssetsPlugin =
+  require('optimize-css-assets-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const InlineChunksPlugin =
+  require('./plugins/html-webpack-inline-chunks')
 
 module.exports =
   merge( common
        , { output :
            { path       : paths.build
            , filename   : path.join('js', '[name].js')
-           , publicPath : '/architectural/'
+           // , publicPath : '/architectural/'
            }
          , mode    : 'production'
          , devtool : false
          , plugins :
-           [ new MiniCssExtractPlugin(
-               { filename : path.join('css', '[name].css') }
-             )
+           [ new InlineChunksPlugin
+               ( HtmlWebpackPlugin
+               , [ /common_js_head/
+                 , /common_css_inline/
+                 ]
+               )
+           , new MiniCssExtractPlugin
+               ( { filename : path.join('css', '[name].css') }
+               )
+
            ]
          , module:
            { rules:
@@ -27,8 +38,8 @@ module.exports =
                  [ MiniCssExtractPlugin.loader
                  , { loader  : 'css-loader'
                    , options :
-                       { importLoaders: 1
-                       }
+                     { importLoaders: 1
+                     }
                    }
                  , { loader  : 'postcss-loader'
                    , options : 
@@ -39,7 +50,7 @@ module.exports =
                      }
                    }
                  , 'sass-loader'
-                 ],
+                 ]
                }
              ],
            }
