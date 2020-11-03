@@ -1,4 +1,4 @@
-const paths = require('./paths')
+const Project = require('./project')
 const path = require('path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
@@ -7,14 +7,14 @@ const common = require('./webpack.common.js')
 module.exports =
   merge( common
        , { output :
-           { path       : paths.build
+           { path       : Project.BUILD_DIR_PATH
            , filename   : path.join('js', '[name].js')
            , publicPath : '/'
            }
          , mode                 : 'development'
          , devtool              : 'inline-source-map'
          , devServer            :
-           { contentBase        : paths.build
+           { contentBase        : Project.BUILD_DIR_PATH
            , open               : true
            , compress           : true
            , hot                : true
@@ -34,8 +34,7 @@ module.exports =
                    , options :
                      { sourceMap: true
                      , postcssOptions :
-                       { config:
-                         path.join(paths.config, 'postcss.config.js')
+                       { config: Project.POST_CSS_CONFIG_PATH
                        }
                      }
                    }

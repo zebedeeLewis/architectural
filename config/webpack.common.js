@@ -1,4 +1,4 @@
-const paths = require('./paths')
+const Project = require('./project')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -11,21 +11,19 @@ const InlineChunksPlugin =
 
 const page_descriptors =
   [ { pageTitle      : 'Home'
-    , pageSourceFile : path.join(paths.src, 'index.html')
+    , pageSourceFile : Project.INDEX_HTML_SRC_PATH
     , assets :
       { external :
         { index :
-          { sourceFile : path.join(paths.src, 'scripts', 'index.ts')
-          , 
+          { sourceFile : Project.INDEX_JS_SRC_PATH
           }
         }
       , inline :
         { common_js :
-          { sourceFile : path.join(paths.src, 'scripts', 'common.ts')
+          { sourceFile : Project.COMMON_JS_SRC_PATH
           }
         , common_css :
-          { sourceFile :
-            path.join(paths.src, 'scss', 'common.inline.scss')
+          { sourceFile : Project.COMMON_SCSS_SRC_PATH
           }
         }
       }
@@ -89,7 +87,7 @@ const htmlWebpackPlugins =
       ) =>
         new HtmlWebpackPlugin(
           { title        : pageTitle
-          , favicon      : paths.src + '/images/favicon.png'
+          , favicon      : Project.SRC_DIR_PATH + '/images/favicon.png'
           , template     : pageSourceFile
           , filename     : path.basename(pageSourceFile)
           , chunks       :
@@ -117,7 +115,7 @@ const allInlinedAssetNamess =
     ).map( assetName => RegExp(assetName) )
 
 
-
+debugger
 module.exports =
   { entry  : 
       { ... entries
@@ -128,8 +126,12 @@ module.exports =
   
     , new CopyWebpackPlugin(
         { patterns:
-          [ { from: 'assets', to: 'assets' }
-          , { from: 'src/images', to: 'images' }
+          [ { from: Project.ASSETS_SRC_DIR_PATH
+            , to: Project.ASSETS_OUTPUT_DIR_PATH
+            }
+          , { from: Project.IMAGES_SRC_DIR_PATH
+            , to: Project.IMAGES_OUTPUT_DIR_PATH
+            }
           ]
         }
       )
@@ -153,11 +155,13 @@ module.exports =
         , exclude   : /node_modules/
         }
 
-      , { test      : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
-        , loader    : 'file-loader'
-        , options   :
-          { name    : '[path][name].[ext]'
-          , context : 'src'
+      , { test         : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
+        , loader       : 'file-loader'
+        , options      :
+          { name       : '[name].[ext]'
+          , outputPath : Project.IMAGES_OUTPUT_DIR_PATH
+          , publicPath : Project.PUBLIC_IMAGES_PATH
+          , context    : 'src'
           }
         }
       ]

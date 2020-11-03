@@ -1,4 +1,4 @@
-const paths = require('./paths')
+const Project = require('./project')
 const path = require('path')
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
@@ -12,9 +12,9 @@ const OptimizeCSSAssetsPlugin =
 module.exports =
   merge( common
        , { output :
-           { path       : paths.build
+           { path       : Project.BUILD_DIR_PATH
            , filename   : path.join('js', '[name].js')
-           // , publicPath : '/architectural/'
+           , publicPath : Project.PUBLIC_PATH
            }
          , mode    : 'production'
          , devtool : false
@@ -22,7 +22,6 @@ module.exports =
            [ new MiniCssExtractPlugin
                ( { filename : path.join('css', '[name].css') }
                )
-
            ]
          , module:
            { rules:
@@ -37,8 +36,7 @@ module.exports =
                  , { loader  : 'postcss-loader'
                    , options : 
                      { postcssOptions :
-                       { config:
-                         path.join(paths.config, 'postcss.config.js')
+                       { config: Project.POST_CSS_CONFIG_PATH
                        }
                      }
                    }

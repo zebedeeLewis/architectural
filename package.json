@@ -10,7 +10,7 @@
     "docs": "jsdoc --destination documentation --configure config/jsdoc.config.js",
     "ts:watch": "tsc --sourceMap --watch src/modules/Controller/Controller.ts src/modules/Loader/Loader.ts  src/modules/Result/Result.ts --outDir ./dist/",
     "ts": "tsc --sourceMap --watch src/modules/**/*.ts --outDir ./dist/",
-    "inspect:webpack" : "node-nightly --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.prod.js"
+    "inspect:webpack": "node-nightly --inspect-brk ./node_modules/webpack/bin/webpack.js --config config/webpack.prod.js"
   },
   "keywords": [
     "webpack",
@@ -27,6 +27,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
     "@babel/preset-env": "^7.11.5",
     "@types/jest": "^26.0.15",
+    "@types/webpack": "^4.41.24",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.5.2",
     "babel-loader": "^8.1.0",

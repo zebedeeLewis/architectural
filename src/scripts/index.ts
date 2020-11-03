@@ -3,7 +3,7 @@ import * as Slider from "./modules/Slider"
 import * as Result from "./modules/Result"
 
 import Splide from '@splidejs/splide';
-import './scss/index.scss'
+import '../scss/index.scss'
 
 
 const SLIDER_CLASSNAME = 'main-slider'
