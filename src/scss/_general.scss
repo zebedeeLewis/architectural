@@ -101,19 +101,19 @@ main {
 /* 0. Inner Container */
 .inner-container {
   width                    : 200px;
-  padding-right            : vars.$horizontal-outer-spacing;
+  padding-right            : spacing.$outer-horizontal;
   flex                     : 1 1 auto;
 
   @media(min-width: vars.$breakpoint-sm) {
-    padding-right          : vars.$sm-horizontal-outer-spacing;
+    padding-right          : spacing.$outer-horizontal--sm;
   }
 
   @media(min-width: vars.$breakpoint-md) {
-    padding-right          : vars.$md-horizontal-outer-spacing;
+    padding-right          : spacing.$outer-horizontal--md;
   }
 
   @media(min-width: vars.$breakpoint-lg) {
-    padding-right          : vars.$lg-horizontal-outer-spacing;
+    padding-right          : spacing.$outer-horizontal--lg;
   }
 }
 

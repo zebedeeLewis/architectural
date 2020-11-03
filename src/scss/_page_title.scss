@@ -11,7 +11,7 @@
   flex-direction           : column;
   flex                     : 0 0 auto;
   align-items              : center;
-  width                    : vars.$horizontal-outer-spacing;
+  width                    : spacing.$outer-horizontal;
   opacity                  : .2;
 
   &:before {
@@ -26,7 +26,7 @@
   }
 
   @media (min-width: vars.$breakpoint-sm) {
-    width                  : vars.$sm-horizontal-outer-spacing;
+    width                  : spacing.$outer-horizontal--sm;
 
     &:before {
       height               : navbar.$sm-nav-item-vertical-spacing
@@ -36,7 +36,7 @@
   }
 
   @media (min-width: vars.$breakpoint-md) {
-    width                  : vars.$md-horizontal-outer-spacing;
+    width                  : spacing.$outer-horizontal--md;
 
     &:before {
       height               : navbar.$md-nav-item-vertical-spacing
@@ -46,7 +46,7 @@
   }
 
   @media (min-width: vars.$breakpoint-lg) {
-    width                  : vars.$lg-horizontal-outer-spacing;
+    width                  : spacing.$outer-horizontal--lg;
 
     &:before {
       height               : navbar.$lg-nav-item-vertical-spacing

@@ -11,19 +11,19 @@
   position                 : relative;
 
   @media(min-width: vars.$breakpoint-sm) {
-    padding-left           : vars.$sm-horizontal-outer-spacing;
-    padding-right          : vars.$sm-horizontal-outer-spacing;
+    padding-left           : spacing.$outer-horizontal--sm;
+    padding-right          : spacing.$outer-horizontal--sm;
   }
 
   @media(min-width: vars.$breakpoint-md) {
-    padding-left           : vars.$md-horizontal-outer-spacing;
-    padding-right          : vars.$md-horizontal-outer-spacing;
+    padding-left           : spacing.$outer-horizontal--md;
+    padding-right          : spacing.$outer-horizontal--md;
   }
 
   @media(min-width: vars.$breakpoint-lg) {
     margin-top             : spacing.$b48;
-    padding-left           : vars.$lg-horizontal-outer-spacing;
-    padding-right          : vars.$lg-horizontal-outer-spacing;
+    padding-left           : spacing.$outer-horizontal--lg;
+    padding-right          : spacing.$outer-horizontal--lg;
   }
 }
 
