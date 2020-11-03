@@ -78,7 +78,7 @@
   @media(min-width: breakpoint.$sm) {
     display                : block;
     padding                : 0
-                           ( vars.$sm-logo-width
+                           ( general.$logo-width--sm
                            + navbar.$left-offset--sm
                            ) ;
     margin-top             : spacing.$b40;
@@ -89,7 +89,7 @@
   @media(min-width: breakpoint.$md) {
     margin-top             : spacing.$b25;
     display                : block;
-    padding-left           : vars.$md-logo-width
+    padding-left           : general.$logo-width--md
                            + navbar.$left-offset--md;
   }
 }

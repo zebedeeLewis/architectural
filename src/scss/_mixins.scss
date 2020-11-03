@@ -1,6 +1,7 @@
 @use "vars";
 @use "spacing";
 @use "breakpoint";
+@use "general";
 
 
 
@@ -12,12 +13,12 @@
 
 
   @media (min-width: breakpoint.$md) {
-    width                  : vars.$sm-logo-width;
+    width                  : general.$logo-width--sm;
   }
 
   @media (min-width: breakpoint.$md) {
     font-size              : 40px;
-    width                  : vars.$md-logo-width;
+    width                  : general.$logo-width--md;
   }
 }
 
