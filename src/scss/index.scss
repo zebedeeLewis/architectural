@@ -27,6 +27,21 @@
 
 
 
+$slide-caption-font-size--sm : 24px;
+$slide-caption-font-size--md : 30px;
+$slide-caption-font-size--lg : 30px;
+
+$slide-caption-line-height--sm : spacing.$b6;
+$slide-caption-line-height--md : spacing.$b8;
+$slide-caption-line-height--lg : spacing.$b8;
+
+$slider-pagination-width : spacing.$b20;
+
+$welcome-banner-vertical-offset : spacing.$b18;
+$welcome-wrapper-max-width : 918px;
+
+
+
 /* 1. Main Home Slider */
 .main-slider { }
 
@@ -116,18 +131,18 @@
   margin-bottom            : spacing.$b6;
 
   @media (min-width: breakpoint.$sm) {
-    font-size              : vars.$sm-slide-caption-font-size * 2;
-    line-height            : vars.$sm-slide-caption-line-height * 2;
+    font-size              : $slide-caption-font-size--sm * 2;
+    line-height            : $slide-caption-line-height--sm * 2;
   }
 
   @media (min-width: breakpoint.$md) {
-    font-size              : vars.$md-slide-caption-font-size * 2;
-    line-height            : vars.$md-slide-caption-line-height * 2;
+    font-size              : $slide-caption-font-size--md * 2;
+    line-height            : $slide-caption-line-height--md * 2;
   }
 
   @media (min-width: breakpoint.$lg) {
-    font-size              : vars.$lg-slide-caption-font-size * 3;
-    line-height            : vars.$lg-slide-caption-line-height * 3;
+    font-size              : $slide-caption-font-size--lg * 3;
+    line-height            : $slide-caption-line-height--lg * 3;
   }
 }
 
@@ -143,19 +158,19 @@
 
   @media (min-width: breakpoint.$sm) {
     display                : none;
-    font-size              : vars.$sm-slide-caption-font-size;
-    line-height            : vars.$sm-slide-caption-line-height;
+    font-size              : $slide-caption-font-size--sm;
+    line-height            : $slide-caption-line-height--sm;
   }
 
   @media (min-width: breakpoint.$md) {
-    font-size              : vars.$md-slide-caption-font-size;
-    line-height            : vars.$md-slide-caption-line-height;
+    font-size              : $slide-caption-font-size--md;
+    line-height            : $slide-caption-line-height--md;
   }
 
   @media (min-width: breakpoint.$lg) {
     display                : block;
-    font-size              : vars.$lg-slide-caption-font-size;
-    line-height            : vars.$lg-slide-caption-line-height;
+    font-size              : $slide-caption-font-size--lg;
+    line-height            : $slide-caption-line-height--lg;
   }
 }
 
@@ -180,8 +195,8 @@
 
 .main-slider__pagination {
   display                  : none;
-  margin-top               : vars.$slider-pagination-width*-1;
-  margin-left              : vars.$slider-pagination-width*-1;
+  margin-top               : $slider-pagination-width*-1;
+  margin-left              : $slider-pagination-width*-1;
 
   @media(min-width: breakpoint.$md) {
     display                : block;
@@ -191,8 +206,8 @@
 
 
 .main-slider__page-num {
-  width                    : vars.$slider-pagination-width;
-  height                   : vars.$slider-pagination-width;
+  width                    : $slider-pagination-width;
+  height                   : $slider-pagination-width;
   background-color         : white;
   color                    : sassColor.scale(black, $alpha: -70%);
   display                  : flex;
@@ -232,9 +247,7 @@
   @media(min-width: breakpoint.$lg) {
     font-size              : 200px;
     line-height            : spacing.$b52;
-    transform              : translatey(
-                               vars.$welcome-banner-vertical-offset
-                             );
+    transform              : translatey($welcome-banner-vertical-offset);
   }
 }
 
@@ -242,7 +255,7 @@
 
 .welcome-wrapper {
   display                  : flex;
-  max-width                : vars.$welcome-wrapper-max-width;
+  max-width                : $welcome-wrapper-max-width;
   margin-left              : auto;
 }
 
@@ -252,7 +265,7 @@
   padding-right            : 28px;
 
   @media(min-width: breakpoint.$lg) {
-    padding-top            : vars.$welcome-banner-vertical-offset;
+    padding-top            : $welcome-banner-vertical-offset;
   }
 }
 
@@ -303,7 +316,7 @@
   flex-wrap                : wrap;
   padding-left             : 24px;
   padding-right            : 24px;
-  max-width                : vars.$welcome-wrapper-max-width;
+  max-width                : $welcome-wrapper-max-width;
   margin-left              : auto;
 
   @media(min-width: breakpoint.$sm) {
