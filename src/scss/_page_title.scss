@@ -29,9 +29,9 @@
     width                  : spacing.$outer-horizontal--sm;
 
     &:before {
-      height               : navbar.$sm-nav-item-vertical-spacing
-                           + navbar.$sm-nav-item-line-height;
-      margin-bottom        : navbar.$sm-nav-item-vertical-spacing;
+      height               : navbar.$nav-item-vertical-spacing--sm
+                           + navbar.$nav-item-line-height--sm;
+      margin-bottom        : navbar.$nav-item-vertical-spacing--sm;
     }
   }
 
@@ -39,9 +39,9 @@
     width                  : spacing.$outer-horizontal--md;
 
     &:before {
-      height               : navbar.$md-nav-item-vertical-spacing
-                           + navbar.$md-nav-item-line-height;
-      margin-bottom        : navbar.$md-nav-item-vertical-spacing;
+      height               : navbar.$nav-item-vertical-spacing--md
+                           + navbar.$nav-item-line-height--md;
+      margin-bottom        : navbar.$nav-item-vertical-spacing--md;
     }
   }
 
@@ -49,9 +49,9 @@
     width                  : spacing.$outer-horizontal--lg;
 
     &:before {
-      height               : navbar.$lg-nav-item-vertical-spacing
-                           + navbar.$lg-nav-item-line-height;
-      margin-bottom        : navbar.$lg-nav-item-vertical-spacing;
+      height               : navbar.$nav-item-vertical-spacing--lg
+                           + navbar.$nav-item-line-height--lg;
+      margin-bottom        : navbar.$nav-item-vertical-spacing--lg;
     }
   }
 }

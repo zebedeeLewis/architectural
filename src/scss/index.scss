@@ -78,7 +78,7 @@
     display                : block;
     padding                : 0
                            ( vars.$sm-logo-width
-                           + navbar.$sm-navigation-left-offset
+                           + navbar.$left-offset--sm
                            ) ;
     margin-top             : spacing.$b40;
     position               : absolute;
@@ -89,7 +89,7 @@
     margin-top             : spacing.$b25;
     display                : block;
     padding-left           : vars.$md-logo-width
-                           + navbar.$md-navigation-left-offset;
+                           + navbar.$left-offset--md;
   }
 }
 
