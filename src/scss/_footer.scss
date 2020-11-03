@@ -1,0 +1,111 @@
+
+@use "spacing";
+@use "vars";
+@use "color";
+@use "button";
+@use "mixins";
+
+
+
+/* 0. Footer */
+.footer {
+  margin-top               : spacing.$b23;
+  position                 : relative;
+
+  @media(min-width: vars.$breakpoint-sm) {
+    padding-left           : vars.$sm-horizontal-outer-spacing;
+    padding-right          : vars.$sm-horizontal-outer-spacing;
+  }
+
+  @media(min-width: vars.$breakpoint-md) {
+    padding-left           : vars.$md-horizontal-outer-spacing;
+    padding-right          : vars.$md-horizontal-outer-spacing;
+  }
+
+  @media(min-width: vars.$breakpoint-lg) {
+    margin-top             : spacing.$b48;
+    padding-left           : vars.$lg-horizontal-outer-spacing;
+    padding-right          : vars.$lg-horizontal-outer-spacing;
+  }
+}
+
+
+
+.footer-nav {
+  display                  : flex;
+  align-items              : center;
+  position                 : relative;
+
+  &:before {
+    content                : "";
+    display                : block;
+    position               : absolute;
+    top                    : 0;
+    bottom                 : 0;
+    right                  : 0;
+    left                   : 0;
+    background-color       : color.$very-light-grey;
+    max-width              : 90%;
+    z-index                : -1;
+  }
+}
+
+
+
+.footer-logo {
+  @include                 mixins.logo;
+  line-height              : 1;
+  padding                  : 16px 8px;
+  background-color         : black;
+  color                    : white;
+
+  @media(min-width: vars.$breakpoint-sm) {
+    padding                : vars.$sm-footer-logo-vertical-spacing
+                             spacing.$b4;
+  }
+
+  @media(min-width: vars.$breakpoint-md) {
+    padding                : vars.$md-footer-logo-vertical-spacing
+                             spacing.$b5; 
+  }
+
+  @media(min-width: vars.$breakpoint-lg) {
+    padding                : vars.$lg-footer-logo-vertical-spacing
+                             spacing.$b13;
+  }
+}
+
+
+
+.nav-item--footer {
+  padding                  : 20px 8px;
+  
+  @media(min-width: vars.$breakpoint-md) {
+    font-size              : 24px;
+    padding                : vars.$md-footer-logo-vertical-spacing
+                             spacing.$b3;
+  }
+
+  @media(min-width: vars.$breakpoint-lg) {
+    padding                : spacing.$b21 spacing.$b5;
+    font-size              : 28px;
+    line-height            : spacing.$b8;
+  }
+}
+
+
+
+.footer-button {
+  @include                 button.button;
+  @include                 button.button--dark;
+  @include                 button.button;
+  display                  : none;
+
+  @media(min-width: vars.$breakpoint-sm) {
+    display                : inline-block;
+  }
+
+  @media(min-width: vars.$breakpoint-lg) {
+    @include               button.button--medium;
+  }
+}

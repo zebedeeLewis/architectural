@@ -1,0 +1,121 @@
+
+@use "spacing";
+@use "vars";
+@use "typography";
+@use "color";
+
+
+
+:root {
+  color                    : vars.$font-color;
+}
+
+
+
+body {
+  background-color         : color.$background;
+  margin                   : 0;
+}
+
+
+
+div {
+  box-sizing               : border-box;
+}
+
+
+
+ul {
+  list-style-type          : none;
+  margin-top               : 0;
+  margin-bottom            : 0;
+  padding-left             : 0;
+}
+
+
+
+h1 {
+  font-size                : typography.$font-size;
+  margin                   : 0;
+}
+
+
+
+a {
+  text-decoration          : none;
+  color                    : inherit;
+}
+
+
+
+img {
+  max-width                : 100%;
+  display                  : block;
+  height                   : auto;
+}
+
+
+
+main {
+  font-size                : 16px;
+  line-height              : spacing.$b6;
+  letter-spacing           : 1px;
+}
+
+
+
+.display-none {
+  display                  : none !important;
+}
+
+
+
+.display-initial {
+  display                  : initial;
+}
+
+
+
+.section-heading {
+  font-size                : 30px;
+  letter-spacing           : 1px;
+  line-height              : spacing.$b9;
+  margin                   : 0;
+  margin-top               : spacing.$b2;
+
+  @media(min-width: vars.$breakpoint-lg) {
+    font-size              : 56px;
+    line-height            : spacing.$b16;
+  }
+}
+
+
+
+/* 0. Container */
+.container {
+  display                  : flex;
+}
+
+
+
+/* 0. Inner Container */
+.inner-container {
+  width                    : 200px;
+  padding-right            : vars.$horizontal-outer-spacing;
+  flex                     : 1 1 auto;
+
+  @media(min-width: vars.$breakpoint-sm) {
+    padding-right          : vars.$sm-horizontal-outer-spacing;
+  }
+
+  @media(min-width: vars.$breakpoint-md) {
+    padding-right          : vars.$md-horizontal-outer-spacing;
+  }
+
+  @media(min-width: vars.$breakpoint-lg) {
+    padding-right          : vars.$lg-horizontal-outer-spacing;
+  }
+}
+
+
+

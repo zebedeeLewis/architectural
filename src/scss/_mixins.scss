@@ -1,0 +1,88 @@
+
+@use "vars";
+@use "spacing";
+
+
+
+@mixin logo {
+  font-size                : 24px;
+  line-height              : 24px;
+  font-weight              : 700;
+  letter-spacing           : -2px;
+
+
+  @media (min-width: vars.$breakpoint-md) {
+    width                  : vars.$sm-logo-width;
+  }
+
+  @media (min-width: vars.$breakpoint-md) {
+    font-size              : 40px;
+    width                  : vars.$md-logo-width;
+  }
+}
+
+
+
+@mixin section {
+  margin-top               : spacing.$b13;
+
+  @media(min-width: vars.$breakpoint-lg) {
+    margin-top             : spacing.$b20;
+  }
+}
+
+
+
+@mixin aspect-ratio {
+  position                 : relative;
+
+  &:before {
+    width                  : 100%;
+    padding-bottom         : 56.25%;
+    display                : block;
+    content                : "";
+  }
+}
+
+
+
+@mixin aspect-ratio--square {
+  &:before {
+    padding-bottom         : 100%;
+  }
+}
+
+
+
+@mixin aspect-ratio--16to9 {
+  &:before {
+    padding-bottom         : 50.66%;
+  }
+}
+
+
+
+@mixin aspect-ratio--4to3 {
+  &:before {
+    padding-bottom         : 75%;
+  }
+}
+
+
+
+@mixin aspect-ratio--3to2 {
+  &:before {
+    padding-bottom         : 66.66%;
+  }
+}
+
+
+
+@mixin aspect-ratio--21to9 {
+  &:before {
+    padding-bottom         : 42.85%;
+  }
+}
+
+
+

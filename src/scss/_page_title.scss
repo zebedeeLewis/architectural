@@ -1,0 +1,78 @@
+
+@use "vars";
+@use "typography";
+@use "spacing";
+
+.page-title {
+  display                  : flex;
+  flex-direction           : column;
+  flex                     : 0 0 auto;
+  align-items              : center;
+  width                    : vars.$horizontal-outer-spacing;
+  opacity                  : .2;
+
+  &:before {
+    content                : "";
+    display                : block;
+    width                  : 1px;
+    background-color       : black;
+    flex                   : 0 0 auto;
+    height                 : vars.$nav-item-vertical-spacing
+                           + vars.$nav-item-line-height;
+    margin-bottom          : vars.$nav-item-vertical-spacing;
+  }
+
+  @media (min-width: vars.$breakpoint-sm) {
+    width                  : vars.$sm-horizontal-outer-spacing;
+
+    &:before {
+      height               : vars.$sm-nav-item-vertical-spacing
+                           + vars.$sm-nav-item-line-height;
+      margin-bottom        : vars.$sm-nav-item-vertical-spacing;
+    }
+  }
+
+  @media (min-width: vars.$breakpoint-md) {
+    width                  : vars.$md-horizontal-outer-spacing;
+
+    &:before {
+      height               : vars.$md-nav-item-vertical-spacing
+                           + vars.$md-nav-item-line-height;
+      margin-bottom        : vars.$md-nav-item-vertical-spacing;
+    }
+  }
+
+  @media (min-width: vars.$breakpoint-lg) {
+    width                  : vars.$lg-horizontal-outer-spacing;
+
+    &:before {
+      height               : vars.$lg-nav-item-vertical-spacing
+                           + vars.$lg-nav-item-line-height;
+      margin-bottom        : vars.$lg-nav-item-vertical-spacing;
+    }
+  }
+}
+
+
+
+.page-title__heading {
+  display                  : flex;
+  align-items              : center;
+  text-orientation         : mixed;
+  writing-mode             : tb-rl;
+  vertical-align           : middle;
+  font-size                : typography.$font-size;
+  font-weight              : typography.$font-weight-normal;
+  width                    : 100%;
+  text-transform           : uppercase;
+  letter-spacing           : spacing.$b2;
+  margin                   : 0;
+
+  @media (min-width: vars.$breakpoint-md) {
+    font-size              : 18px;
+    letter-spacing         : 16px;
+  }
+}
+
+
+

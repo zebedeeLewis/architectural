@@ -4,6 +4,12 @@
 @use "button";
 @use "card";
 @use "color";
+@use "navbar";
+@use "page_title";
+@use "footer";
+@use "general";
+@use "vars";
+@use "mixins";
 @use "sass:color" as sassColor;
 @use "toggle" with
   ( $background   : color.$primary
@@ -12,417 +18,8 @@
 
 
 /* Contents
- * 1. Variables
- * 2. General Styles
  * 3. Container
- * 0. Navbar
- * 0. Page Title
  */
-
-
-
-/* 1. Variables */
-$package-max-width                        : 327px;
-$package-min-height                       : 453px;
-$font-color                               : color.$dark-grey-blue;
-$large-breakpoint                         : 860px;
-$horizontal-outer-spacing                 : spacing.$b12;
-$nav-item-line-height                     : spacing.$b6;
-$nav-item-vertical-spacing                : spacing.$b6;
-
-$sm-horizontal-outer-spacing              : spacing.$b14;
-$sm-nav-item-line-height                  : spacing.$b8;
-$sm-nav-item-vertical-spacing             : spacing.$b8;
-$sm-navigation-left-offset                : spacing.$b19;
-$sm-logo-width                            : spacing.$b14;
-
-$md-horizontal-outer-spacing              : spacing.$b32;
-$md-nav-item-line-height                  : spacing.$b10;
-$md-nav-item-vertical-spacing             : spacing.$b8;
-$md-navigation-left-offset                : spacing.$b25;
-$md-logo-width                            : spacing.$b23;
-
-$lg-horizontal-outer-spacing              : spacing.$b41;
-$lg-nav-item-line-height                  : spacing.$b10;
-$lg-nav-item-vertical-spacing             : spacing.$b14;
-$sm-slide-caption-font-size               : 24px;
-$sm-slide-caption-line-height             : spacing.$b6;
-$md-slide-caption-font-size               : 30px;
-$md-slide-caption-line-height             : spacing.$b8;
-$lg-slide-caption-font-size               : 30px;
-$lg-slide-caption-line-height             : spacing.$b8;
-
-$breakpoint-sm                            : 600px;
-$breakpoint-md                            : 960px;
-$breakpoint-lg                            : 1280px;
-$breakpoint-xl                            : 1940px;
-
-$slider-pagination-width                  : spacing.$b20;
-
-$section-header-font-size                 : 30px;
-$section-header-line-height               : spacing.$b8;
-
-$welcome-banner-vertical-offset           : spacing.$b18;
-$welcome-wrapper-max-width                : 918px;
-
-
-$sm-footer-logo-vertical-spacing          : spacing.$b7;
-$md-footer-logo-vertical-spacing          : spacing.$b9;
-$lg-footer-logo-vertical-spacing          : spacing.$b20;
-
-
-
-/* 2. General Styles */
-:root {
-  color                    : $font-color;
-}
-
-
-
-body {
-  background-color         : color.$background;
-  margin                   : 0;
-}
-
-
-
-div {
-  box-sizing               : border-box;
-}
-
-
-
-ul {
-  list-style-type          : none;
-  margin-top               : 0;
-  margin-bottom            : 0;
-  padding-left             : 0;
-}
-
-
-
-h1 {
-  font-size                : typography.$font-size;
-  margin                   : 0;
-}
-
-
-
-a {
-  text-decoration          : none;
-  color                    : inherit;
-}
-
-
-
-img {
-  max-width                : 100%;
-  display                  : block;
-  height                   : auto;
-}
-
-
-
-main {
-  font-size                : 16px;
-  line-height              : spacing.$b6;
-  letter-spacing           : 1px;
-}
-
-
-
-.display-none {
-  display                  : none !important;
-}
-
-
-
-.display-initial {
-  display                  : initial;
-}
-
-
-
-.section-heading {
-  font-size                : 30px;
-  letter-spacing           : 1px;
-  line-height              : spacing.$b9;
-  margin                   : 0;
-  margin-top               : spacing.$b2;
-
-  @media(min-width: $breakpoint-lg) {
-    font-size              : 56px;
-    line-height            : spacing.$b16;
-  }
-}
-
-
-
-@mixin section {
-  margin-top               : spacing.$b13;
-
-  @media(min-width: $breakpoint-lg) {
-    margin-top             : spacing.$b20;
-  }
-}
-
-
-
-@mixin aspect-ratio {
-  position                 : relative;
-
-  &:before {
-    width                  : 100%;
-    padding-bottom         : 56.25%;
-    display                : block;
-    content                : "";
-  }
-}
-
-
-
-@mixin aspect-ratio--square {
-  &:before {
-    padding-bottom         : 100%;
-  }
-}
-
-
-
-@mixin aspect-ratio--16to9 {
-  &:before {
-    padding-bottom         : 50.66%;
-  }
-}
-
-
-
-@mixin aspect-ratio--4to3 {
-  &:before {
-    padding-bottom         : 75%;
-  }
-}
-
-
-
-@mixin aspect-ratio--3to2 {
-  &:before {
-    padding-bottom         : 66.66%;
-  }
-}
-
-
-
-@mixin aspect-ratio--21to9 {
-  &:before {
-    padding-bottom         : 42.85%;
-  }
-}
-
-
-
-@mixin logo {
-  font-size                : 24px;
-  line-height              : 24px;
-  font-weight              : 700;
-  letter-spacing           : -2px;
-
-
-  @media (min-width: $breakpoint-md) {
-    width                  : $sm-logo-width;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    font-size              : 40px;
-    width                  : $md-logo-width;
-  }
-}
-
-
-
-/* 0. Container */
-.container {
-  display                  : flex;
-}
-
-
-
-/* 0. Navbar */
-.navbar {
-  display                  : flex;
-  align-items              : center;
-}
-
-
-@mixin nav-item {
-  display                  : inline-block;
-  line-height              : $nav-item-line-height;
-  padding                  : $nav-item-vertical-spacing 0;
-  
-  @media (min-width: $breakpoint-sm) {
-    line-height            : $sm-nav-item-line-height;
-    padding                : $sm-nav-item-vertical-spacing 0;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    line-height            : $md-nav-item-line-height;
-    padding                : $md-nav-item-vertical-spacing 0;
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    line-height            : $lg-nav-item-line-height;
-    padding                : $lg-nav-item-vertical-spacing 0;
-  }
-}
-
-
-
-@mixin nav-item--active {
-  color                    : color.$primary;
-}
-
-
-
-.nav-item {
-  @include                 nav-item;
-
-  padding-left             : spacing.$b5;
-
-  &:hover {
-    @include               nav-item--active;
-  }
-
-  &:active {
-    @include               nav-item--active;
-    color                  : sassColor.scale( color.$primary
-                                            , $lightness: -10%
-                                            );
-  }
-
-  @media (min-width: $breakpoint-sm) {
-    font-size              : 15px;
-    padding-left           : spacing.$b9;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    font-size              : 16px;
-    padding-left           : spacing.$b14;
-  }
-}
-
-
-
-.nav-item--logo {
-  @include                 nav-item;
-  @include                 logo;
-}
-
-
-
-.nav-item--first {
-  @media (min-width: $breakpoint-sm) {
-    padding-left           : $sm-navigation-left-offset;
-  }
-
-  @media (min-width: $breakpoint-md) {
-    padding-left           : $md-navigation-left-offset;
-  }
-}
-
-
-
-/* 0. Inner Container */
-.inner-container {
-  width                    : 200px;
-  padding-right            : $horizontal-outer-spacing;
-  flex                     : 1 1 auto;
-
-  @media(min-width: $breakpoint-sm) {
-    padding-right          : $sm-horizontal-outer-spacing;
-  }
-
-  @media(min-width: $breakpoint-md) {
-    padding-right          : $md-horizontal-outer-spacing;
-  }
-
-  @media(min-width: $breakpoint-lg) {
-    padding-right          : $lg-horizontal-outer-spacing;
-  }
-}
-
-
-
-/* 0. Page Title */
-.page-title {
-  display                  : flex;
-  flex-direction           : column;
-  flex                     : 0 0 auto;
-  align-items              : center;
-  width                    : $horizontal-outer-spacing;
-  opacity                  : .2;
-
-  &:before {
-    content                : "";
-    display                : block;
-    width                  : 1px;
-    background-color       : black;
-    flex                   : 0 0 auto;
-    height                 : $nav-item-vertical-spacing
-                           + $nav-item-line-height;
-    margin-bottom          : $nav-item-vertical-spacing;
-  }
-
-  @media (min-width: $breakpoint-sm) {
-    width                  : $sm-horizontal-outer-spacing;
-
-    &:before {
-      height               : $sm-nav-item-vertical-spacing
-                           + $sm-nav-item-line-height;
-      margin-bottom        : $sm-nav-item-vertical-spacing;
-    }
-  }
-
-  @media (min-width: $breakpoint-md) {
-    width                  : $md-horizontal-outer-spacing;
-
-    &:before {
-      height               : $md-nav-item-vertical-spacing
-                           + $md-nav-item-line-height;
-      margin-bottom        : $md-nav-item-vertical-spacing;
-    }
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    width                  : $lg-horizontal-outer-spacing;
-
-    &:before {
-      height               : $lg-nav-item-vertical-spacing
-                           + $lg-nav-item-line-height;
-      margin-bottom        : $lg-nav-item-vertical-spacing;
-    }
-  }
-}
-
-
-
-.page-title__heading {
-  display                  : flex;
-  align-items              : center;
-  text-orientation         : mixed;
-  writing-mode             : tb-rl;
-  vertical-align           : middle;
-  font-size                : typography.$font-size;
-  font-weight              : typography.$font-weight-normal;
-  width                    : 100%;
-  text-transform           : uppercase;
-  letter-spacing           : spacing.$b2;
-  margin                   : 0;
-
-  @media (min-width: $breakpoint-md) {
-    font-size              : 18px;
-    letter-spacing         : 16px;
-  }
-}
 
 
 
@@ -452,11 +49,11 @@ main {
     width                  : 100%;
     height                 : 50vh;
 
-    @media(min-width: $breakpoint-md) {
+    @media(min-width: vars.$breakpoint-md) {
       height               : 70vh;
     }
 
-    @media(min-width: $breakpoint-lg) {
+    @media(min-width: vars.$breakpoint-lg) {
       height               : 100vh;
     }
   }
@@ -474,22 +71,22 @@ main {
 .main-slider__slide-caption {
   display                  : none;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     display                : block;
     padding                : 0
-                           ( $sm-logo-width
-                           + $sm-navigation-left-offset
+                           ( vars.$sm-logo-width
+                           + vars.$sm-navigation-left-offset
                            ) ;
     margin-top             : spacing.$b40;
     position               : absolute;
     letter-spacing         : 1px;
   }
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     margin-top             : spacing.$b25;
     display                : block;
-    padding-left           : $md-logo-width
-                           + $md-navigation-left-offset;
+    padding-left           : vars.$md-logo-width
+                           + vars.$md-navigation-left-offset;
   }
 }
 
@@ -499,7 +96,7 @@ main {
   max-width                : 440px;
   max-width                : 524px;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     max-width              : 524px;
   }
 }
@@ -514,19 +111,19 @@ main {
   font-weight              : 700;
   margin-bottom            : spacing.$b6;
 
-  @media (min-width: $breakpoint-sm) {
-    font-size              : $sm-slide-caption-font-size * 2;
-    line-height            : $sm-slide-caption-line-height * 2;
+  @media (min-width: vars.$breakpoint-sm) {
+    font-size              : vars.$sm-slide-caption-font-size * 2;
+    line-height            : vars.$sm-slide-caption-line-height * 2;
   }
 
-  @media (min-width: $breakpoint-md) {
-    font-size              : $md-slide-caption-font-size * 2;
-    line-height            : $md-slide-caption-line-height * 2;
+  @media (min-width: vars.$breakpoint-md) {
+    font-size              : vars.$md-slide-caption-font-size * 2;
+    line-height            : vars.$md-slide-caption-line-height * 2;
   }
 
-  @media (min-width: $breakpoint-lg) {
-    font-size              : $lg-slide-caption-font-size * 3;
-    line-height            : $lg-slide-caption-line-height * 3;
+  @media (min-width: vars.$breakpoint-lg) {
+    font-size              : vars.$lg-slide-caption-font-size * 3;
+    line-height            : vars.$lg-slide-caption-line-height * 3;
   }
 }
 
@@ -540,21 +137,21 @@ main {
   word-spacing             : 6px;
 
 
-  @media (min-width: $breakpoint-sm) {
+  @media (min-width: vars.$breakpoint-sm) {
     display                : none;
-    font-size              : $sm-slide-caption-font-size;
-    line-height            : $sm-slide-caption-line-height;
+    font-size              : vars.$sm-slide-caption-font-size;
+    line-height            : vars.$sm-slide-caption-line-height;
   }
 
-  @media (min-width: $breakpoint-md) {
-    font-size              : $md-slide-caption-font-size;
-    line-height            : $md-slide-caption-line-height;
+  @media (min-width: vars.$breakpoint-md) {
+    font-size              : vars.$md-slide-caption-font-size;
+    line-height            : vars.$md-slide-caption-line-height;
   }
 
-  @media (min-width: $breakpoint-lg) {
+  @media (min-width: vars.$breakpoint-lg) {
     display                : block;
-    font-size              : $lg-slide-caption-font-size;
-    line-height            : $lg-slide-caption-line-height;
+    font-size              : vars.$lg-slide-caption-font-size;
+    line-height            : vars.$lg-slide-caption-line-height;
   }
 }
 
@@ -564,7 +161,7 @@ main {
   @include                 button.button;
   @include                 button.button--dark;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     @include               button.button--medium;
   }
 }
@@ -580,10 +177,10 @@ main {
 /* 0. Slider Controls */
 .main-slider__pagination {
   display                  : none;
-  margin-top               : $slider-pagination-width*-1;
-  margin-left              : $slider-pagination-width*-1;
+  margin-top               : vars.$slider-pagination-width*-1;
+  margin-left              : vars.$slider-pagination-width*-1;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     display                : block;
   }
 }
@@ -591,8 +188,8 @@ main {
 
 
 .main-slider__page-num {
-  width                    : $slider-pagination-width;
-  height                   : $slider-pagination-width;
+  width                    : vars.$slider-pagination-width;
+  height                   : vars.$slider-pagination-width;
   background-color         : white;
   color                    : sassColor.scale(black, $alpha: -70%);
   display                  : flex;
@@ -613,7 +210,7 @@ main {
 
 /* 0. Welcome Section */
 .welcome-section {
-  @include                 section;
+  @include                 mixins.section;
 }
 
 
@@ -624,15 +221,17 @@ main {
   font-weight              : 700;
   opacity                  : .1;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     font-size              : 140px;
     line-height            : spacing.$b37;
   }
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     font-size              : 200px;
     line-height            : spacing.$b52;
-    transform              : translatey($welcome-banner-vertical-offset);
+    transform              : translatey(
+                               vars.$welcome-banner-vertical-offset
+                             );
   }
 }
 
@@ -640,7 +239,7 @@ main {
 
 .welcome-wrapper {
   display                  : flex;
-  max-width                : $welcome-wrapper-max-width;
+  max-width                : vars.$welcome-wrapper-max-width;
   margin-left              : auto;
 }
 
@@ -649,8 +248,8 @@ main {
 .welcome-text {
   padding-right            : 28px;
 
-  @media(min-width: $breakpoint-lg) {
-    padding-top            : $welcome-banner-vertical-offset;
+  @media(min-width: vars.$breakpoint-lg) {
+    padding-top            : vars.$welcome-banner-vertical-offset;
   }
 }
 
@@ -659,7 +258,7 @@ main {
 .welcome-image-wrapper {
   display                  : none;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     display                : block;
   }
 }
@@ -669,21 +268,21 @@ main {
 /* 0. About Section */
 .about-section {
   @include                 card.card;
-  @include                 section;
-  @include                 aspect-ratio;
-  @include                 aspect-ratio--square;
+  @include                 mixins.section;
+  @include                 mixins.aspect-ratio;
+  @include                 mixins.aspect-ratio--square;
 
   &:before {
     background-image       : url(../images/home_office.jpg);
     background-size        : cover;
   }
 
-  @media(min-width: $breakpoint-sm) {
-    @include               aspect-ratio--16to9;
+  @media(min-width: vars.$breakpoint-sm) {
+    @include               mixins.aspect-ratio--16to9;
   }
 
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     margin-top             : spacing.$b50;
   }
 }
@@ -701,15 +300,15 @@ main {
   flex-wrap                : wrap;
   padding-left             : 24px;
   padding-right            : 24px;
-  max-width                : $welcome-wrapper-max-width;
+  max-width                : vars.$welcome-wrapper-max-width;
   margin-left              : auto;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     padding-left           : 48px;
     padding-right          : 48px;
   }
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     padding-left           : 0;
     padding-right          : 0;
   }
@@ -726,12 +325,12 @@ main {
   width                    : 100%;
   max-width                : 500px;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     font-size              : 60px;
     line-height            : spacing.$b17;
   }
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     font-size              : 76px;
     line-height            : spacing.$b19;
   }
@@ -744,11 +343,11 @@ main {
   @include                 button.button--dark;
   margin-top               : spacing.$b8;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     margin-top             : spacing.$b16;
   }
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     @include               button.button--medium;
   }
 }
@@ -757,10 +356,10 @@ main {
 
 /* 0. Feature Section */
 .feature-section {
-  @include                 section;
+  @include                 mixins.section;
   margin-top               : spacing.$b24;
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     margin-top             : spacing.$b50;
   }
 }
@@ -777,7 +376,7 @@ main {
   @include                 button.button;
   @include                 button.button--dark;
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     @include               button.button--medium;
   }
 }
@@ -787,7 +386,7 @@ main {
 .section-content {
   margin-top               : spacing.$b10;
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     display                : flex;
     margin-top             : spacing.$b16;
   }
@@ -797,8 +396,8 @@ main {
 
 .feature-card {
   @include                 card.card;
-  @include                 aspect-ratio;
-  @include                 aspect-ratio--21to9;
+  @include                 mixins.aspect-ratio;
+  @include                 mixins.aspect-ratio--21to9;
 
   width                    : 100%;
   margin-bottom            : spacing.$b2;
@@ -806,7 +405,7 @@ main {
   &:before {
     background-size        : cover;
 
-    @media(min-width: $breakpoint-lg) {
+    @media(min-width: vars.$breakpoint-lg) {
       padding-bottom       : 151.85%;
     }
   }
@@ -827,7 +426,7 @@ main {
     background-image       : url("../images/architecture2.jpg");
   }
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     margin                : 0 26px;
   }
 }
@@ -854,12 +453,12 @@ main {
   padding                  : spacing.$b3 spacing.$b6;
   background-color         : hsla(0, 0%, 0%, 0.3);
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     font-size              : 24px;
     line-height            : spacing.$b7;
   }
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     padding                : spacing.$b11 0 spacing.$b11 60px;
     font-size              : 20px;
   }
@@ -874,7 +473,7 @@ main {
   justify-content          : flex-end;
   font-weight              : 700;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     font-size              : 32px;
     line-height            : spacing.$b10;
   }
@@ -886,7 +485,7 @@ main {
   font-weight              : 500;
   cursor                   : pointer;
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     font-size              : 15px;
   }
 }
@@ -902,17 +501,17 @@ main {
   line-height              : 1;
   opacity                  : .4;
 
-  @media(min-width: $breakpoint-sm) {
+  @media(min-width: vars.$breakpoint-sm) {
     font-size              : 180px;
     line-height            : spacing.$b45;
   }
 
-  @media(min-width: $breakpoint-md) {
+  @media(min-width: vars.$breakpoint-md) {
     font-size              : 320px;
     line-height            : spacing.$b82;
   }
 
-  @media(min-width: $breakpoint-lg) {
+  @media(min-width: vars.$breakpoint-lg) {
     font-size              : 200px;
     line-height            : spacing.$b50;
     position               : absolute;
@@ -923,105 +522,3 @@ main {
 
 
 
-/* 0. Footer */
-.footer {
-  margin-top               : spacing.$b23;
-  position                 : relative;
-
-  @media(min-width: $breakpoint-sm) {
-    padding-left           : $sm-horizontal-outer-spacing;
-    padding-right          : $sm-horizontal-outer-spacing;
-  }
-
-  @media(min-width: $breakpoint-md) {
-    padding-left           : $md-horizontal-outer-spacing;
-    padding-right          : $md-horizontal-outer-spacing;
-  }
-
-  @media(min-width: $breakpoint-lg) {
-    margin-top             : spacing.$b48;
-    padding-left           : $lg-horizontal-outer-spacing;
-    padding-right          : $lg-horizontal-outer-spacing;
-  }
-}
-
-
-
-.footer-nav {
-  display                  : flex;
-  align-items              : center;
-  position                 : relative;
-
-  &:before {
-    content                : "";
-    display                : block;
-    position               : absolute;
-    top                    : 0;
-    bottom                 : 0;
-    right                  : 0;
-    left                   : 0;
-    background-color       : color.$very-light-grey;
-    max-width              : 90%;
-    z-index                : -1;
-  }
-}
-
-
-
-.footer-logo {
-  @include                 logo;
-  line-height              : 1;
-  padding                  : 16px 8px;
-  background-color         : black;
-  color                    : white;
-
-  @media(min-width: $breakpoint-sm) {
-    padding                : $sm-footer-logo-vertical-spacing
-                             spacing.$b4;
-  }
-
-  @media(min-width: $breakpoint-md) {
-    padding                : $md-footer-logo-vertical-spacing
-                             spacing.$b5; 
-  }
-
-  @media(min-width: $breakpoint-lg) {
-    padding                : $lg-footer-logo-vertical-spacing
-                             spacing.$b13;
-  }
-}
-
-
-
-.nav-item--footer {
-  padding                  : 20px 8px;
-  
-  @media(min-width: $breakpoint-md) {
-    font-size              : 24px;
-    padding                : $md-footer-logo-vertical-spacing
-                             spacing.$b3;
-  }
-
-  @media(min-width: $breakpoint-lg) {
-    padding                : spacing.$b21 spacing.$b5;
-    font-size              : 28px;
-    line-height            : spacing.$b8;
-  }
-}
-
-
-
-.footer-button {
-  @include                 button.button;
-  @include                 button.button--dark;
-  @include                 button.button;
-  display                  : none;
-
-  @media(min-width: $breakpoint-sm) {
-    display                : inline-block;
-  }
-
-  @media(min-width: $breakpoint-lg) {
-    @include               button.button--medium;
-  }
-}

@@ -1,0 +1,92 @@
+
+@use "vars";
+@use "spacing";
+@use "color";
+@use "mixins";
+@use "sass:color" as sassColor;
+
+
+
+.navbar {
+  display                  : flex;
+  align-items              : center;
+}
+
+
+@mixin nav-item {
+  display                  : inline-block;
+  line-height              : vars.$nav-item-line-height;
+  padding                  : vars.$nav-item-vertical-spacing 0;
+  
+  @media (min-width: vars.$breakpoint-sm) {
+    line-height            : vars.$sm-nav-item-line-height;
+    padding                : vars.$sm-nav-item-vertical-spacing 0;
+  }
+
+  @media (min-width: vars.$breakpoint-md) {
+    line-height            : vars.$md-nav-item-line-height;
+    padding                : vars.$md-nav-item-vertical-spacing 0;
+  }
+
+  @media (min-width: vars.$breakpoint-lg) {
+    line-height            : vars.$lg-nav-item-line-height;
+    padding                : vars.$lg-nav-item-vertical-spacing 0;
+  }
+}
+
+
+
+@mixin nav-item--active {
+  color                    : color.$primary;
+}
+
+
+
+.nav-item {
+  @include                 nav-item;
+
+  padding-left             : spacing.$b5;
+
+  &:hover {
+    @include               nav-item--active;
+  }
+
+  &:active {
+    @include               nav-item--active;
+    color                  : sassColor.scale( color.$primary
+                                            , $lightness: -10%
+                                            );
+  }
+
+  @media (min-width: vars.$breakpoint-sm) {
+    font-size              : 15px;
+    padding-left           : spacing.$b9;
+  }
+
+  @media (min-width: vars.$breakpoint-md) {
+    font-size              : 16px;
+    padding-left           : spacing.$b14;
+  }
+}
+
+
+
+.nav-item--logo {
+  @include                 nav-item;
+  @include                 mixins.logo;
+}
+
+
+
+.nav-item--first {
+  @media (min-width: vars.$breakpoint-sm) {
+    padding-left           : vars.$sm-navigation-left-offset;
+  }
+
+  @media (min-width: vars.$breakpoint-md) {
+    padding-left           : vars.$md-navigation-left-offset;
+  }
+}
+
+
+
