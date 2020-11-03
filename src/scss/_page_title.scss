@@ -1,7 +1,10 @@
 
 @use "vars";
+@use "navbar";
 @use "typography";
 @use "spacing";
+
+
 
 .page-title {
   display                  : flex;
@@ -17,18 +20,18 @@
     width                  : 1px;
     background-color       : black;
     flex                   : 0 0 auto;
-    height                 : vars.$nav-item-vertical-spacing
-                           + vars.$nav-item-line-height;
-    margin-bottom          : vars.$nav-item-vertical-spacing;
+    height                 : navbar.$nav-item-vertical-spacing
+                           + navbar.$nav-item-line-height;
+    margin-bottom          : navbar.$nav-item-vertical-spacing;
   }
 
   @media (min-width: vars.$breakpoint-sm) {
     width                  : vars.$sm-horizontal-outer-spacing;
 
     &:before {
-      height               : vars.$sm-nav-item-vertical-spacing
-                           + vars.$sm-nav-item-line-height;
-      margin-bottom        : vars.$sm-nav-item-vertical-spacing;
+      height               : navbar.$sm-nav-item-vertical-spacing
+                           + navbar.$sm-nav-item-line-height;
+      margin-bottom        : navbar.$sm-nav-item-vertical-spacing;
     }
   }
 
@@ -36,9 +39,9 @@
     width                  : vars.$md-horizontal-outer-spacing;
 
     &:before {
-      height               : vars.$md-nav-item-vertical-spacing
-                           + vars.$md-nav-item-line-height;
-      margin-bottom        : vars.$md-nav-item-vertical-spacing;
+      height               : navbar.$md-nav-item-vertical-spacing
+                           + navbar.$md-nav-item-line-height;
+      margin-bottom        : navbar.$md-nav-item-vertical-spacing;
     }
   }
 
@@ -46,9 +49,9 @@
     width                  : vars.$lg-horizontal-outer-spacing;
 
     &:before {
-      height               : vars.$lg-nav-item-vertical-spacing
-                           + vars.$lg-nav-item-line-height;
-      margin-bottom        : vars.$lg-nav-item-vertical-spacing;
+      height               : navbar.$lg-nav-item-vertical-spacing
+                           + navbar.$lg-nav-item-line-height;
+      margin-bottom        : navbar.$lg-nav-item-vertical-spacing;
     }
   }
 }

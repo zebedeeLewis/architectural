@@ -25,7 +25,7 @@ const SCRIPTS_SRC_DIR_PATH = path.join(SRC_DIR_PATH, 'scripts')
 const INDEX_JS_SRC_PATH = path.join(SCRIPTS_SRC_DIR_PATH, 'index.ts')
 
 const COMMON_SCSS_SRC_PATH =
-  path.join(SCSS_SRC_DIR_PATH, 'common.inline.scss')
+  path.join(SCSS_SRC_DIR_PATH, 'loader.scss')
 
 const COMMON_JS_SRC_PATH =
   path.join(SCRIPTS_SRC_DIR_PATH, 'common.ts')

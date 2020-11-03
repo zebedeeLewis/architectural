@@ -1,9 +1,23 @@
-
 @use "vars";
 @use "spacing";
 @use "color";
 @use "mixins";
 @use "sass:color" as sassColor;
+
+
+
+$nav-item-line-height                     : spacing.$b6;
+$sm-nav-item-line-height                  : spacing.$b8;
+$md-nav-item-line-height                  : spacing.$b10;
+$lg-nav-item-line-height                  : spacing.$b10;
+
+$nav-item-vertical-spacing                : spacing.$b6;
+$sm-nav-item-vertical-spacing             : spacing.$b8;
+$md-nav-item-vertical-spacing             : spacing.$b8;
+$lg-nav-item-vertical-spacing             : spacing.$b14;
+
+$sm-navigation-left-offset                : spacing.$b19;
+$md-navigation-left-offset                : spacing.$b25;
 
 
 
@@ -13,24 +27,25 @@
 }
 
 
+
 @mixin nav-item {
   display                  : inline-block;
-  line-height              : vars.$nav-item-line-height;
-  padding                  : vars.$nav-item-vertical-spacing 0;
+  line-height              : $nav-item-line-height;
+  padding                  : $nav-item-vertical-spacing 0;
   
   @media (min-width: vars.$breakpoint-sm) {
-    line-height            : vars.$sm-nav-item-line-height;
-    padding                : vars.$sm-nav-item-vertical-spacing 0;
+    line-height            : $sm-nav-item-line-height;
+    padding                : $sm-nav-item-vertical-spacing 0;
   }
 
   @media (min-width: vars.$breakpoint-md) {
-    line-height            : vars.$md-nav-item-line-height;
-    padding                : vars.$md-nav-item-vertical-spacing 0;
+    line-height            : $md-nav-item-line-height;
+    padding                : $md-nav-item-vertical-spacing 0;
   }
 
   @media (min-width: vars.$breakpoint-lg) {
-    line-height            : vars.$lg-nav-item-line-height;
-    padding                : vars.$lg-nav-item-vertical-spacing 0;
+    line-height            : $lg-nav-item-line-height;
+    padding                : $lg-nav-item-vertical-spacing 0;
   }
 }
 
@@ -80,13 +95,11 @@
 
 .nav-item--first {
   @media (min-width: vars.$breakpoint-sm) {
-    padding-left           : vars.$sm-navigation-left-offset;
+    padding-left           : $sm-navigation-left-offset;
   }
 
   @media (min-width: vars.$breakpoint-md) {
-    padding-left           : vars.$md-navigation-left-offset;
+    padding-left           : $md-navigation-left-offset;
   }
 }
-
-
 

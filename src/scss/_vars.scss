@@ -2,30 +2,24 @@
 @use "spacing";
 @use "color";
 
-/* 1. Variables */
+
+/* TODO: group variables in files according to functionality */
+
+
+
 $package-max-width                        : 327px;
 $package-min-height                       : 453px;
 $font-color                               : color.$dark-grey-blue;
 $large-breakpoint                         : 860px;
 $horizontal-outer-spacing                 : spacing.$b12;
-$nav-item-line-height                     : spacing.$b6;
-$nav-item-vertical-spacing                : spacing.$b6;
 
 $sm-horizontal-outer-spacing              : spacing.$b14;
-$sm-nav-item-line-height                  : spacing.$b8;
-$sm-nav-item-vertical-spacing             : spacing.$b8;
-$sm-navigation-left-offset                : spacing.$b19;
 $sm-logo-width                            : spacing.$b14;
 
 $md-horizontal-outer-spacing              : spacing.$b32;
-$md-nav-item-line-height                  : spacing.$b10;
-$md-nav-item-vertical-spacing             : spacing.$b8;
-$md-navigation-left-offset                : spacing.$b25;
 $md-logo-width                            : spacing.$b23;
 
 $lg-horizontal-outer-spacing              : spacing.$b41;
-$lg-nav-item-line-height                  : spacing.$b10;
-$lg-nav-item-vertical-spacing             : spacing.$b14;
 $sm-slide-caption-font-size               : 24px;
 $sm-slide-caption-line-height             : spacing.$b6;
 $md-slide-caption-font-size               : 30px;

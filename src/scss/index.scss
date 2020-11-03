@@ -18,12 +18,15 @@
 
 
 /* Contents
- * 3. Container
+ * 1. Main Home Slider
+ * 2. Welcome Section
+ * 3. About Section 
+ * 4. Feature Section
  */
 
 
 
-/* 0. Main Home Slider */
+/* 1. Main Home Slider */
 .main-slider { }
 
 
@@ -75,7 +78,7 @@
     display                : block;
     padding                : 0
                            ( vars.$sm-logo-width
-                           + vars.$sm-navigation-left-offset
+                           + navbar.$sm-navigation-left-offset
                            ) ;
     margin-top             : spacing.$b40;
     position               : absolute;
@@ -86,7 +89,7 @@
     margin-top             : spacing.$b25;
     display                : block;
     padding-left           : vars.$md-logo-width
-                           + vars.$md-navigation-left-offset;
+                           + navbar.$md-navigation-left-offset;
   }
 }
 
@@ -174,7 +177,6 @@
 
 
 
-/* 0. Slider Controls */
 .main-slider__pagination {
   display                  : none;
   margin-top               : vars.$slider-pagination-width*-1;
@@ -208,7 +210,7 @@
 
 
 
-/* 0. Welcome Section */
+/* 2. Welcome Section */
 .welcome-section {
   @include                 mixins.section;
 }
@@ -265,7 +267,7 @@
 
 
 
-/* 0. About Section */
+/* 3. About Section */
 .about-section {
   @include                 card.card;
   @include                 mixins.section;
@@ -354,7 +356,7 @@
 
 
 
-/* 0. Feature Section */
+/* 4. Feature Section */
 .feature-section {
   @include                 mixins.section;
   margin-top               : spacing.$b24;
