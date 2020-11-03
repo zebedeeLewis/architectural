@@ -1,6 +1,6 @@
-
 @use "vars";
 @use "spacing";
+@use "breakpoint";
 
 
 
@@ -11,11 +11,11 @@
   letter-spacing           : -2px;
 
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     width                  : vars.$sm-logo-width;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     font-size              : 40px;
     width                  : vars.$md-logo-width;
   }
@@ -26,7 +26,7 @@
 @mixin section {
   margin-top               : spacing.$b13;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     margin-top             : spacing.$b20;
   }
 }

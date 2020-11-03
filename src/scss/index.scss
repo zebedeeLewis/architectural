@@ -11,6 +11,7 @@
 @use "vars";
 @use "mixins";
 @use "sass:color" as sassColor;
+@use "breakpoint";
 @use "toggle" with
   ( $background   : color.$primary
   , $switch-color : color.$on-primary
@@ -52,11 +53,11 @@
     width                  : 100%;
     height                 : 50vh;
 
-    @media(min-width: vars.$breakpoint-md) {
+    @media(min-width: breakpoint.$md) {
       height               : 70vh;
     }
 
-    @media(min-width: vars.$breakpoint-lg) {
+    @media(min-width: breakpoint.$lg) {
       height               : 100vh;
     }
   }
@@ -74,7 +75,7 @@
 .main-slider__slide-caption {
   display                  : none;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     display                : block;
     padding                : 0
                            ( vars.$sm-logo-width
@@ -85,7 +86,7 @@
     letter-spacing         : 1px;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     margin-top             : spacing.$b25;
     display                : block;
     padding-left           : vars.$md-logo-width
@@ -99,7 +100,7 @@
   max-width                : 440px;
   max-width                : 524px;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     max-width              : 524px;
   }
 }
@@ -114,17 +115,17 @@
   font-weight              : 700;
   margin-bottom            : spacing.$b6;
 
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     font-size              : vars.$sm-slide-caption-font-size * 2;
     line-height            : vars.$sm-slide-caption-line-height * 2;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     font-size              : vars.$md-slide-caption-font-size * 2;
     line-height            : vars.$md-slide-caption-line-height * 2;
   }
 
-  @media (min-width: vars.$breakpoint-lg) {
+  @media (min-width: breakpoint.$lg) {
     font-size              : vars.$lg-slide-caption-font-size * 3;
     line-height            : vars.$lg-slide-caption-line-height * 3;
   }
@@ -140,18 +141,18 @@
   word-spacing             : 6px;
 
 
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     display                : none;
     font-size              : vars.$sm-slide-caption-font-size;
     line-height            : vars.$sm-slide-caption-line-height;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     font-size              : vars.$md-slide-caption-font-size;
     line-height            : vars.$md-slide-caption-line-height;
   }
 
-  @media (min-width: vars.$breakpoint-lg) {
+  @media (min-width: breakpoint.$lg) {
     display                : block;
     font-size              : vars.$lg-slide-caption-font-size;
     line-height            : vars.$lg-slide-caption-line-height;
@@ -164,7 +165,7 @@
   @include                 button.button;
   @include                 button.button--dark;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     @include               button.button--medium;
   }
 }
@@ -182,7 +183,7 @@
   margin-top               : vars.$slider-pagination-width*-1;
   margin-left              : vars.$slider-pagination-width*-1;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     display                : block;
   }
 }
@@ -223,12 +224,12 @@
   font-weight              : 700;
   opacity                  : .1;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     font-size              : 140px;
     line-height            : spacing.$b37;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     font-size              : 200px;
     line-height            : spacing.$b52;
     transform              : translatey(
@@ -250,7 +251,7 @@
 .welcome-text {
   padding-right            : 28px;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding-top            : vars.$welcome-banner-vertical-offset;
   }
 }
@@ -260,7 +261,7 @@
 .welcome-image-wrapper {
   display                  : none;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     display                : block;
   }
 }
@@ -279,12 +280,12 @@
     background-size        : cover;
   }
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     @include               mixins.aspect-ratio--16to9;
   }
 
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     margin-top             : spacing.$b50;
   }
 }
@@ -305,12 +306,12 @@
   max-width                : vars.$welcome-wrapper-max-width;
   margin-left              : auto;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     padding-left           : 48px;
     padding-right          : 48px;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding-left           : 0;
     padding-right          : 0;
   }
@@ -327,12 +328,12 @@
   width                    : 100%;
   max-width                : 500px;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     font-size              : 60px;
     line-height            : spacing.$b17;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     font-size              : 76px;
     line-height            : spacing.$b19;
   }
@@ -345,11 +346,11 @@
   @include                 button.button--dark;
   margin-top               : spacing.$b8;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     margin-top             : spacing.$b16;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     @include               button.button--medium;
   }
 }
@@ -361,7 +362,7 @@
   @include                 mixins.section;
   margin-top               : spacing.$b24;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     margin-top             : spacing.$b50;
   }
 }
@@ -378,7 +379,7 @@
   @include                 button.button;
   @include                 button.button--dark;
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     @include               button.button--medium;
   }
 }
@@ -388,7 +389,7 @@
 .section-content {
   margin-top               : spacing.$b10;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     display                : flex;
     margin-top             : spacing.$b16;
   }
@@ -407,7 +408,7 @@
   &:before {
     background-size        : cover;
 
-    @media(min-width: vars.$breakpoint-lg) {
+    @media(min-width: breakpoint.$lg) {
       padding-bottom       : 151.85%;
     }
   }
@@ -428,7 +429,7 @@
     background-image       : url("../images/architecture2.jpg");
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     margin                : 0 26px;
   }
 }
@@ -455,12 +456,12 @@
   padding                  : spacing.$b3 spacing.$b6;
   background-color         : hsla(0, 0%, 0%, 0.3);
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     font-size              : 24px;
     line-height            : spacing.$b7;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding                : spacing.$b11 0 spacing.$b11 60px;
     font-size              : 20px;
   }
@@ -475,7 +476,7 @@
   justify-content          : flex-end;
   font-weight              : 700;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     font-size              : 32px;
     line-height            : spacing.$b10;
   }
@@ -487,7 +488,7 @@
   font-weight              : 500;
   cursor                   : pointer;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     font-size              : 15px;
   }
 }
@@ -503,17 +504,17 @@
   line-height              : 1;
   opacity                  : .4;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     font-size              : 180px;
     line-height            : spacing.$b45;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     font-size              : 320px;
     line-height            : spacing.$b82;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     font-size              : 200px;
     line-height            : spacing.$b50;
     position               : absolute;

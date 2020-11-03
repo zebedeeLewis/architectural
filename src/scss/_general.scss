@@ -3,6 +3,7 @@
 @use "vars";
 @use "typography";
 @use "color";
+@use "breakpoint";
 
 
 
@@ -83,7 +84,7 @@ main {
   margin                   : 0;
   margin-top               : spacing.$b2;
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     font-size              : 56px;
     line-height            : spacing.$b16;
   }
@@ -104,15 +105,15 @@ main {
   padding-right            : spacing.$outer-horizontal;
   flex                     : 1 1 auto;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     padding-right          : spacing.$outer-horizontal--sm;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     padding-right          : spacing.$outer-horizontal--md;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding-right          : spacing.$outer-horizontal--lg;
   }
 }

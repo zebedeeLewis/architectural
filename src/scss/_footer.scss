@@ -3,6 +3,7 @@
 @use "color";
 @use "button";
 @use "mixins";
+@use "breakpoint";
 
 
 
@@ -10,17 +11,17 @@
   margin-top               : spacing.$b23;
   position                 : relative;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     padding-left           : spacing.$outer-horizontal--sm;
     padding-right          : spacing.$outer-horizontal--sm;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     padding-left           : spacing.$outer-horizontal--md;
     padding-right          : spacing.$outer-horizontal--md;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     margin-top             : spacing.$b48;
     padding-left           : spacing.$outer-horizontal--lg;
     padding-right          : spacing.$outer-horizontal--lg;
@@ -57,17 +58,17 @@
   background-color         : black;
   color                    : white;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     padding                : vars.$sm-footer-logo-vertical-spacing
                              spacing.$b4;
   }
 
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     padding                : vars.$md-footer-logo-vertical-spacing
                              spacing.$b5; 
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding                : vars.$lg-footer-logo-vertical-spacing
                              spacing.$b13;
   }
@@ -78,13 +79,13 @@
 .nav-item--footer {
   padding                  : 20px 8px;
   
-  @media(min-width: vars.$breakpoint-md) {
+  @media(min-width: breakpoint.$md) {
     font-size              : 24px;
     padding                : vars.$md-footer-logo-vertical-spacing
                              spacing.$b3;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     padding                : spacing.$b21 spacing.$b5;
     font-size              : 28px;
     line-height            : spacing.$b8;
@@ -99,11 +100,11 @@
   @include                 button.button;
   display                  : none;
 
-  @media(min-width: vars.$breakpoint-sm) {
+  @media(min-width: breakpoint.$sm) {
     display                : inline-block;
   }
 
-  @media(min-width: vars.$breakpoint-lg) {
+  @media(min-width: breakpoint.$lg) {
     @include               button.button--medium;
   }
 }

@@ -3,6 +3,7 @@
 @use "navbar";
 @use "typography";
 @use "spacing";
+@use "breakpoint";
 
 
 
@@ -25,7 +26,7 @@
     margin-bottom          : navbar.$nav-item-vertical-spacing;
   }
 
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     width                  : spacing.$outer-horizontal--sm;
 
     &:before {
@@ -35,7 +36,7 @@
     }
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     width                  : spacing.$outer-horizontal--md;
 
     &:before {
@@ -45,7 +46,7 @@
     }
   }
 
-  @media (min-width: vars.$breakpoint-lg) {
+  @media (min-width: breakpoint.$lg) {
     width                  : spacing.$outer-horizontal--lg;
 
     &:before {
@@ -71,7 +72,7 @@
   letter-spacing           : spacing.$b2;
   margin                   : 0;
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     font-size              : 18px;
     letter-spacing         : 16px;
   }

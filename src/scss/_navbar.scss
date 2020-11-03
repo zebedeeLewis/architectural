@@ -3,6 +3,7 @@
 @use "color";
 @use "mixins";
 @use "sass:color" as sassColor;
+@use "breakpoint";
 
 
 
@@ -33,17 +34,17 @@ $left-offset--md : spacing.$b25;
   line-height              : $nav-item-line-height;
   padding                  : $nav-item-vertical-spacing 0;
   
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     line-height            : $nav-item-line-height--sm;
     padding                : $nav-item-vertical-spacing--sm 0;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     line-height            : $nav-item-line-height--md;
     padding                : $nav-item-vertical-spacing--md 0;
   }
 
-  @media (min-width: vars.$breakpoint-lg) {
+  @media (min-width: breakpoint.$lg) {
     line-height            : $nav-item-line-height--lg;
     padding                : $nav-item-vertical-spacing--lg 0;
   }
@@ -73,12 +74,12 @@ $left-offset--md : spacing.$b25;
                                             );
   }
 
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     font-size              : 15px;
     padding-left           : spacing.$b9;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     font-size              : 16px;
     padding-left           : spacing.$b14;
   }
@@ -94,11 +95,11 @@ $left-offset--md : spacing.$b25;
 
 
 .nav-item--first {
-  @media (min-width: vars.$breakpoint-sm) {
+  @media (min-width: breakpoint.$sm) {
     padding-left           : $left-offset--sm;
   }
 
-  @media (min-width: vars.$breakpoint-md) {
+  @media (min-width: breakpoint.$md) {
     padding-left           : $left-offset--md;
   }
 }
