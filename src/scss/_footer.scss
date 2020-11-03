@@ -7,6 +7,12 @@
 
 
 
+$footer-logo-vertical-spacing--sm : spacing.$b7;
+$footer-logo-vertical-spacing--md : spacing.$b9;
+$footer-logo-vertical-spacing--lg : spacing.$b20;
+
+
+
 .footer {
   margin-top               : spacing.$b23;
   position                 : relative;
@@ -59,17 +65,17 @@
   color                    : white;
 
   @media(min-width: breakpoint.$sm) {
-    padding                : vars.$sm-footer-logo-vertical-spacing
+    padding                : $footer-logo-vertical-spacing--sm
                              spacing.$b4;
   }
 
   @media(min-width: breakpoint.$md) {
-    padding                : vars.$md-footer-logo-vertical-spacing
+    padding                : $footer-logo-vertical-spacing--md
                              spacing.$b5; 
   }
 
   @media(min-width: breakpoint.$lg) {
-    padding                : vars.$lg-footer-logo-vertical-spacing
+    padding                : $footer-logo-vertical-spacing--lg
                              spacing.$b13;
   }
 }
@@ -81,7 +87,7 @@
   
   @media(min-width: breakpoint.$md) {
     font-size              : 24px;
-    padding                : vars.$md-footer-logo-vertical-spacing
+    padding                : $footer-logo-vertical-spacing--md
                              spacing.$b3;
   }
 
