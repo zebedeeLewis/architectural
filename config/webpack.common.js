@@ -4,33 +4,74 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackInjector = require('html-webpack-injector')
+const InlineChunksPlugin =
+  require('./plugins/html-webpack-inline-chunks')
 
 
 
 const page_descriptors =
-  [ { entry_name           : 'index'
-    , entry_filename       : path.join(paths.src, 'index.ts')
-    , html_page_title      : 'Title 1'
-    , html_template        : path.join(paths.src, 'html', 'index.html')
-    , html_output_filename : 'index.html'
-    , chunks               :
-        [ 'index'
-        , 'common_js_head'
-        , 'common_css_inline'
-        ]
+  [ { pageTitle      : 'Home'
+    , pageSourceFile : path.join(paths.src, 'index.html')
+    , assets :
+      { external :
+        { index :
+          { sourceFile : path.join(paths.src, 'scripts', 'index.ts')
+          , 
+          }
+        }
+      , inline :
+        { common_js :
+          { sourceFile : path.join(paths.src, 'scripts', 'common.ts')
+          }
+        , common_css :
+          { sourceFile :
+            path.join(paths.src, 'scss', 'common.inline.scss')
+          }
+        }
+      }
     }
   ]
+
+
+
+function entries_from_page_descriptor
+  ( pageDescriptor
+  ) {
+    const to_entry =
+      ( entries
+      , [ assetName, assetDesc ]
+      ) => (
+        { [assetName] : assetDesc.sourceFile
+        , ... entries
+        }
+      )
+    
+
+    const inlineAssets = pageDescriptor.assets.inline
+
+    const inlineEntries =
+      Object.entries(inlineAssets).reduce( to_entry, {} )
+
+    const externalAssets = pageDescriptor.assets.external
+
+    const externalEntries =
+      Object.entries(externalAssets).reduce( to_entry, {} )
+
+    return (
+      { ... externalEntries
+      , ... inlineEntries
+      }
+    )
+  }
 
 
 
 const entries =
   page_descriptors.reduce
     ( ( entries
-      , { entry_name
-        , entry_filename
-        }
+      , pageDescriptor
       ) => (
-        { [entry_name] : entry_filename
+        { ... entries_from_page_descriptor(pageDescriptor)
         , ... entries
         }
       )
@@ -39,34 +80,47 @@ const entries =
 
 
 
-const html_webpack_plugins =
+const htmlWebpackPlugins =
   page_descriptors.map
-    ( ( { html_page_title
-        , html_template
-        , html_output_filename
-        , chunks
+    ( ( { pageTitle
+        , pageSourceFile
+        , assets
         }
       ) =>
         new HtmlWebpackPlugin(
-          { title        : html_page_title
+          { title        : pageTitle
           , favicon      : paths.src + '/images/favicon.png'
-          , template     : html_template
-          , filename     : html_output_filename
-          , chunks       : chunks
+          , template     : pageSourceFile
+          , filename     : path.basename(pageSourceFile)
+          , chunks       :
+            [ ... Object.keys(assets.external)
+            , ... Object.keys(assets.inline)
+            ]
           , inject       : true
           , minify       : false
           }
-        )
+       )
     )
+
+
+
+const allInlinedAssetNamess =
+  page_descriptors.reduce
+    ( ( pageDescriptors
+      , pageDescriptor
+      ) => (
+        [ ... Object.keys(pageDescriptor.assets.inline)
+        , ... pageDescriptors
+        ]
+      )
+    , []
+    ).map( assetName => RegExp(assetName) )
 
 
 
 module.exports =
   { entry  : 
       { ... entries
-      , common_js_head : path.join(paths.src, 'common.ts')
-      , common_css_inline:
-          path.join(paths.src, 'scss', 'common.inline.scss')
       }
 
   , plugins:
@@ -80,10 +134,16 @@ module.exports =
         }
       )
   
-    , ... html_webpack_plugins
+    , ... htmlWebpackPlugins
 
       // inject files into head or body
     , new HtmlWebpackInjector()
+
+    , new InlineChunksPlugin
+        ( HtmlWebpackPlugin
+        , allInlinedAssetNamess
+        )
+
     ]
   
   , module: 

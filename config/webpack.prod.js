@@ -6,9 +6,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin =
   require('optimize-css-assets-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const InlineChunksPlugin =
-  require('./plugins/html-webpack-inline-chunks')
+
+
 
 module.exports =
   merge( common
@@ -20,13 +19,7 @@ module.exports =
          , mode    : 'production'
          , devtool : false
          , plugins :
-           [ new InlineChunksPlugin
-               ( HtmlWebpackPlugin
-               , [ /common_js_head/
-                 , /common_css_inline/
-                 ]
-               )
-           , new MiniCssExtractPlugin
+           [ new MiniCssExtractPlugin
                ( { filename : path.join('css', '[name].css') }
                )
 
