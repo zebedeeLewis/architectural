@@ -43,7 +43,17 @@ module.exports =
                  , 'sass-loader'
                  ]
                }
-             ],
+
+             , { test         : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
+               , loader       : 'file-loader'
+               , options      :
+                 { name       : '[name].[ext]'
+                 , outputPath : Project.IMAGES_OUTPUT_DIR_PATH
+                 , publicPath : Project.PUBLIC_IMAGES_PATH
+                 , context    : 'src'
+                 }
+               }
+             ]
            }
 
          , optimization:

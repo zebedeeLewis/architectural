@@ -28,6 +28,24 @@ const page_descriptors =
         }
       }
     }
+  , { pageTitle      : 'Contact Us'
+    , pageSourceFile : Project.CONTACT_HTML_SRC_PATH
+    , assets :
+      { external :
+        { contact :
+          { sourceFile : Project.CONTACT_JS_SRC_PATH
+          }
+        }
+      , inline :
+        { common_js :
+          { sourceFile : Project.COMMON_JS_SRC_PATH
+          }
+        , common_css :
+          { sourceFile : Project.COMMON_SCSS_SRC_PATH
+          }
+        }
+      }
+    }
   ]
 
 
@@ -115,7 +133,7 @@ const allInlinedAssetNamess =
     ).map( assetName => RegExp(assetName) )
 
 
-debugger
+
 module.exports =
   { entry  : 
       { ... entries
@@ -155,15 +173,6 @@ module.exports =
         , exclude   : /node_modules/
         }
 
-      , { test         : /\.(?:ico|gif|png|jpg|jpeg|webp|svg)$/i
-        , loader       : 'file-loader'
-        , options      :
-          { name       : '[name].[ext]'
-          , outputPath : Project.IMAGES_OUTPUT_DIR_PATH
-          , publicPath : Project.PUBLIC_IMAGES_PATH
-          , context    : 'src'
-          }
-        }
       ]
     }
 

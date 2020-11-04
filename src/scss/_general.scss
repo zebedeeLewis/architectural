@@ -11,6 +11,8 @@ $font-color : color.$dark-grey-blue;
 $logo-width--sm : spacing.$b14;
 $logo-width--md : spacing.$b23;
 
+$main-heading-vertical-offset : spacing.$b18;
+
 
 
 :root {
@@ -89,6 +91,7 @@ main {
   line-height              : spacing.$b9;
   margin                   : 0;
   margin-top               : spacing.$b2;
+  color                    : black;
 
   @media(min-width: breakpoint.$lg) {
     font-size              : 56px;
@@ -101,6 +104,8 @@ main {
 /* 0. Container */
 .container {
   display                  : flex;
+  position                 : relative;
+  z-index                  : 1;
 }
 
 
@@ -126,3 +131,25 @@ main {
 
 
 
+@mixin main-heading {
+  font-size                : 57px;
+  line-height              : spacing.$b15;
+  font-weight              : 700;
+  opacity                  : .1;
+
+  @media(min-width: breakpoint.$md) {
+    font-size              : 140px;
+    line-height            : spacing.$b37;
+  }
+
+  @media(min-width: breakpoint.$lg) {
+    font-size              : 200px;
+    line-height            : spacing.$b52;
+    transform              : translatey($main-heading-vertical-offset);
+  }
+}
+
+
+.main-heading {
+  @include                 main-heading
+}

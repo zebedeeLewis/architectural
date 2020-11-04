@@ -1,6 +1,7 @@
 @use "spacing" as spacing;
 @use "color" as colors;
 @use "sass:color" as color;
+@use "typography";
 
 
 $font-size                 : 16px !default;
@@ -111,4 +112,3 @@ $vertical-spacing          : spacing.$b3;
 .simple-button {
   @include                 button;
 }
-

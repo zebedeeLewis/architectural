@@ -1,0 +1,173 @@
+@use "spacing";
+@use "typography";
+@use "color";
+@use "navbar";
+@use "page_title";
+@use "button";
+@use "footer";
+@use "general";
+@use "mixins";
+@use "sass:color" as sassColor;
+@use "breakpoint";
+@use "grid";
+
+
+/* Contents */
+
+
+
+/* Variables */
+$input-x-padding : spacing.$b4;
+
+
+
+/* 0. Main Section */
+.main-banner {
+  @include                 mixins.aspect-ratio;
+  @include                 mixins.aspect-ratio--square;
+
+  &:before {
+    background-image       : url("../images/telephone.jpg");
+    background-size        : cover;
+  }
+}
+
+
+/* 0. Intro Section */
+.intro-section {
+  @include                 mixins.section;
+}
+
+
+
+/* 0. Details Section */
+.details-section {
+  @include                 mixins.section;
+}
+
+
+
+.address-wrapper {
+  margin-top               : spacing.$b8;
+}
+
+
+
+.address {
+  font-style               : normal;
+  font-weight              : typography.$font-weight-normal;
+  font-size                : typography.$font-size;
+}
+
+
+
+.address__heading {
+  font-weight              : typography.$font-weight-bold;
+}
+
+
+
+.address__line {
+  @include                 grid.row;
+
+  font-size                : 14px;
+}
+
+
+
+.address__title {
+  @include                 grid.col-3;
+}
+
+
+
+.address__val {
+  @include                 grid.col-9;
+}
+
+
+
+.address__button {
+  @include                 button.button;
+
+  padding-left             : 0;
+  padding-right            : 0;
+  color                    : black;
+  font-weight              : typography.$font-weight-bold;
+}
+
+
+
+/* 0. Map Section */
+.map-section {
+  @include                 mixins.section;
+}
+
+
+.map-wrapper {
+  @include                 mixins.aspect-ratio;
+  @include                 mixins.aspect-ratio--square;
+
+
+  @media (min-width: breakpoint.$sm) {
+    @include               mixins.aspect-ratio--16to9;
+  }
+}
+
+
+
+.map {
+  position                 : absolute!important;
+  top                      : 0;
+  bottom                   : 0;
+  left                     : 0;
+  right                    : 0;
+}
+
+
+
+/* 0. Form Section */
+.form-section {
+  @include                 mixins.section;
+}
+
+
+
+.input-group {
+  margin-top               : spacing.$b8;
+}
+
+
+
+.input-label {
+  color                    : color.$light-grey-blue;
+  padding-left             : $input-x-padding;
+  padding-right            : $input-x-padding;
+}
+
+
+
+.input {
+  display                  : block;
+  width                    : 100%;
+  border-style             : none;
+  border-bottom-style      : solid;
+  border-width             : 1px;
+  background               : transparent;
+  outline                  : none;
+  font-size                : typography.$font-size;
+  padding-left             : $input-x-padding;
+  padding-right            : $input-x-padding;
+  box-sizing               : border-box;
+}
+
+
+
+.contact-form__submit {
+  @include                 button.button;
+  @include                 button.button--dark;
+
+  margin-left              : auto;
+  display                  : block;
+}
+
