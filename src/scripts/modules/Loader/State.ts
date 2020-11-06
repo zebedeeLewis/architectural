@@ -1,4 +1,3 @@
-
 import * as Result from "../Result";
 
 

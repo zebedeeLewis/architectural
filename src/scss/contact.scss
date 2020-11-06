@@ -13,11 +13,20 @@
 @use "grid";
 
 
-/* Contents */
+/* Contents
+ *
+ * 1. Variables
+ * 2. Mixins
+ * 3. Main Section
+ * 4. Intro Section
+ * 5. Address Section
+ * 6. Map Section
+ * 7. Form Section
+ */
 
 
 
-/* 0. Variables */
+/* 1. Variables */
 $input-x-padding            : spacing.$b4;
 $main-heading-offset        : -1*spacing.$b32;
 $section-spacing--halved    : (layout.$section-spacing*.5) - 1;
@@ -25,7 +34,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Mixins */
+/* 2. Mixins */
 @mixin top-left-tick {
   &:before {
     content                : "";
@@ -72,7 +81,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Main Section */
+/* 3. Main Section */
 .main-banner {
   @include                 mixins.aspect-ratio--square;
 
@@ -98,7 +107,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Intro Section */
+/* 4. Intro Section */
 .intro-section {
   @include                 layout.section
                              ( $section-spacing--halved
@@ -199,7 +208,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Address Section */
+/* 5. Address Section */
 .address-section {
   @include                 layout.section
                              ( $section-spacing--halved
@@ -321,7 +330,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Map Section */
+/* 6. Map Section */
 .map-section {
   @include                 layout.section;
 }
@@ -348,7 +357,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-/* 0. Form Section */
+/* 7. Form Section */
 .form-section {
   @include                 layout.section;
   @include                 grid.row;

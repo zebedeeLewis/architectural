@@ -243,10 +243,15 @@ $welcome-wrapper-max-width : 918px;
 
 
 .welcome-banner {
-  font-size                : 57px;
+  font-size                : 40px;
   line-height              : spacing.$b15;
   font-weight              : 700;
   opacity                  : .1;
+
+
+  @media(min-width: 375px) {
+    font-size              : 57px;
+  }
 
   @media(min-width: breakpoint.$md) {
     font-size              : 140px;
@@ -271,7 +276,9 @@ $welcome-wrapper-max-width : 918px;
 
 
 .welcome-text {
-  padding-right            : 28px;
+  @media(min-width: breakpoint.$md) {
+    padding-right            : 28px;
+  }
 
   @media(min-width: breakpoint.$lg) {
     padding-top            : $welcome-banner-vertical-offset;
@@ -317,7 +324,6 @@ $welcome-wrapper-max-width : 918px;
   align-items              : flex-start;
   justify-content          : center;
   align-content            : flex-start;
-  flex-wrap                : wrap;
   padding-left             : 24px;
   padding-right            : 24px;
   max-width                : $welcome-wrapper-max-width;
@@ -338,12 +344,17 @@ $welcome-wrapper-max-width : 918px;
 
 .about-text {
   font-weight              : 700;
-  font-size                : 36px;
+  font-size                : 32px;
   line-height              : spacing.$b11;
   color                    : white;
   text-shadow              : 1px 1px #0006;
   width                    : 100%;
   max-width                : 500px;
+
+
+  @media(min-width: 375px) {
+    font-size              : 36px;
+  }
 
   @media(min-width: breakpoint.$sm) {
     font-size              : 60px;
@@ -361,6 +372,7 @@ $welcome-wrapper-max-width : 918px;
 .about-button {
   @include                 button.button;
   @include                 button.button--dark;
+
   margin-top               : spacing.$b8;
 
   @media(min-width: breakpoint.$sm) {
@@ -385,6 +397,7 @@ $welcome-wrapper-max-width : 918px;
 .feature-header {
   display                  : flex;
   align-items              : flex-end;
+  flex-wrap                : wrap;
 }
 
 
@@ -511,12 +524,16 @@ $welcome-wrapper-max-width : 918px;
 
 .project-number {
   text-align               : right;
-  font-size                : 108px;
+  font-size                : 80px;
   font-weight              : 700;
   margin-left              : auto;
   vertical-align           : bottom;
   line-height              : 1;
   opacity                  : .4;
+
+  @media(min-width: 375px) {
+    font-size              : 108px;
+  }
 
   @media(min-width: breakpoint.$sm) {
     font-size              : 180px;
