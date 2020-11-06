@@ -51,29 +51,9 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-@mixin address-wrapper {
-  @include                 layout.subsection;
-
-  width                    : 100%;
-
-  @media (min-width: breakpoint.$sm) {
-    @include               grid.col-6;
-
-    min-height             : 300px;
-    display                : flex;
-    flex-wrap              : wrap;
-  }
-
-
-  @media (min-width: breakpoint.$lg) {
-    @include               grid.col-4;
-  }
-}
-
-
-
 /* 0. Main Section */
 .main-banner {
+  @include                 mixins.aspect-ratio;
   @include                 mixins.aspect-ratio--square;
 
   &:before {
@@ -85,14 +65,9 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
     @include               mixins.aspect-ratio--16to9;
   }
 
-  @media (min-width: breakpoint.$md) {
-    margin-bottom          : -1*mixins.$ASPECT_RATIO_16TO9;
-  }
-
   @media (min-width: breakpoint.$lg) {
     @include               grid.col-7;
     @include               mixins.aspect-ratio--square;
-    margin-bottom          : -1*mixins.$ASPECT_RATIO_21TO9;
   }
 }
 
@@ -105,69 +80,21 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
                              , $section-spacing--sm-halved
                              );
 
-  @media (min-width: breakpoint.$md) {
-    @include               mixins.aspect-ratio--16to9;
-
-    margin-top             : 0;
-  }
-
   @media (min-width: breakpoint.$lg) {
-    @include               mixins.aspect-ratio--21to9;
-  }
-}
-
-
-
-.intro-card-wrapper {
-  @media (min-width: breakpoint.$md) {
-    position               : absolute;
-    top                    : 0;
-    right                  : 0;
-    bottom                 : 0;
-    left                   : 0;
-  }
-}
-
-
-
-.intro-card {
-  @media (min-width: breakpoint.$md) {
     @include               grid.col-7;
 
     margin-left            : auto;
     background-color       : color.$background;
-    height                 : 100%;
+    margin-top             : -1*spacing.$b96;
     position               : relative;
-    display                : flex;
-    flex-wrap              : wrap;
-    align-items            : flex-end;
-  }
-
-  @media (min-width: breakpoint.$lg) {
-    display                : block;
-  }
-}
-
-
-
-.intro-card__inner {
-  @media (min-width: breakpoint.$md) {
-    max-width                : 422px;
-  }
-
-  @media (min-width: breakpoint.$lg) {
-    max-width                : unset;
   }
 }
 
 
 
 .main-heading {
-  @media (min-width: breakpoint.$md) {
-    direction              : rtl;
-  }
-
   @media (min-width: breakpoint.$lg) {
+    direction              : rtl;
     transform              : translateY($main-heading-offset);
     margin-bottom          : $main-heading-offset;
   }
@@ -176,11 +103,6 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 .welcome-text {
-  @media (min-width: breakpoint.$md) {
-    padding-left           : 40px;
-    padding-right          : 40px;
-  }
-
   @media (min-width: breakpoint.$lg) {
     padding-left           : 80px;
     padding-right          : 80px;
@@ -233,21 +155,16 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 
-.address-wrapper--first {
-  @include                 address-wrapper;
+.address-wrapper {
+  @include                 layout.subsection;
 
   @media (min-width: breakpoint.$sm) {
-    padding-right          : 16px;
+    @include               grid.col-6;
   }
-}
 
 
-
-.address-wrapper--second {
-  @include                 address-wrapper;
-
-  @media (min-width: breakpoint.$sm) {
-    padding-left          : 16px;
+  @media (min-width: breakpoint.$lg) {
+    @include               grid.col-4;
   }
 }
 
@@ -257,7 +174,6 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
   font-style               : normal;
   font-weight              : typography.$font-weight-normal;
   font-size                : typography.$font-size;
-  width                    : 100%;
 }
 
 
@@ -278,29 +194,13 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 .address__title {
-  @include                 grid.col-4;
-
-  @media (min-width: 400px) {
-    @include               grid.col-5;
-  }
-
-  @media (min-width: breakpoint.$sm) {
-    @include               grid.col-4;
-  }
+  @include                 grid.col-3;
 }
 
 
 
 .address__val {
-  @include                 grid.col-8;
-
-  @media (min-width: 400px) {
-    @include               grid.col-7;
-  }
-
-  @media (min-width: breakpoint.$sm) {
-    @include               grid.col-8;
-  }
+  @include                 grid.col-9;
 }
 
 
@@ -312,11 +212,6 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
   padding-right            : 0;
   color                    : black;
   font-weight              : typography.$font-weight-bold;
-
-
-  @media (min-width: breakpoint.$sm) {
-    align-self             : flex-end;
-  }
 }
 
 
@@ -328,6 +223,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
 
 
 .map-wrapper {
+  @include                 mixins.aspect-ratio;
   @include                 mixins.aspect-ratio--square;
 
 
@@ -420,7 +316,7 @@ $section-spacing--sm-halved : (layout.$section-spacing--sm*.5) - 1;
   margin-left              : auto;
   display                  : block;
 
-  @media (min-width: breakpoint.$sm) {
+  @media (min-width: breakpoint.$lg) {
     @include               button.button--medium;
   }
 }

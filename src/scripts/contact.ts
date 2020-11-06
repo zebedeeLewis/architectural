@@ -8,8 +8,10 @@ import '../scss/contact.scss'
 
 
 const MAP_ID = 'map'
+
 const MAP_TILE_URL_TEMPLATE = 
   'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}'
+
 const MAP_ATTRIBUTION
   = 'Map data &copy; '
   + '<a href="https://www.openstreetmap.org/">OpenStreetMap</a> '

@@ -11,6 +11,7 @@
 @use "mixins";
 @use "sass:color" as sassColor;
 @use "breakpoint";
+@use "layout";
 @use "toggle" with
   ( $background   : color.$primary
   , $switch-color : color.$on-primary
@@ -20,10 +21,11 @@
 
 /* Contents
  * 1. Variables
- * 2. Main Home Slider
- * 3. Welcome Section
- * 4. About Section 
- * 5. Feature Section
+ * 2. Mixins
+ * 3. Main Home Slider
+ * 4. Welcome Section
+ * 5. About Section 
+ * 6. Feature Section
  */
 
 
@@ -44,7 +46,19 @@ $welcome-wrapper-max-width : 918px;
 
 
 
-/* 1. Main Home Slider */
+/* 2. Mixins */
+@mixin slide-caption__content {
+  max-width                : 440px;
+  max-width                : 524px;
+
+  @media(min-width: breakpoint.$md) {
+    max-width              : 524px;
+  }
+}
+
+
+
+/* 3. Main Home Slider */
 .main-slider { }
 
 
@@ -108,17 +122,6 @@ $welcome-wrapper-max-width : 918px;
     display                : block;
     padding-left           : general.$logo-width--md
                            + navbar.$left-offset--md;
-  }
-}
-
-
-
-@mixin slide-caption__content {
-  max-width                : 440px;
-  max-width                : 524px;
-
-  @media(min-width: breakpoint.$md) {
-    max-width              : 524px;
   }
 }
 
@@ -228,9 +231,13 @@ $welcome-wrapper-max-width : 918px;
 
 
 
-/* 3. Welcome Section */
+/* 4. Welcome Section */
 .welcome-section {
-  @include                 mixins.section;
+  @include                 layout.section;
+
+  @media(min-width: breakpoint.$lg) {
+    margin-top             : spacing.$b20;
+  }
 }
 
 
@@ -283,10 +290,10 @@ $welcome-wrapper-max-width : 918px;
 
 
 
-/* 4. About Section */
+/* 5. About Section */
 .about-section {
   @include                 card.card;
-  @include                 mixins.section;
+  @include                 layout.section;
   @include                 mixins.aspect-ratio;
   @include                 mixins.aspect-ratio--square;
 
@@ -297,11 +304,6 @@ $welcome-wrapper-max-width : 918px;
 
   @media(min-width: breakpoint.$sm) {
     @include               mixins.aspect-ratio--16to9;
-  }
-
-
-  @media(min-width: breakpoint.$lg) {
-    margin-top             : spacing.$b50;
   }
 }
 
@@ -372,15 +374,12 @@ $welcome-wrapper-max-width : 918px;
 
 
 
-/* 5. Feature Section */
+/* 6. Feature Section */
 .feature-section {
-  @include                 mixins.section;
+  @include                 layout.section;
   margin-top               : spacing.$b24;
-
-  @media(min-width: breakpoint.$lg) {
-    margin-top             : spacing.$b50;
-  }
 }
+
 
 
 .feature-header {

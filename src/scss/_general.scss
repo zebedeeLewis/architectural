@@ -6,12 +6,55 @@
 
 
 
+/* Contents
+ */
+
+
+
+/* 0. Variables */
 $font-color : color.$dark-grey-blue;
 
 $logo-width--sm : spacing.$b14;
 $logo-width--md : spacing.$b23;
 
 $main-heading-vertical-offset : spacing.$b18;
+
+
+
+/* 0. Mixins */
+@mixin section-heading {
+  font-size                : 30px;
+  letter-spacing           : 1px;
+  line-height              : spacing.$b9;
+  margin                   : 0;
+  // margin-top               : spacing.$b2;
+  color                    : black;
+
+  @media(min-width: breakpoint.$lg) {
+    font-size              : 56px;
+    line-height            : spacing.$b16;
+  }
+}
+
+
+
+@mixin main-heading {
+  font-size                : 57px;
+  line-height              : spacing.$b15;
+  font-weight              : 700;
+  color                    : color.$main-heading;
+
+  @media(min-width: breakpoint.$md) {
+    font-size              : 140px;
+    line-height            : spacing.$b37;
+  }
+
+  @media(min-width: breakpoint.$lg) {
+    font-size              : 200px;
+    line-height            : spacing.$b52;
+    transform              : translatey($main-heading-vertical-offset);
+  }
+}
 
 
 
@@ -28,8 +71,15 @@ body {
 
 
 
+/* 0. Reset Styles */
 div {
   box-sizing               : border-box;
+}
+
+
+
+p {
+  margin                   : spacing.$b8 0 0 0;
 }
 
 
@@ -86,68 +136,9 @@ main {
 
 
 .section-heading {
-  font-size                : 30px;
-  letter-spacing           : 1px;
-  line-height              : spacing.$b9;
-  margin                   : 0;
-  margin-top               : spacing.$b2;
-  color                    : black;
-
-  @media(min-width: breakpoint.$lg) {
-    font-size              : 56px;
-    line-height            : spacing.$b16;
-  }
+  @include                 section-heading;
 }
 
-
-
-/* 0. Container */
-.container {
-  display                  : flex;
-  position                 : relative;
-  z-index                  : 1;
-}
-
-
-
-/* 0. Inner Container */
-.inner-container {
-  width                    : 200px;
-  padding-right            : spacing.$outer-horizontal;
-  flex                     : 1 1 auto;
-
-  @media(min-width: breakpoint.$sm) {
-    padding-right          : spacing.$outer-horizontal--sm;
-  }
-
-  @media(min-width: breakpoint.$md) {
-    padding-right          : spacing.$outer-horizontal--md;
-  }
-
-  @media(min-width: breakpoint.$lg) {
-    padding-right          : spacing.$outer-horizontal--lg;
-  }
-}
-
-
-
-@mixin main-heading {
-  font-size                : 57px;
-  line-height              : spacing.$b15;
-  font-weight              : 700;
-  opacity                  : .1;
-
-  @media(min-width: breakpoint.$md) {
-    font-size              : 140px;
-    line-height            : spacing.$b37;
-  }
-
-  @media(min-width: breakpoint.$lg) {
-    font-size              : 200px;
-    line-height            : spacing.$b52;
-    transform              : translatey($main-heading-vertical-offset);
-  }
-}
 
 
 .main-heading {
