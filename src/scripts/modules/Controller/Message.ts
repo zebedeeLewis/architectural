@@ -28,9 +28,10 @@ export type Factory<ITF extends Interface> =
  * Message type factory.
  */
 export function create_factory<ITF extends Interface>
-  ( data : ITF
+  ( data     : ITF
+  , typeName : string
   ) : Factory<ITF> {
-    return I.Record(data)
+    return I.Record(data, typeName)
   }
 
 
@@ -67,6 +68,43 @@ export const Initialize : Factory<InitializeInterface> =
       , initialMarkup   : null
       , argv            : undefined
       }
+    , 'Initialize'
     )
 
+
+
+export function get_root_html_element_from
+  ( model : Initialize
+  ) : HTMLElement {
+    return model.get('rootHtmlElement', undefined)
+  }
+
+
+
+export function set_root_html_element_to
+  ( newElement : HTMLElement
+  , model      : Initialize
+  ) : Initialize {
+    return model.set('rootHtmlElement', newElement)
+  }
+
+
+
+export function is_initialize
+  ( possibleMessage : any
+  ) : possibleMessage is Initialize {
+    return (
+      is_message_of_type(Initialize, possibleMessage)
+    )
+  }
+
+
+
+export function is_common
+  ( possibleMessage : any
+  ) : possibleMessage is Common {
+    return (
+      is_initialize(possibleMessage)
+    )
+  }
 

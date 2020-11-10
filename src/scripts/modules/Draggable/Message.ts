@@ -9,100 +9,83 @@ import type {  RecordOf, Record } from 'immutable'
 
 
 export type Model 
-  = Initialize
+  = Controller.Message.Common
   | Drop
   | Lift
   | MoveTo
 
 
 
-type MessageFactory<M> =
-  ( data : Partial<Controller.MessageInterface> ) => M
+export type Interface = Controller.Message.Interface
 
 
 
-function is_message_of_type<M extends Model>
-  ( constructor     : MessageFactory<M> | MoveToFactory
-  , possibleMessage : any
-  ) : boolean {
-    const _possibleMessage = possibleMessage as M
-
-    return (
-         I.Record.isRecord(_possibleMessage)
-      && constructor(_possibleMessage.toObject()).equals(possibleMessage)
-    )
-  }
+type Drop = Controller.Message.Model<Interface>
 
 
 
-type Initialize = RecordOf<Controller.MessageInterface>
-
-
-
-export const Initialize : MessageFactory<Initialize> =
-  I.Record({argv : []}, 'Initialize')
-
-
-
-export function is_initialize
-  ( possibleMessage : any
-  ) : possibleMessage is Initialize {
-    return is_message_of_type(Initialize, possibleMessage)
-  }
-
-
-
-type Drop = RecordOf<Controller.MessageInterface>
-
-
-
-export const Drop : MessageFactory<Drop> =
-  I.Record({argv : []}, 'Drop')
+export const Drop : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Drop')
 
 
 
 export function is_drop
   ( possibleMessage : any
   ) : possibleMessage is Drop {
-    return is_message_of_type(Drop, possibleMessage)
+    return Controller.Message.is_message_of_type(Drop, possibleMessage)
   }
 
 
 
-type Lift = RecordOf<Controller.MessageInterface>
+type Lift = Controller.Message.Model<Interface>
 
 
 
-export const Lift : MessageFactory<Lift> =
-  I.Record({argv : []}, 'Lift')
+export const Lift : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Lift')
 
 
 
 export function is_lift
   ( possibleMessage : any
   ) : possibleMessage is Lift {
-    return is_message_of_type(Lift, possibleMessage)
+    return Controller.Message.is_message_of_type(Lift, possibleMessage)
   }
 
 
 
-export interface MoveToInterface
+export interface MoveToInterface extends Controller.Message.Interface
   { newPosition : Position.Model
+  , argv        : []
   }
 
 
 
-type MoveToFactory =
-  ( data : Partial<MoveToInterface> ) => MoveTo
+type MoveTo = Controller.Message.Model<MoveToInterface>
 
 
 
-type MoveTo = RecordOf<MoveToInterface>
+type MoveToFactory = Controller.Message.Factory<MoveToInterface>
 
 
 
 export const MoveTo : MoveToFactory =
-  I.Record({newPosition : Position.create({})}, 'MoveTo')
+  Controller.Message.create_factory
+    ( { newPosition : Position.create({})
+      , argv        : []
+      }
+    , 'MoveTo'
+    )
+
+
+
+export function is_move_to
+  ( possibleMessage : any
+  ) : possibleMessage is MoveTo {
+    return (
+      Controller.Message.is_message_of_type(MoveTo, possibleMessage)
+    )
+  }
 
 
 
@@ -114,21 +97,16 @@ export function get_new_position
 
 
 
-export function is_move_to
-  ( possibleMessage : any
-  ) : possibleMessage is MoveTo {
-    return is_message_of_type(MoveTo, possibleMessage)
-  }
-
-
-
 export function is_message
   ( possibleMessage : any
   ) : possibleMessage is Model {
     return (
-         is_initialize(possibleMessage)
+         Controller.Message.is_common(possibleMessage)
       || is_lift(possibleMessage)
       || is_drop(possibleMessage)
       || is_move_to(possibleMessage)
     )
   }
+
+
+

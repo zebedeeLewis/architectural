@@ -16,11 +16,11 @@ export const UPDATE_ERROR = 'Unable to update Model'
 
 
 
-interface ModelInterface
+interface Interface extends Controller.Subject.Interface
   { state            : State.Model
+  , rootHtmlElement? : HTMLElement
   , activeAxis       : Axis.Model
   , boundaryBox      : BoundaryBox.Model
-  , rootHtmlElement? : HTMLElement
   , position         : Position.Model;
   }
 
@@ -29,21 +29,20 @@ interface ModelInterface
 /**
  * Represents a snapshot of a Draggable component at a given point.
  */
-export type Model = RecordOf<ModelInterface>
+export type Model = Controller.Subject.Model<Interface>
 
 
 
-type ModelFactory =
-  ( data : Partial<ModelInterface> ) => Model
+type Factory = Controller.Subject.Factory<Interface>
 
 
 
-export const create : ModelFactory =
+export const create : Factory =
   I.Record
     ( { state           : State.Unset
+      , rootHtmlElement : undefined
       , activeAxis      : Axis.X
       , boundaryBox     : BoundaryBox.create({})
-      , rootHtmlElement : undefined
       , position        : Position.create({})
       }
     , 'Model'
@@ -123,12 +122,13 @@ export function get_state_from
 
 
 
-export const update_model : Controller.Updater<Model, Message.Model> =
+export const update_model
+  : Controller.Updater<Interface, Message.Interface> =
   ( message
   , model
   ) => {
 
-    if( Message.is_initialize(message) ) {
+    if( Controller.Message.is_initialize(message) ) {
       return set_state_to(State.Initializing, model)
 
 
@@ -170,5 +170,5 @@ export const update_model : Controller.Updater<Model, Message.Model> =
 export const view : Controller.ViewRenderer<Model> =
   ( model
   ) => {
-    return Controller.create_view({})
+    return Controller.View.create({})
   }
