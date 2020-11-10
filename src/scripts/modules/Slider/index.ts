@@ -1,15 +1,11 @@
-
-
-export type
-  { MessageHandler
-  } from './Slider'
-
-
-
+export * as State from './State'
+export * as Message from './Message'
 export 
   { Model
-  , update_model
-  , init_model
+  , MessageHandler
+  , update
+  , init
+  , create
   , get_slider_from
   , set_slider_to
   , get_slider_pagination_from
@@ -21,40 +17,3 @@ export
   , get_pause_handler_from
   , set_pause_handler_to
   } from './Slider'
-
-
-
-export type
-  { Message
-  } from "./Message"
-
-
-
-export
-  { Initialize
-  , Play
-  , Pause
-  , is_initialize
-  , is_play
-  , is_pause
-  , is_message
-  } from "./Message"
-
-
-export type
-  { State
-  } from "./State"
-
-
-
-export
-  { Unset
-  , Initialized
-  , Playing
-  , Paused
-  , is_unset
-  , is_initialized
-  , is_playing
-  , is_paused
-  , is_state
-  } from "./State"

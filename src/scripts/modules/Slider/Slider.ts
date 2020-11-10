@@ -24,7 +24,7 @@ export const UPDATE_ERROR = 'Unable to update Model'
 export type MessageHandler =
   ( argv  : Array<any>
   , model : Model
-  ) => Result.Result<Controller.Failure<Model, string>, Model>
+  ) => Result.Result<Controller.Failure.Model<Interface, string>, Model>
 
 
 
@@ -37,8 +37,9 @@ const dummyHandler : MessageHandler =
 
 
 
-interface ModelInterface
+interface Interface extends Controller.Subject.Interface
   { state               : State.State
+  , rootHtmlElement?    : HTMLElement
   , slider?             : Splide
   , sliderPagination?   : Splide
   , initializeHandler   : MessageHandler
@@ -53,18 +54,14 @@ interface ModelInterface
  * Model provides a context for the interpretation of the messages
  * in the Message module and the states in the State module.
  */
-export type Model = RecordOf<ModelInterface>
+export type Model = Controller.Subject.Model<Interface>
 
 
 
-type ModelFactory =
-  ( data : Partial<ModelInterface> ) => Model
-
-
-
-export const Model : ModelFactory =
+export const create : Controller.Subject.Factory<Interface> =
   I.Record
     ( { state               : State.Unset
+      , rootHtmlElement     : undefined
       , slider              : undefined
       , sliderPagination    : undefined
       , initializeHandler   : dummyHandler
@@ -76,7 +73,7 @@ export const Model : ModelFactory =
 
 
 
-const dummyModel = Model({})
+const dummyModel = create({})
 
 
 
@@ -182,13 +179,14 @@ export function set_pause_handler_to
 
 
 
-export const update_model : Controller.Updater<Model, Message.Message> =
+export const update : Controller.Updater<Interface, Message.Interface> =
   ( message
   , model
   ) => {
 
-    if( Message.is_initialize(message) ) {
-      const result = model.initializeHandler(message.argv, model)
+    if( Controller.Message.is_initialize(message) ) {
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.initializeHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -203,7 +201,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_play(message) ) {
-      const result = model.playHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.playHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -218,7 +217,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_pause(message) ) {
-      const result = model.pauseHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.pauseHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -240,5 +240,5 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
 
-export const init_model = Model
+export const init = create
 

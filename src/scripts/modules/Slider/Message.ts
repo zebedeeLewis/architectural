@@ -12,78 +12,46 @@ import type {  RecordOf, Record } from 'immutable'
  * progression.
  */
 export type Message 
-  = Initialize
+  = Controller.Message.Common
   | Play
   | Pause
 
 
 
-type MessageFactory<M> =
-  ( data : Partial<Controller.MessageInterface> ) => M
+export type Interface = Controller.Message.Interface
 
 
 
-type Initialize = RecordOf<Controller.MessageInterface>
+export type Play = Controller.Message.Model<Interface>
 
 
 
-export const Initialize : MessageFactory<Initialize> =
-  I.Record({argv : []}, 'Initialize')
+export const Play : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Play')
 
 
 
-type Play = RecordOf<Controller.MessageInterface>
+export type Pause = Controller.Message.Model<Interface>
 
 
 
-export const Play : MessageFactory<Play> =
-  I.Record({argv : []}, 'Play')
-
-
-
-type Pause = RecordOf<Controller.MessageInterface>
-
-
-
-export const Pause : MessageFactory<Pause> =
-  I.Record({argv : []}, 'Pause')
-
-
-
-function is_message_of_type<M extends Message>
-  ( constructor     : MessageFactory<M>
-  , possibleMessage : any
-  ) : boolean {
-    const _possibleMessage = possibleMessage as M
-
-    return (
-         I.Record.isRecord(_possibleMessage)
-      && constructor(_possibleMessage.toObject()).equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_initialize
-  ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Initialize, possibleMessage)
-  }
+export const Pause : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Pause')
 
 
 
 export function is_play
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Play, possibleMessage)
+  ) : possibleMessage is Play {
+    return Controller.Message.is_message_of_type(Play, possibleMessage)
   }
 
 
 
 export function is_pause
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Pause, possibleMessage)
+  ) : possibleMessage is Pause {
+    return Controller.Message.is_message_of_type(Pause, possibleMessage)
   }
 
 
@@ -92,7 +60,7 @@ export function is_message
   ( possibleMessage : any
   ) : possibleMessage is Message {
     return (
-         is_initialize(possibleMessage)
+         Controller.Message.is_common(possibleMessage)
       || is_play(possibleMessage)
       || is_pause(possibleMessage)
     )
