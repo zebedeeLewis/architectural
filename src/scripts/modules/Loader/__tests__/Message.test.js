@@ -4,49 +4,6 @@ import * as TestHelper from "./TestHelper"
 
 
 describe
-  ( 'is_initialize'
-  , () => {
-      it( 'Produces true if the given value is a "Initialize" Message'
-        , () => {
-            function do_test(possibleMessage) {
-              const actualValue =
-                Message.is_initialize(possibleMessage)
-
-              expect(actualValue).toBe(true)
-            }
-
-            do_test(TestHelper.MESSAGE_INITIALIZE)
-          }
-        )
-
-      it( 'Produces false if the given value is not a "Initialize" Message'
-        , () => {
-            function do_test(possibleMessage) {
-              const actualValue =
-                Message.is_initialize(possibleMessage)
-
-              expect(actualValue).toBe(false)
-            }
-
-            do_test(1)
-            do_test({})
-            do_test([])
-            do_test('this is not a valide message')
-            do_test(true)
-            do_test(false)
-            do_test(TestHelper.MESSAGE_INITIALIZED)
-            do_test(TestHelper.MESSAGE_START)
-            do_test(TestHelper.MESSAGE_STARTED)
-            do_test(TestHelper.MESSAGE_STOP)
-            do_test(TestHelper.MESSAGE_STOPPED)
-          }
-        )
-    }
-  )
-
-
-
-describe
   ( 'is_initialized'
   , () => {
       it( 'Produces true if the given value is a "Initialized" Message'

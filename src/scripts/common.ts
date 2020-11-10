@@ -36,7 +36,7 @@ const animate_loader : Loader.MessageHandler =
       }
     } catch( e ) {
       const failure = 
-        Controller.Failure
+        Controller.Failure.create
           ( { error : e
             , model : model
             }
@@ -59,7 +59,7 @@ const animate_loader : Loader.MessageHandler =
     loaderTimeline.to( loadingBars, animationConfig )
 
     Controller.dispatch_message
-      ( Loader.Started
+      ( Loader.Message.Started
           ( { argv :
                 [ loadingElement
                 , loaderTimeline
@@ -92,7 +92,7 @@ const fade_out_loader : Loader.MessageHandler =
       }
     } catch( e ) {
       const failure = 
-        Controller.Failure
+        Controller.Failure.create
           ( { error : e
             , model : model
             }
@@ -107,7 +107,7 @@ const fade_out_loader : Loader.MessageHandler =
       , onComplete :
           ()=> {
             Controller.dispatch_message
-              ( Loader.Stopped
+              ( Loader.Message.Stopped
                   ( { argv : 
                         [ loadingElement
                         , loaderTimeline 
@@ -144,7 +144,7 @@ const remove_loader : Loader.MessageHandler =
       }
     } catch( e ) {
       const failure = 
-        Controller.Failure
+        Controller.Failure.create
           ( { error : e
             , model : model
             }
@@ -166,7 +166,7 @@ function init_loader
   , document : Document
   ) : void {
     const loaderComponent =
-      Loader.init_model
+      Loader.init
         ( { htmlElementSelector : LOADER_SELECTOR
           , startHandler        : animate_loader
           , stopHandler         : fade_out_loader
@@ -175,9 +175,9 @@ function init_loader
         )
 
     const controller =
-      Controller.Controller
+      Controller.create
         ( { model   : loaderComponent
-          , updater : Loader.update_model
+          , updater : Loader.update
           }
         )
 
@@ -189,7 +189,7 @@ function init_loader
       ( 'load'
       , () => (
           Controller.dispatch_message
-            ( Loader.Stop
+            ( Loader.Message.Stop
                ( { argv : 
                      [ loadingElement
                      , loaderTimeline
@@ -203,7 +203,7 @@ function init_loader
       )
 
     Controller.dispatch_message
-      ( Loader.Start
+      ( Loader.Message.Start
          ( { argv : 
                [ loadingElement
                , loaderTimeline

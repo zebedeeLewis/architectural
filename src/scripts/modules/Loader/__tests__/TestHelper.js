@@ -1,6 +1,7 @@
 
 import * as State from "../State"
 import * as Message from "../Message"
+import * as Controller from "../../Controller"
 
 
 
@@ -15,7 +16,7 @@ export const STATE_FINISHED = State.Finished()
 
 const argv = []
 
-export const MESSAGE_INITIALIZE = Message.Initialize({argv})
+export const MESSAGE_INITIALIZE = Controller.Message.Initialize({argv})
 export const MESSAGE_INITIALIZED = Message.Initialized({argv})
 export const MESSAGE_START = Message.Start({argv})
 export const MESSAGE_STARTED = Message.Started({argv})

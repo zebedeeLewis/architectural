@@ -29,7 +29,7 @@ const initialize_slider : Slider.MessageHandler =
 
     } catch( e ) {
       const failure = 
-        Controller.Failure
+        Controller.Failure.create
           ( { error : e
             , model : model
             }
@@ -80,7 +80,7 @@ function init_slider
         )
 
     const sliderModel =
-      Slider.init_model
+      Slider.init
         ( { slider
           , sliderPagination
           , initializeHandler   : initialize_slider
@@ -88,14 +88,14 @@ function init_slider
         )
 
     const controller =
-      Controller.Controller
+      Controller.create
         ( { model   : sliderModel
-          , updater : Slider.update_model
+          , updater : Slider.update
           }
         )
 
     Controller.dispatch_message
-      ( Slider.Initialize({})
+      ( Controller.Message.Initialize({})
       , controller
       )
   }

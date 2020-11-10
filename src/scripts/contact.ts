@@ -1,4 +1,3 @@
-import * as Controller from "./modules/Controller"
 import * as Result from "./modules/Result"
 import * as L from 'leaflet'
 

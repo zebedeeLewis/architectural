@@ -33,8 +33,9 @@ function dummyHandler
 function make_test_value__model
   () {
     return (
-      Loader.Model
+      Loader.create
         ( { state                : TestHelper.STATE_UNSET
+          , rootHtmlElement      : undefined
           , htmlElementSelector  : 'testHtmlSelector'
           , initializeHandler    : dummyHandler
           , initializedHandler   : dummyHandler
@@ -73,7 +74,7 @@ describe
                   .set('htmlElementSelector', selector)
 
               const actualValue = 
-                Loader.Model
+                Loader.create
                   ( { state               : state
                     , htmlElementSelector : selector
                     , initializeHandler   : dummyHandler
@@ -104,7 +105,7 @@ describe
 
 
 describe
-  ( 'update_model'
+  ( 'update'
   , () => {
 
       it( 'Produces the given Model when given an unrecognized '
@@ -119,7 +120,7 @@ describe
               const expectedValue = initialModel
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   )
@@ -160,7 +161,7 @@ describe
                 make_test_value__model().set('state', state)
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   )
@@ -229,7 +230,7 @@ describe
               const message = TestHelper.MESSAGE_INITIALIZE
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
@@ -263,7 +264,7 @@ describe
               const message = TestHelper.MESSAGE_INITIALIZED
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
@@ -297,7 +298,7 @@ describe
               const message = TestHelper.MESSAGE_START
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
@@ -331,7 +332,7 @@ describe
               const message = TestHelper.MESSAGE_STARTED
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
@@ -365,7 +366,7 @@ describe
               const message = TestHelper.MESSAGE_STOP
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
@@ -399,7 +400,7 @@ describe
               const message = TestHelper.MESSAGE_STOPPED
 
               const actualValue = 
-                Loader.update_model
+                Loader.update
                   ( message
                   , initialModel
                   ).get('state')
