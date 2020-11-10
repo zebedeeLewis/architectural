@@ -13,7 +13,7 @@ import type {  RecordOf, Record } from 'immutable'
  * progression.
  */
 export type Message 
-  = Initialize
+  = Controller.Message.Common
   | Initialized
   | Start
   | Started
@@ -22,123 +22,120 @@ export type Message
 
 
 
-type MessageFactory<M> =
-  ( data : Partial<Controller.MessageInterface> ) => M
+export type Interface = Controller.Message.Interface
 
 
 
-type Initialize = RecordOf<Controller.MessageInterface>
+type Factory = Controller.Message.Factory<Interface>
 
 
 
-export const Initialize : MessageFactory<Initialize> =
-  I.Record({argv : []}, 'Initialize')
+export type Initialized = Controller.Message.Model<Interface>
 
 
 
-type Initialized = RecordOf<Controller.MessageInterface>
+export const Initialized : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Initialized')
 
 
 
-export const Initialized : MessageFactory<Initialized> =
-  I.Record({argv : []}, 'Initialized')
+export type Start = Controller.Message.Model<Interface>
 
 
 
-type Start = RecordOf<Controller.MessageInterface>
+export const Start : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Start')
 
 
 
-export const Start : MessageFactory<Start> =
-  I.Record({argv : []}, 'Start')
+export type Started = Controller.Message.Model<Interface>
 
 
 
-type Started = RecordOf<Controller.MessageInterface>
+export const Started : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Started')
 
 
 
-export const Started : MessageFactory<Started> =
-  I.Record({argv : []}, 'Started')
+export type Stop = Controller.Message.Model<Interface>
 
 
 
-type Stop = RecordOf<Controller.MessageInterface>
+export const Stop : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Stop')
 
 
 
-export const Stop : MessageFactory<Stop> =
-  I.Record({argv : []}, 'Stop')
+export type Stopped = Controller.Message.Model<Interface>
 
 
 
-type Stopped = RecordOf<Controller.MessageInterface>
-
-
-
-export const Stopped : MessageFactory<Stopped> =
-  I.Record({argv : []}, 'Stopped')
-
-
-
-function is_message_of_type<M extends Message>
-  ( constructor     : MessageFactory<M>
-  , possibleMessage : any
-  ) : boolean {
-    const _possibleMessage = possibleMessage as M
-
-    return (
-         I.Record.isRecord(_possibleMessage)
-      && constructor(_possibleMessage.toObject()).equals(possibleMessage)
-    )
-  }
-
-
-
-export function is_initialize
-  ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Initialize, possibleMessage)
-  }
+export const Stopped : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Stopped')
 
 
 
 export function is_initialized
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Initialized, possibleMessage)
+  ) : possibleMessage is Initialized {
+    return (
+      Controller.Message.is_message_of_type
+        ( Initialized
+        , possibleMessage
+        )
+    )
   }
 
 
 
 export function is_start
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Start, possibleMessage)
+  ) : possibleMessage is Start {
+    return (
+      Controller.Message.is_message_of_type
+        ( Start
+        , possibleMessage
+        )
+    )
   }
 
 
 
 export function is_started
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Started, possibleMessage)
+  ) : possibleMessage is Started {
+    return (
+      Controller.Message.is_message_of_type
+        ( Started
+        , possibleMessage
+        )
+    )
   }
 
 
 
 export function is_stop
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Stop, possibleMessage)
+  ) : possibleMessage is Stop {
+    return (
+      Controller.Message.is_message_of_type
+        ( Stop
+        , possibleMessage
+        )
+    )
   }
 
 
 
 export function is_stopped
   ( possibleMessage : any
-  ) : boolean {
-    return is_message_of_type(Stopped, possibleMessage)
+  ) : possibleMessage is Stopped {
+    return (
+      Controller.Message.is_message_of_type
+        ( Stopped
+        , possibleMessage
+        )
+    )
   }
 
 
@@ -147,7 +144,7 @@ export function is_message
   ( possibleMessage : any
   ) : possibleMessage is Message {
     return (
-         is_initialize(possibleMessage)
+         Controller.Message.is_common(possibleMessage)
       || is_initialized(possibleMessage)
       || is_start(possibleMessage)
       || is_started(possibleMessage)

@@ -66,10 +66,27 @@ export const Initialize : Factory<InitializeInterface> =
   create_factory
     ( { rootHtmlElement : null
       , initialMarkup   : null
-      , argv            : undefined
+      , argv            : []
       }
     , 'Initialize'
     )
+
+
+
+export function get_argv_from<ITF extends Interface>
+  ( model : Model<ITF>
+  ) : Array<any> | undefined {
+    return model.get('argv', undefined)
+  }
+
+
+
+export function set_argv_to<ITF extends Interface>
+  ( newElement : Array<any> | undefined
+  , model      : Model<ITF>
+  ) : Model<ITF> {
+    return model.set('argv', newElement)
+  }
 
 
 

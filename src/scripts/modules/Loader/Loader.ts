@@ -1,11 +1,11 @@
-
+import * as I from "immutable"
 import * as Result from "../Result"
 import * as State from "./State"
 import * as Message from "./Message"
 import * as Controller from "../Controller"
-import * as I from "immutable"
 
 import type {  RecordOf } from 'immutable'
+
 
 
 export const UPDATE_ERROR = 'Unable to update Model'
@@ -14,12 +14,12 @@ export const UPDATE_ERROR = 'Unable to update Model'
 
 /**
  * Represents a function to be called by the
- * update_model function in response a Message.
+ * update function in response a Message.
  */
 export type MessageHandler =
   ( argv  : Array<any>
   , model : Model
-  ) => Result.Result<Controller.Failure<Model, string>, Model>
+  ) => Result.Result<Controller.Failure.Model<Interface, string>, Model>
 
 
 
@@ -32,8 +32,9 @@ const dummyHandler : MessageHandler =
 
 
 
-interface ModelInterface
+interface Interface extends Controller.Subject.Interface
   { state               : State.State
+  , rootHtmlElement     : HTMLElement
   , htmlElementSelector : string
   , initializeHandler   : MessageHandler
   , initializedHandler  : MessageHandler
@@ -50,18 +51,18 @@ interface ModelInterface
  * Model provides a context for the interpretation of the messages
  * in the Message module and the states in the State module.
  */
-export type Model = RecordOf<ModelInterface>
+export type Model = Controller.Subject.Model<Interface>
 
 
 
-type ModelFactory =
-  ( data : Partial<ModelInterface> ) => Model
+type Factory = Controller.Subject.Factory<Interface>
 
 
 
-export const Model : ModelFactory =
+export const create : Factory =
   I.Record
     ( { state               : State.Unset()
+      , rootHtmlElement     : undefined
       , htmlElementSelector : 'selector' 
       , initializeHandler   : dummyHandler
       , initializedHandler  : dummyHandler 
@@ -75,7 +76,7 @@ export const Model : ModelFactory =
 
 
 
-const dummyModel = Model({})
+const dummyModel = create({})
 
 
 
@@ -96,13 +97,15 @@ export function get_state_from
 
 
 
-export const update_model : Controller.Updater<Model, Message.Message> =
+export const update
+  : Controller.Updater<Interface, Message.Interface> =
   ( message
   , model
   ) => {
 
-    if( Message.is_initialize(message) ) {
-      const result = model.initializeHandler(message.argv, model)
+    if( Controller.Message.is_initialize(message) ) {
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.initializeHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -117,7 +120,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_initialized(message) ) {
-      const result = model.initializedHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.initializedHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -132,7 +136,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_start(message) ) {
-      const result = model.startHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.startHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -147,7 +152,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_started(message) ) {
-      const result = model.startedHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.startedHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -162,7 +168,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_stop(message) ) {
-      const result = model.stopHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.stopHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -177,7 +184,8 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
     } else if( Message.is_stopped(message) ) {
-      const result = model.stoppedHandler(message.argv, model)
+      const argv = Controller.Message.get_argv_from(message)
+      const result = model.stoppedHandler(argv, model)
 
       if( Result.is_ok(result) ) {
         return (
@@ -199,5 +207,5 @@ export const update_model : Controller.Updater<Model, Message.Message> =
 
 
 
-export const init_model = Model
+export const init = create
 
