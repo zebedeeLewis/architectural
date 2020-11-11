@@ -101,3 +101,30 @@ export const create : Factory =
       }
     , 'Model'
     )
+
+
+
+export function from_html_element
+  ( element : HTMLElement
+  ) : Model {
+    const topLeft =
+      Position.create
+        ( { x : 0
+          , y : element.clientHeight
+          }
+        )
+
+
+    const bottomRight =
+      Position.create
+        ( { x : element.clientWidth
+          , y : 0
+          }
+        )
+
+
+    return create( { topLeft, bottomRight} )
+  }
+
+
+

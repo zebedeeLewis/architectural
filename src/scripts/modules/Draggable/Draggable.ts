@@ -106,18 +106,21 @@ export function get_active_axis_from
 
 
 
-/* TODO!!! */
 function handle_initialize_message
   ( message : Controller.Message.Initialize
   , model   : Model
   ) : Model {
-    // set boundaryBox from rootHtmlElement parent
+    const rootHtmlElement =
+      Controller.Subject.get_root_html_element_from(model)
+
+    const boundaryBox =
+      BoundaryBox.from_html_element(rootHtmlElement.parentElement)
 
 
     return (
       Controller.Subject.set_state_to
         ( State.Initializing
-        , model
+        , set_boundary_box_to(boundaryBox, model)
         )
     )
   }
