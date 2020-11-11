@@ -3,7 +3,7 @@ import type {  RecordOf, Record } from 'immutable'
 
 
 
-interface ModelInterface
+interface Interface
   { x : number
   , y : number
   }
@@ -13,11 +13,11 @@ interface ModelInterface
 /**
  * Represents an elements position in a container.
  */
-export type Model = RecordOf<ModelInterface>
+export type Model = RecordOf<Interface>
 
 
 
-type ModelFactory = ( data : Partial<ModelInterface> ) => Model
+type Factory = ( data : Partial<Interface> ) => Model
 
 
 
@@ -55,7 +55,7 @@ export function get_y_from
 
 
 
-export const create : ModelFactory =
+export const create : Factory =
   I.Record
     ( { x : 0
       , y : 0

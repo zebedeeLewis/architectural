@@ -14,7 +14,7 @@ const ERROR_INVALID_SELECTOR_TARGET =
 
 
 export interface StyleRule
-  { selector : string
+  { selector : string | HTMLElement
   , styles?  : { [x : string] : string }
   }
 
@@ -67,7 +67,10 @@ export function apply_style
   , document : Document
   , style    : StyleRule
   ) : Result.Result<StyleRule, string> {
-    const possibleHtmlElement = document.querySelector(style.selector)
+    const possibleHtmlElement =
+      style.selector instanceof Element
+        ? style.selector
+        : document.querySelector(style.selector)
 
 
     if( !(possibleHtmlElement instanceof Element) ) {

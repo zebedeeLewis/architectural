@@ -7,6 +7,7 @@ import * as I from "immutable"
 import * as Position from "./Position"
 import * as Axis from "./Axis"
 import * as BoundaryBox from "./BoundaryBox"
+import * as Utils from "./Utils"
 
 import type {  RecordOf } from 'immutable'
 
@@ -50,23 +51,23 @@ export const create : Factory =
 
 
 
-export const init_model = create
+export const init = create
 
 
 
 export function set_boundary_box_to
-  ( newPosition : Position.Model
-  , model       : Model
+  ( newBoundaryBox : BoundaryBox.Model
+  , model          : Model
   ) : Model {
-    return model.set('position', newPosition)
+    return model.set('boundaryBox', newBoundaryBox)
   }
 
 
 
 export function get_boundary_box_from
   ( model : Model
-  ) : Position.Model {
-    return model.get('position', undefined)
+  ) : BoundaryBox.Model {
+    return model.get('boundaryBox', undefined)
   }
 
 
@@ -105,58 +106,93 @@ export function get_active_axis_from
 
 
 
-export function set_state_to
-  ( newState  : State.Model
-  , model     : Model
+/* TODO!!! */
+function handle_initialize_message
+  ( message : Controller.Message.Initialize
+  , model   : Model
   ) : Model {
-    return model.set('state', newState)
+    // set boundaryBox from rootHtmlElement parent
+
+
+    return (
+      Controller.Subject.set_state_to
+        ( State.Initializing
+        , model
+        )
+    )
   }
 
 
 
-export function get_state_from
-  ( model : Model
-  ) : State.Model {
-    return model.get('state', undefined)
+function handle_move_to_message
+  ( message : Message.MoveTo
+  , model   : Model
+  ) : Model {
+    const state = Controller.Subject.get_state_from(model)
+
+
+    if( !State.is_raised(state) ) {
+      return model
+    }
+
+
+    const boundaryBox = get_boundary_box_from(model)
+    const activeAxis = get_active_axis_from(model)
+    const proposedPosition =
+      Message.get_proposed_position_from(message)
+
+
+    const finalPosition =
+      Axis.is_x(activeAxis)
+        ? Utils.reset_x_position_within_boundary
+            ( proposedPosition
+            , boundaryBox
+            ) :
+
+      Axis.is_y(activeAxis)
+        ? Utils.reset_y_position_within_boundary
+            ( proposedPosition
+            , boundaryBox
+            )
+
+        : Utils.reset_position_within_boundary
+            ( proposedPosition
+            , boundaryBox
+            )
+
+
+    return (
+      set_position_to
+        ( finalPosition
+        , Controller.Subject.set_state_to
+            ( State.Moving
+            , model
+            )
+        )
+    )
   }
 
 
 
-export const update_model
+export const update
   : Controller.Updater<Interface, Message.Interface> =
   ( message
   , model
   ) => {
-
     if( Controller.Message.is_initialize(message) ) {
-      return set_state_to(State.Initializing, model)
+      return handle_initialize_message(message, model)
 
 
     } else if( Message.is_drop(message) ) {
-      return set_state_to(State.Resting, model)
+      return Controller.Subject.set_state_to(State.Resting, model)
 
 
     } else if( Message.is_lift(message) ) {
-      return set_state_to(State.Raised, model)
+      return Controller.Subject.set_state_to(State.Raised, model)
 
 
     } else if( Message.is_move_to(message) ) {
-      const newPosition = Message.get_new_position(message)
-
-      if( Position.is_position(newPosition) ) {
-        
-        return (
-          set_position_to
-            ( newPosition
-            , set_state_to
-                ( State.Moving
-                , model
-                )
-            )
-        )
-      }
-
-      return model
+      return handle_move_to_message(message, model)
 
 
     } else {
@@ -167,8 +203,37 @@ export const update_model
 
 
 
-export const view : Controller.ViewRenderer<Model> =
+export const view
+  : Controller.ViewRenderer<Interface, Message.Interface> =
   ( model
+  , controller
   ) => {
-    return Controller.View.create({})
+    const state = Controller.Subject.get_state_from(model)
+    if( !State.is_moving(state) ) {
+      return Controller.View.create({})
+    }
+
+
+    const position = get_position_from(model)
+    const xValue = Position.get_x_from(position)
+    const yValue = Position.get_y_from(position)
+    const rootHtmlElement =
+      Controller.Subject.get_root_html_element_from(model)
+
+
+    const style =
+      [ { selector : rootHtmlElement
+        , styles   :
+            { transform : `translate(${xValue}px, ${yValue}px)`
+            }
+            
+        }
+      ]
+
+
+    Controller.dispatch_message(Message.Lift({}), controller)
+
+
+    return Controller.View.create( {style} )
   }
+

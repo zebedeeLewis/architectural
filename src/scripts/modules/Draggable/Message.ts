@@ -8,6 +8,7 @@ import type {  RecordOf, Record } from 'immutable'
 
 
 
+/* TODO: add UpdateBoundaries message */
 export type Model 
   = Controller.Message.Common
   | Drop
@@ -55,13 +56,13 @@ export function is_lift
 
 
 export interface MoveToInterface extends Controller.Message.Interface
-  { newPosition : Position.Model
-  , argv        : []
+  { proposedPosition : Position.Model
+  , argv             : []
   }
 
 
 
-type MoveTo = Controller.Message.Model<MoveToInterface>
+export type MoveTo = Controller.Message.Model<MoveToInterface>
 
 
 
@@ -71,8 +72,8 @@ type MoveToFactory = Controller.Message.Factory<MoveToInterface>
 
 export const MoveTo : MoveToFactory =
   Controller.Message.create_factory
-    ( { newPosition : Position.create({})
-      , argv        : []
+    ( { proposedPosition : Position.create({})
+      , argv             : []
       }
     , 'MoveTo'
     )
@@ -89,10 +90,10 @@ export function is_move_to
 
 
 
-export function get_new_position
+export function get_proposed_position_from
   ( moveTo : MoveTo
   ) : Position.Model {
-    return moveTo.get('newPosition', undefined)
+    return moveTo.get('proposedPosition', undefined)
   }
 
 

@@ -5,20 +5,18 @@ import type {  RecordOf } from 'immutable'
 
 
 
-interface ModelInterface
+interface Interface
   { topLeft     : Position.Model
-  , topRight    : Position.Model
   , bottomRight : Position.Model
-  , bottomLeft  : Position.Model
   }
 
 
 
-export type Model = RecordOf<ModelInterface>
+export type Model = RecordOf<Interface>
 
 
 
-type ModelFactory = ( data : Partial<ModelInterface> ) => Model
+type Factory = ( data : Partial<Interface> ) => Model
 
 
 
@@ -35,23 +33,6 @@ export function get_top_left_from
   ( model    : Model
   ) : Position.Model {
     return model.get('topLeft', undefined)
-  }
-
-
-
-export function set_top_right_to
-  ( newPosition : Position.Model
-  , model       : Model
-  ) : Model {
-    return model.set('topRight', newPosition)
-  }
-
-
-
-export function get_top_right_from
-  ( model    : Model
-  ) : Position.Model {
-    return model.get('topRight', undefined)
   }
 
 
@@ -73,29 +54,50 @@ export function get_bottom_right_from
 
 
 
-export function set_bottom_left_to
-  ( newPosition : Position.Model
-  , model       : Model
-  ) : Model {
-    return model.set('bottomLeft', newPosition)
+export function get_lower_boundary_from
+  ( model : Model
+  ) : number {
+    const bottomRight = get_bottom_right_from(model)
+
+    return Position.get_x_from(bottomRight)
   }
 
 
 
-export function get_bottom_left_from
-  ( model    : Model
-  ) : Position.Model {
-    return model.get('bottomLeft', undefined)
+export function get_right_boundary_from
+  ( model : Model
+  ) : number {
+    const bottomRight = get_bottom_right_from(model)
+
+    return Position.get_y_from(bottomRight)
   }
 
 
 
-export const create : ModelFactory =
+export function get_upper_boundary_from
+  ( model : Model
+  ) : number {
+    const topLeft = get_top_left_from(model)
+
+    return Position.get_x_from(topLeft)
+  }
+
+
+
+export function get_left_boundary_from
+  ( model : Model
+  ) : number {
+    const topLeft = get_top_left_from(model)
+
+    return Position.get_y_from(topLeft)
+  }
+
+
+
+export const create : Factory =
   I.Record
     ( { topLeft     : Position.create({})
-      , topRight    : Position.create({})
       , bottomRight : Position.create({})
-      , bottomLeft  : Position.create({})
       }
     , 'Model'
     )

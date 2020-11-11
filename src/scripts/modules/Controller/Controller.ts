@@ -42,8 +42,13 @@ export type Updater
 /**
  * Render a view of a given model
  */
-export type ViewRenderer<ITF extends Subject.Interface> =
-  ( model : Subject.Model<ITF>) => View.Model
+export type ViewRenderer
+  < ITF extends Subject.Interface
+  , MSG_ITF extends Message.Interface
+  > =
+  ( model      : Subject.Model<ITF>
+  , controller : Model<ITF, MSG_ITF>
+  ) => View.Model
 
 
 
@@ -55,7 +60,7 @@ export interface Interface
   , updater   : Updater<ITF, MSG_ITF>
   , window?   : Window
   , document? : Document
-  , view      : ViewRenderer<ITF>
+  , view      : ViewRenderer<ITF, MSG_ITF>
   }
 
 
@@ -82,7 +87,7 @@ export const create : Factory =
       , updater  : (message, model) => model
       , window   : undefined
       , document : undefined
-      , view     : (model) => View.create({})
+      , view     : (model, controller) => View.create({})
       }
     , 'Controller'
     )
@@ -94,7 +99,7 @@ export function get_view_from
   , MSG_ITF extends Message.Interface
   >
   ( controller : Model<ITF, MSG_ITF>
-  ) : ViewRenderer<ITF> {
+  ) : ViewRenderer<ITF, MSG_ITF> {
     return controller.get('view', undefined)
   }
 
@@ -104,7 +109,7 @@ export function set_view_to
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
   >
-  ( viewRenderer : ViewRenderer<ITF>
+  ( viewRenderer : ViewRenderer<ITF, MSG_ITF>
   , controller   : Model<ITF, MSG_ITF>
   ) : Model<ITF, MSG_ITF> {
     return controller.set('view', viewRenderer)
@@ -208,12 +213,10 @@ export function render_model
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
   >
-  ( renderer   : ViewRenderer<ITF>
+  ( renderer   : ViewRenderer<ITF, MSG_ITF>
   , controller : Model<ITF, MSG_ITF>
   , model      : Subject.Model<ITF>
   ) : Result.Result< Failure.Model<ITF, string>, Subject.Model<ITF> > {
-
-
     const state = Subject.get_state_from(model)
 
 
@@ -240,7 +243,7 @@ export function render_model
 
     const document = get_document_from(controller)
     const window = get_window_from(controller)
-    const view = renderer(model)
+    const view = renderer(model, controller)
 
 
     const markup
