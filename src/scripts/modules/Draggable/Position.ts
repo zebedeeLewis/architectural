@@ -75,3 +75,59 @@ export function is_position
       && create(_possiblePosition.toObject()).equals(possiblePosition)
     )
   }
+
+
+
+export function offset_by
+  ( offsetPosition : Model
+  , basePosition   : Model
+  ) : Model {
+    const offsetX = get_x_from(offsetPosition)
+    const offsetY = get_y_from(offsetPosition)
+
+
+    const baseX = get_x_from(basePosition)
+    const baseY = get_y_from(basePosition)
+
+     
+    const nX = baseX + offsetX
+    const nY = baseY + offsetY
+
+
+    return (
+      create
+        ( { x : nX
+          , y : nY
+          }
+        )
+    )
+  }
+
+
+
+export function offset_from
+  ( positionN    : Model
+  , basePosition : Model
+  ) : Model {
+    const nX = get_x_from(positionN)
+    const nY = get_y_from(positionN)
+
+
+    const baseX = get_x_from(basePosition)
+    const baseY = get_y_from(basePosition)
+
+
+    const offsetX = nX - baseX
+    const offsetY = nY - baseY
+
+
+    return (
+      create
+        ( { x : offsetX
+          , y : offsetY
+          }
+        )
+    )
+  }
+
+

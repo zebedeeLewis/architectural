@@ -18,11 +18,12 @@ export const UPDATE_ERROR = 'Unable to update Model'
 
 
 interface Interface extends Controller.Subject.Interface
-  { state            : State.Model
-  , rootHtmlElement? : HTMLElement
-  , activeAxis       : Axis.Model
-  , boundaryBox      : BoundaryBox.Model
-  , position         : Position.Model;
+  { state                  : State.Model
+  , rootHtmlElement?       : HTMLElement
+  , activeAxis             : Axis.Model
+  , boundaryBox            : BoundaryBox.Model
+  , position               : Position.Model
+  , mouseOffsetFromTopLeft : Position.Model
   }
 
 
@@ -40,11 +41,12 @@ type Factory = Controller.Subject.Factory<Interface>
 
 export const create : Factory =
   I.Record
-    ( { state           : State.Unset
-      , rootHtmlElement : undefined
-      , activeAxis      : Axis.X
-      , boundaryBox     : BoundaryBox.create({})
-      , position        : Position.create({})
+    ( { state                  : State.Unset
+      , rootHtmlElement        : undefined
+      , activeAxis             : Axis.X
+      , boundaryBox            : BoundaryBox.create({})
+      , position               : Position.create({})
+      , mouseOffsetFromTopLeft : Position.create({})
       }
     , 'Model'
     )
@@ -52,6 +54,23 @@ export const create : Factory =
 
 
 export const init = create
+
+
+
+export function get_mouse_offset_from_top_left_from
+  ( model : Model
+  ) : Position.Model {
+    return model.get('mouseOffsetFromTopLeft', undefined)
+  }
+
+
+
+export function set_mouse_offset_from_top_left_to
+  ( newOffset : Position.Model
+  , model     : Model
+  ) : Model {
+    return model.set('mouseOffsetFromTopLeft', newOffset)
+  }
 
 
 
@@ -110,17 +129,18 @@ function handle_initialize_message
   ( message : Controller.Message.Initialize
   , model   : Model
   ) : Model {
-    const rootHtmlElement =
-      Controller.Subject.get_root_html_element_from(model)
-
-    const boundaryBox =
-      BoundaryBox.from_html_element(rootHtmlElement.parentElement)
+    const rootHtmlElement
+      =  Controller.Message.get_root_html_element_from(message)
+      || Controller.Subject.get_root_html_element_from(model)
 
 
     return (
-      Controller.Subject.set_state_to
-        ( State.Initializing
-        , set_boundary_box_to(boundaryBox, model)
+      Controller.Subject.set_root_html_element_to
+        ( rootHtmlElement
+        , Controller.Subject.set_state_to
+            ( State.Initializing
+            , model
+            )
         )
     )
   }
@@ -134,10 +154,9 @@ function handle_move_to_message
     const state = Controller.Subject.get_state_from(model)
 
 
-    if( !State.is_raised(state) ) {
-      return model
-    }
-
+    const currentPosition = get_position_from(model)
+    const currentX = Position.get_x_from(currentPosition)
+    const currentY = Position.get_y_from(currentPosition)
 
     const boundaryBox = get_boundary_box_from(model)
     const activeAxis = get_active_axis_from(model)
@@ -148,17 +167,17 @@ function handle_move_to_message
     const finalPosition =
       Axis.is_x(activeAxis)
         ? Utils.reset_x_position_within_boundary
-            ( proposedPosition
+            ( Position.set_y_to(currentY, proposedPosition)
             , boundaryBox
             ) :
 
       Axis.is_y(activeAxis)
         ? Utils.reset_y_position_within_boundary
-            ( proposedPosition
+            ( Position.set_x_to(currentX, proposedPosition)
             , boundaryBox
             )
 
-        : Utils.reset_position_within_boundary
+        : Utils.reset_xy_position_within_boundary
             ( proposedPosition
             , boundaryBox
             )
@@ -169,6 +188,27 @@ function handle_move_to_message
         ( finalPosition
         , Controller.Subject.set_state_to
             ( State.Moving
+            , model
+            )
+        )
+    )
+  }
+
+
+
+function handle_lift_message
+  ( message : Message.Lift
+  , model   : Model
+  ) : Model {
+    const mouseOffsetFromTopLeft =
+      Message.get_mouse_offset_from_top_left_from(message)
+
+
+    return (
+      Controller.Subject.set_state_to
+        ( State.Raised
+        , set_mouse_offset_from_top_left_to
+            ( mouseOffsetFromTopLeft
             , model
             )
         )
@@ -191,11 +231,22 @@ export const update
 
 
     } else if( Message.is_lift(message) ) {
-      return Controller.Subject.set_state_to(State.Raised, model)
+      return handle_lift_message(message, model)
 
 
     } else if( Message.is_move_to(message) ) {
       return handle_move_to_message(message, model)
+
+
+    } else if( Message.is_update_boundary(message) ) {
+      const boundaryBox = Message.get_boundary_box_from(message)
+
+      return (
+        Controller.Subject.set_state_to
+          ( State.Resting
+          , set_boundary_box_to(boundaryBox, model)
+          )
+      )
 
 
     } else {
@@ -206,20 +257,116 @@ export const update
 
 
 
-export const view
-  : Controller.ViewRenderer<Interface, Message.Interface> =
-  ( model
-  , controller
-  ) => {
-    const state = Controller.Subject.get_state_from(model)
-    if( !State.is_moving(state) ) {
-      return Controller.View.create({})
-    }
+type MessageDispatcher =
+  Controller.MessageDispatcher<Interface, Message.Interface>
 
 
+
+function view_initializing_state
+  ( dispatch_message : MessageDispatcher
+  , model            : Model
+  ) : Controller.View.Model {
+    const rootHtmlElement =
+      Controller.Subject.get_root_html_element_from(model)
+
+
+    rootHtmlElement.onmousedown =
+      ( e : MouseEvent ) => {
+        const x = e.clientX
+        const y = e.clientY
+        const mousePosition = Position.create({x, y})
+
+        const elementTopLeftPosition =
+          BoundaryBox.get_top_left_from
+            ( BoundaryBox.from_html_element(rootHtmlElement)
+            )
+
+        const mouseOffsetFromTopLeft =
+          Position.offset_from
+            ( elementTopLeftPosition
+            , mousePosition
+            )
+
+        dispatch_message
+          ( Message.Lift( {mouseOffsetFromTopLeft} )
+          )
+      }
+
+
+    const boundaryBox =
+      BoundaryBox.from_html_element(rootHtmlElement.parentElement)
+
+
+    dispatch_message(Message.UpdateBoundary( {boundaryBox} ))
+
+
+    const style =
+      [ { selector : rootHtmlElement
+        , styles   :
+            { cursor : 'grab'
+            }
+        }
+      ]
+
+    return Controller.View.create( {style} )
+  }
+
+
+
+function view_raised_state
+  ( window           : Window
+  , dispatch_message : MessageDispatcher
+  , model            : Model
+  ) : Controller.View.Model {
+    window.onmouseup =
+      () => dispatch_message(Message.Drop({}))
+
+
+    const rootHtmlElement =
+      Controller.Subject.get_root_html_element_from(model)
+
+
+    rootHtmlElement.parentElement.onmousemove =
+      ( e : MouseEvent ) => {
+        const x = e.clientX
+        const y = e.clientY
+        const mouseOffsetFromTopLeft =
+          get_mouse_offset_from_top_left_from(model)
+
+        const proposedPosition =
+          Position.offset_by
+            ( mouseOffsetFromTopLeft
+            , Position.create({x, y})
+            )
+
+        dispatch_message(Message.MoveTo({proposedPosition}))
+      }
+
+
+    const style =
+      [ { selector : rootHtmlElement
+        , styles   :
+            { cursor : 'grabbing'
+            }
+        }
+      ]
+
+
+    return Controller.View.create({style})
+  }
+
+
+
+function view_moving_state
+  ( model            : Model
+  ) : Controller.View.Model {
     const position = get_position_from(model)
+
+
     const xValue = Position.get_x_from(position)
     const yValue = Position.get_y_from(position)
+
+
     const rootHtmlElement =
       Controller.Subject.get_root_html_element_from(model)
 
@@ -228,15 +375,72 @@ export const view
       [ { selector : rootHtmlElement
         , styles   :
             { transform : `translate(${xValue}px, ${yValue}px)`
+            , zIndex    : '9999'
             }
-            
         }
       ]
 
 
-    Controller.dispatch_message(Message.Lift({}), controller)
+    return Controller.View.create( {style} )
+  }
+
+
+
+function view_resting_state
+  ( window           : Window
+  , model            : Model
+  ) : Controller.View.Model {
+    window.onmouseup = null
+
+
+    const rootHtmlElement =
+      Controller.Subject.get_root_html_element_from(model)
+
+
+    rootHtmlElement.parentElement.onmousemove = null
+
+
+    const style =
+      [ { selector : rootHtmlElement
+        , styles   :
+            { cursor : 'grab'
+            }
+        }
+      ]
 
 
     return Controller.View.create( {style} )
+  }
+
+
+
+export const view
+  : Controller.ModelViewer<Interface, Message.Interface> =
+  ( window
+  , dispatch_message
+  , model
+  ) => {
+    const state = Controller.Subject.get_state_from(model)
+
+
+    if( Controller.State.is_initializing(state) ) {
+      return view_initializing_state(dispatch_message, model)
+
+
+    } else if( State.is_raised(state) ) {
+      return view_raised_state(window, dispatch_message, model)
+
+
+    } else if( State.is_moving(state) ) {
+      return view_moving_state(model)
+
+
+    } else if( State.is_resting(state) ) {
+      return view_resting_state(window, model)
+
+
+    } else {
+      return Controller.View.create({})
+    }
   }
 

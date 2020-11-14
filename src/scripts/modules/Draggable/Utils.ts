@@ -10,9 +10,9 @@ export function is_position_past_lower_boundary
     const lowerBoundary =
       BoundaryBox.get_lower_boundary_from(boundaryBox)
 
-    const xPosition = Position.get_x_from(position)
+    const yPosition = Position.get_y_from(position)
 
-    return xPosition < lowerBoundary
+    return yPosition > lowerBoundary
   }
 
 
@@ -24,9 +24,9 @@ export function is_position_past_right_boundary
     const rightBoundary =
       BoundaryBox.get_right_boundary_from(boundaryBox)
 
-    const yPosition = Position.get_y_from(position)
+    const xPosition = Position.get_x_from(position)
 
-    return yPosition > rightBoundary
+    return xPosition > rightBoundary
   }
 
 
@@ -38,9 +38,9 @@ export function is_position_past_upper_boundary
     const upperBoundary =
       BoundaryBox.get_upper_boundary_from(boundaryBox)
 
-    const xPosition = Position.get_x_from(position)
+    const yPosition = Position.get_y_from(position)
 
-    return xPosition > upperBoundary
+    return yPosition < upperBoundary
   }
 
 
@@ -52,9 +52,9 @@ export function is_position_past_left_boundary
     const leftBoundary =
       BoundaryBox.get_left_boundary_from(boundaryBox)
 
-    const yPosition = Position.get_y_from(position)
+    const xPosition = Position.get_x_from(position)
 
-    return yPosition > leftBoundary
+    return xPosition < leftBoundary
   }
 
 
@@ -120,7 +120,7 @@ export function reset_x_position_within_boundary
 
 
 
-export function reset_position_within_boundary
+export function reset_xy_position_within_boundary
   ( position    : Position.Model
   , boundaryBox : BoundaryBox.Model
   ) : Position.Model {

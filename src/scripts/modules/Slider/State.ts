@@ -1,12 +1,10 @@
-
 import * as Result from "../Result";
 
 
 
-/** Describes the current state of a Slider at a given point. */
 export type State
   = 'Unset'
-  | 'Initialized'
+  | 'Initializing'
   | 'Playing'
   | 'Paused'
 
@@ -14,7 +12,7 @@ export type State
 
 export const Unset : State = 'Unset'
 
-export const Initialized : State = 'Initialized'
+export const Initializing : State = 'Initializing'
 
 export const Playing : State = 'Playing'
 
@@ -27,9 +25,9 @@ export function is_unset
 
 
 
-export function is_initialized
+export function is_initializing
   ( possibleState : any ) : boolean {
-    return possibleState === Initialized
+    return possibleState === Initializing
   }
 
 

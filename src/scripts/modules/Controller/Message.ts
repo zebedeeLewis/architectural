@@ -9,7 +9,8 @@ export type Common = Initialize
 
 
 export interface Interface {
-  argv? : Array<any>
+  argv?       : Array<any>
+  [x: string] : any
 }
 
 

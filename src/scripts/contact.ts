@@ -22,12 +22,18 @@ const MAP_ATTRIBUTION
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiemViZWRlZWxld2lzIiwiYSI6ImNraDNucXFobjAzc3EyeW53ZnllNzk2bXgifQ.ucM0QXsk0dh1qFkgojDtaw'
 
+const ZOOM_LEVEL = 8
+
+const DEG_NORTH = 51.505
+
+const DEG_WEST = -0.99
+
 
 
 function init_map
   ( id : string
   ) : L.Map {
-    return L.map(id).setView([51.505, -0.09], 8)
+    return L.map(id).setView([DEG_NORTH, DEG_WEST], ZOOM_LEVEL)
   }
 
 

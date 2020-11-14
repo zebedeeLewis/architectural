@@ -21,10 +21,6 @@ const ERROR_NO_ROOT_ELEMENT = 'I need a root element'
 
 
 
-const dummyFactory = I.Record({})
-
-
-
 /**
  * Interface for a function that knows how to update the model
  * of the given type.
@@ -42,170 +38,23 @@ export type Updater
 /**
  * Render a view of a given model
  */
-export type ViewRenderer
+export type ModelViewer
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
   > =
-  ( model      : Subject.Model<ITF>
-  , controller : Model<ITF, MSG_ITF>
+  ( window           : Window
+  , dispatch_message : MessageDispatcher<ITF, MSG_ITF>
+  , model            : Subject.Model<ITF>
   ) => View.Model
 
 
 
-export interface Interface
+export type MessageDispatcher
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
-  >
-  { model     : Subject.Model<ITF>
-  , updater   : Updater<ITF, MSG_ITF>
-  , window?   : Window
-  , document? : Document
-  , view      : ViewRenderer<ITF, MSG_ITF>
-  }
-
-
-
-/**
- * The Controller is a command (i.e. Message) reciever and dispatcher
- */
-export type Model
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  > = RecordOf< Interface<ITF, MSG_ITF> >
-
-
-
-type Factory =
-  ( data : Partial< Interface<any, any> >
-  ) => Model<any, any>
-
-
-
-export const create : Factory =
-  I.Record
-    ( { model    : dummyFactory({}) as any
-      , updater  : (message, model) => model
-      , window   : undefined
-      , document : undefined
-      , view     : (model, controller) => View.create({})
-      }
-    , 'Controller'
-    )
-
-
-
-export function get_view_from
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( controller : Model<ITF, MSG_ITF>
-  ) : ViewRenderer<ITF, MSG_ITF> {
-    return controller.get('view', undefined)
-  }
-
-
-
-export function set_view_to
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( viewRenderer : ViewRenderer<ITF, MSG_ITF>
-  , controller   : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    return controller.set('view', viewRenderer)
-  }
-
-
-
-export function get_document_from
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( controller : Model<ITF, MSG_ITF>
-  ) : Document {
-    return controller.get('document', undefined)
-  }
-
-
-
-export function set_document_to
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( newDocument : Document
-  , controller  : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    return controller.set('document', newDocument)
-  }
-
-
-
-export function get_window_from
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( controller : Model<ITF, MSG_ITF>
-  ) : Window {
-    return controller.get('window', undefined)
-  }
-
-
-
-export function set_window_to
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( newWindow  : Window
-  , controller : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    return controller.set('window', newWindow)
-  }
-
-
-
-export function get_model_from
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( controller : Model<ITF, MSG_ITF>
-  ) : Subject.Model<ITF> {
-    return controller.get('model', undefined)
-  }
-
-
-
-export function set_model_to
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( newModel   : Subject.Model<ITF>
-  , controller : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    return controller.set('model', newModel)
-  }
-
-
-
-export function get_updater_from
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( controller : Model<ITF, MSG_ITF>
-  ) : Updater<ITF, MSG_ITF> {
-    return controller.get('updater', undefined)
-  }
-
-
-
-export function set_updater_to
-  < ITF extends Subject.Interface
-  , MSG_ITF extends Message.Interface
-  >
-  ( newUpdater : Updater<ITF, MSG_ITF>
-  , controller : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    return controller.set('updater', newUpdater)
-  }
+  > = 
+  (message : Message.Model<MSG_ITF>
+  ) => Result.Result< Failure.Model<ITF, string>, Subject.Model<ITF> >
 
 
 
@@ -213,15 +62,15 @@ export function render_model
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
   >
-  ( renderer   : ViewRenderer<ITF, MSG_ITF>
-  , controller : Model<ITF, MSG_ITF>
-  , model      : Subject.Model<ITF>
+  ( window            : Window
+  , view_model        : ModelViewer<ITF, MSG_ITF>
+  , messageDispatcher : MessageDispatcher<ITF, MSG_ITF>
+  , model             : Subject.Model<ITF>
   ) : Result.Result< Failure.Model<ITF, string>, Subject.Model<ITF> > {
     const state = Subject.get_state_from(model)
 
 
-    // We won't try to render a model that is not ready
-    if( State.is_unset(state) || State.is_initialized(state) ) {
+    if( State.is_unset(state) ) {
       return Result.Ok({value : model})
     }
 
@@ -241,20 +90,22 @@ export function render_model
     }
 
 
-    const document = get_document_from(controller)
-    const window = get_window_from(controller)
-    const view = renderer(model, controller)
+    const view = view_model(window, messageDispatcher, model)
 
 
-    const markup
-      =  View.get_markup_from(view)
-      || rootHtmlElement.innerHTML
+    const markup = View.get_markup_from(view)
+
+
+    const document = window.document
 
 
     window.requestAnimationFrame
       ( ( timeStamp ) => {
           View.apply_all_styles(window, document, view)
-          rootHtmlElement.innerHTML = markup
+
+          if( markup ) {
+            rootHtmlElement.innerHTML = markup
+          }
         }
       )
 
@@ -264,41 +115,41 @@ export function render_model
 
 
 
-export function dispatch_message
+export function start
   < ITF extends Subject.Interface
   , MSG_ITF extends Message.Interface
   >
-  ( message    : Message.Model<MSG_ITF>
-  , controller : Model<ITF, MSG_ITF>
-  ) : Model<ITF, MSG_ITF> {
-    const update_model = get_updater_from(controller)
-    const view_model = get_view_from(controller)
+  ( window       : Window
+  , initModel    : Subject.Model<ITF>
+  , update_model : Updater<ITF, MSG_ITF>
+  , modelViewer  : ModelViewer<ITF, MSG_ITF>
+  ) : MessageDispatcher<ITF, MSG_ITF> {
+    const modelWrapper = { appModel : initModel }
 
 
-    const renderResult =
-      render_model
-        ( view_model
-        , controller
-        , update_model
+    const messageDispatcher : MessageDispatcher<ITF, MSG_ITF> =
+      ( message ) => {
+        // TODO: setup an update queue so that updates occure in
+        // the order the user expects.
+        modelWrapper.appModel =
+          update_model
             ( message
-            , get_model_from(controller)
+            , modelWrapper.appModel
+            )
+
+        return (
+          render_model
+            ( window
+            , modelViewer
+            , messageDispatcher
+            , modelWrapper.appModel
             )
         )
+      }
 
 
-    if( Result.is_err(renderResult) ) {
-      return controller
-    }
-
-
-    const updatedModel = Result.get_ok_value(renderResult)
-
-
-    return (
-      set_model_to
-        ( updatedModel
-        , controller
-        )
-    )
+    return  messageDispatcher
   }
+
+
 

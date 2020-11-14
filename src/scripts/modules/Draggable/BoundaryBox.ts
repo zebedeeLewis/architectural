@@ -107,18 +107,21 @@ export const create : Factory =
 export function from_html_element
   ( element : HTMLElement
   ) : Model {
+    const domRect = element.getBoundingClientRect()
+
+
     const topLeft =
       Position.create
-        ( { x : 0
-          , y : element.clientHeight
+        ( { x : domRect.x
+          , y : domRect.y
           }
         )
 
 
     const bottomRight =
       Position.create
-        ( { x : element.clientWidth
-          , y : 0
+        ( { x : domRect.right
+          , y : domRect.bottom
           }
         )
 

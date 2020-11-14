@@ -1,53 +1,14 @@
 import * as Controller from "./modules/Controller"
 import * as Slider from "./modules/Slider"
 import * as Result from "./modules/Result"
-
+import * as Draggable from "./modules/Draggable"
 import Splide from '@splidejs/splide';
+
 import '../scss/index.scss'
 
 
-const SLIDER_CLASSNAME = 'main-slider'
-
-const PAGINATION_SLIDER_CLASSNAME = 'main-slider__pagination'
-
-const ERROR_SLIDER_OBJECT =
-  'I need a slider object to proceed'
-
-
-
-const initialize_slider : Slider.MessageHandler =
-  ( argv
-  , model
-  ) => {
-    const slider = Slider.get_slider_from( model )
-    const sliderPagination = Slider.get_slider_pagination_from( model )
-
-    try {
-      if( !slider ) {
-        throw new Error( ERROR_SLIDER_OBJECT )
-      }
-
-    } catch( e ) {
-      const failure = 
-        Controller.Failure.create
-          ( { error : e
-            , model : model
-            }
-          )
-
-      return Result.Err( { error : failure } )
-    }
-
-    if( sliderPagination ) {
-      slider
-        .sync( sliderPagination.mount() )
-        .mount()
-    } else {
-      slider.mount()
-    }
-
-    return Result.Ok( { value : model } )
-  }
+const SLIDER_SELECTOR = '.main-slider'
+const PAGINATION_SLIDER_SELECTOR = '.main-slider__pagination'
 
 
 
@@ -55,9 +16,12 @@ function init_slider
   ( window   : Window
   , document : Document
   ) : void {
+    const rootHtmlElement =
+      document.querySelector(SLIDER_SELECTOR) as HTMLElement
+
     const slider =
       new Splide
-        ( `.${SLIDER_CLASSNAME}`
+        ( SLIDER_SELECTOR
         , { autoplay   : true
           , cover      : true
           , autoWidth  : true
@@ -70,7 +34,7 @@ function init_slider
 
     const sliderPagination =
       new Splide
-        ( `.${PAGINATION_SLIDER_CLASSNAME}`
+        ( PAGINATION_SLIDER_SELECTOR
         , { autoWidth    : true
           , autoHeight   : true
           , isNavigation : true
@@ -79,27 +43,58 @@ function init_slider
           }
         )
 
-    const sliderModel =
+
+    const model =
       Slider.init
-        ( { slider
+        ( { rootHtmlElement
+          , slider
           , sliderPagination
-          , initializeHandler   : initialize_slider
           }
         )
 
-    const controller =
-      Controller.create
-        ( { model   : sliderModel
-          , updater : Slider.update
+
+    const dispatch_message =
+      Controller.start
+        ( window
+        , model
+        , Slider.update
+        , Slider.view
+        )
+
+
+    dispatch_message( Controller.Message.Initialize({}) )
+  }
+
+
+function init_draggable
+  ( window   : Window
+  , document : Document
+  ) : void {
+    const rootHtmlElement =
+      document.querySelector('.page-title') as HTMLElement
+
+
+    const model =
+      Draggable.init
+        ( { rootHtmlElement
+          , activeAxis : Draggable.Axis.Y
           }
         )
 
-    Controller.dispatch_message
-      ( Controller.Message.Initialize({})
-      , controller
-      )
+
+    const dispatch_message =
+      Controller.start
+        ( window
+        , model
+        , Draggable.update
+        , Draggable.view
+        )
+
+
+    dispatch_message( Controller.Message.Initialize({}) )
   }
 
 
 
+init_draggable(window, document)
 init_slider(window, document)

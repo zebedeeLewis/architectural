@@ -3,14 +3,9 @@ import type {  RecordOf, Record } from 'immutable'
 
 
 
-/*
- * TODO:
- *   - create a State module describing a base State that all other
- *     States must extend.
- */
 export interface Interface 
   { state            : any
-    rootHtmlElement? : HTMLElement
+  , rootHtmlElement? : HTMLElement
   }
 
 
@@ -21,6 +16,15 @@ export type Model<ITF extends Interface> = RecordOf<ITF>
 
 export type Factory<ITF extends Interface> =
   ( data : Partial<ITF> ) => Model<ITF>
+
+
+
+export const dummy : Factory<Interface> =
+  I.Record
+    ( { state           : 'dummy state'
+      , rootHtmlElement : undefined
+      }
+    )
 
 
 

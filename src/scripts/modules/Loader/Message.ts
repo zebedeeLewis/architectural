@@ -2,7 +2,6 @@
 import * as State from "./State"
 import * as Controller from "../Controller"
 import * as I from "immutable"
-import diff from  "jest-diff"
 
 import type {  RecordOf, Record } from 'immutable'
 
@@ -12,13 +11,11 @@ import type {  RecordOf, Record } from 'immutable'
  * Represents a message indicating a milestone in the Loaders
  * progression.
  */
-export type Message 
+export type Model 
   = Controller.Message.Common
-  | Initialized
   | Start
-  | Started
-  | Stop
-  | Stopped
+  | Close
+  | Cleanup
 
 
 
@@ -27,15 +24,6 @@ export type Interface = Controller.Message.Interface
 
 
 type Factory = Controller.Message.Factory<Interface>
-
-
-
-export type Initialized = Controller.Message.Model<Interface>
-
-
-
-export const Initialized : Controller.Message.Factory<Interface> =
-  Controller.Message.create_factory({argv : []}, 'Initialized')
 
 
 
@@ -48,93 +36,49 @@ export const Start : Controller.Message.Factory<Interface> =
 
 
 
-export type Started = Controller.Message.Model<Interface>
-
-
-
-export const Started : Controller.Message.Factory<Interface> =
-  Controller.Message.create_factory({argv : []}, 'Started')
-
-
-
-export type Stop = Controller.Message.Model<Interface>
-
-
-
-export const Stop : Controller.Message.Factory<Interface> =
-  Controller.Message.create_factory({argv : []}, 'Stop')
-
-
-
-export type Stopped = Controller.Message.Model<Interface>
-
-
-
-export const Stopped : Controller.Message.Factory<Interface> =
-  Controller.Message.create_factory({argv : []}, 'Stopped')
-
-
-
-export function is_initialized
-  ( possibleMessage : any
-  ) : possibleMessage is Initialized {
-    return (
-      Controller.Message.is_message_of_type
-        ( Initialized
-        , possibleMessage
-        )
-    )
-  }
-
-
-
 export function is_start
-  ( possibleMessage : any
-  ) : possibleMessage is Start {
+  ( possibleStart : any
+  ) : possibleStart is Start {
     return (
-      Controller.Message.is_message_of_type
-        ( Start
-        , possibleMessage
-        )
+      Controller.Message.is_message_of_type(Start, possibleStart)
     )
   }
 
 
 
-export function is_started
-  ( possibleMessage : any
-  ) : possibleMessage is Started {
+export type Close = Controller.Message.Model<Interface>
+
+
+
+export const Close : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Close')
+
+
+
+export function is_close
+  ( possibleClose : any
+  ) : possibleClose is Close {
     return (
-      Controller.Message.is_message_of_type
-        ( Started
-        , possibleMessage
-        )
+      Controller.Message.is_message_of_type(Close, possibleClose)
     )
   }
 
 
 
-export function is_stop
-  ( possibleMessage : any
-  ) : possibleMessage is Stop {
+export type Cleanup = Controller.Message.Model<Interface>
+
+
+
+export const Cleanup : Controller.Message.Factory<Interface> =
+  Controller.Message.create_factory({argv : []}, 'Cleanup')
+
+
+
+export function is_cleanup
+  ( possibleCleanup : any
+  ) : possibleCleanup is Cleanup {
     return (
-      Controller.Message.is_message_of_type
-        ( Stop
-        , possibleMessage
-        )
-    )
-  }
-
-
-
-export function is_stopped
-  ( possibleMessage : any
-  ) : possibleMessage is Stopped {
-    return (
-      Controller.Message.is_message_of_type
-        ( Stopped
-        , possibleMessage
-        )
+      Controller.Message.is_message_of_type(Cleanup, possibleCleanup)
     )
   }
 
@@ -142,13 +86,11 @@ export function is_stopped
 
 export function is_message
   ( possibleMessage : any
-  ) : possibleMessage is Message {
+  ) : possibleMessage is Model {
     return (
          Controller.Message.is_common(possibleMessage)
-      || is_initialized(possibleMessage)
       || is_start(possibleMessage)
-      || is_started(possibleMessage)
-      || is_stop(possibleMessage)
-      || is_stopped(possibleMessage)
+      || is_close(possibleMessage)
+      || is_cleanup(possibleMessage)
     )
   }

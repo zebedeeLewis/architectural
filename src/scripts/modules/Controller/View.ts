@@ -88,7 +88,7 @@ export function apply_style
 
     const styleProperties = Object.keys(style.styles)
     styleProperties.forEach
-      ( styleProperty => 
+      ( (styleProperty : any) => 
           htmlElement.style[styleProperty] = style.styles[styleProperty]
       )
 

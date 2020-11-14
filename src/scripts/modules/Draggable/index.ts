@@ -1,8 +1,8 @@
 export 
   { Model
   , create
-  , init_model
-  , update_model
+  , init
+  , update
   , view
   } from './Draggable'
 

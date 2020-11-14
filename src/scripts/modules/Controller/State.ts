@@ -1,23 +1,27 @@
 
 /* TODO!!! */
 export type Model
-  = 'Initialized'
-  | 'Unset'
+  = 'Unset'
+  | 'Initializing'
 
 
 
-/* TODO!!! */
-export function is_initialized
+export const Unset = 'Unset'
+
+export const Initializing = 'Initializing'
+
+
+
+export function is_initializing
   ( possibleState : any
   ) : possibleState is Model {
-    return true
+    return possibleState === Initializing
   }
 
 
 
-/* TODO!!! */
 export function is_unset
   ( possibleState : any
   ) : possibleState is Model {
-    return true
+    return possibleState === Unset
   }
