@@ -1,0 +1,82 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/typography/variables" as typographyVars;
+
+/* Mixin Imports */
+@use "./mixins";
+
+
+
+.portfolio-item {
+  display                  : block;
+  width                    : 100%;
+  position                 : relative;
+  text-decoration          : none;
+  margin-bottom            : spacing.$b6;
+
+
+  &:before {
+    content                : "";
+    display                : block;
+    background-color       : color.$very-dark-grey;
+    opacity                : 0.3;
+    position               : absolute;
+    z-index                : 2;
+    top                    : 0;
+    right                  : 0;
+    bottom                 : 0;
+    left                   : 0;
+  }
+
+
+  &__image {
+    width                  : 100%;
+    position               : relative;
+    z-index                : 1;
+
+    img {
+      object-fit           : cover;
+      width                : 100%;
+    }
+  }
+
+
+  &__content {
+    position               : absolute;
+    z-index                : 3;
+    bottom                 : 0;
+    left                   : 0;
+    color                  : white;
+    line-height            : spacing.$b6 + 1;
+    letter-spacing         : 0;
+    padding                : spacing.$b6;
+
+    @media( min-width: breakpoint.$sm ) {
+      padding              : spacing.$b10;
+    }
+  }
+
+
+  &__name {
+    font-weight            : typographyVars.$font-weight-bold;
+    font-size              : 18px;
+    width                  : 100%;
+    margin-bottom          : 2px;
+  }
+
+
+  &__date {
+    font-size              : 15px;
+  }
+}
+
+
+
+.portfolio-item:active,
+.portfolio-item:hover {
+  &:before {
+    background-color       : white;
+  }
+}

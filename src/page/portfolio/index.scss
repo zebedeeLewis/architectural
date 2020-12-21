@@ -1,0 +1,47 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layoutMixins;
+
+/* Style Imports */
+@use "node_modules/normalize.css/normalize.css";
+@use "lib/scss/layout";
+@use "lib/scss/typography";
+@use "lib/scss/icons";
+@use "lib/scss/page_title";
+@use "lib/scss/footer";
+@use "lib/scss/misc";
+@use "component/Navbar";
+@use "./component/PortfolioItem";
+
+
+
+/* Contents
+ * 
+ */
+
+
+
+.portfolio {
+  @include                 layoutMixins.document_margins;
+
+  padding-top              : spacing.$b14;
+
+  @media( min-width: breakpoint.$sm ) {
+    padding-top            : 0;
+    margin-right           : 149px;
+  }
+
+  @media( min-width: breakpoint.$md ) {
+    display                : grid;
+    grid-template-columns  : repeat(3, 1fr);
+    grid-gap               : 28px;
+    margin-right           : 164px;
+  }
+}
+
+
+

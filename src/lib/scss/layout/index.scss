@@ -1,0 +1,28 @@
+/* Variable Imports */
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/spacing/variables" as spacing;
+
+/* Mixin Imports */
+@use "./mixins";
+
+
+
+.container {
+  @media (min-width: breakpoint.$sm) {
+    display                : flex;
+  }
+}
+
+
+
+.inner-container { width : 100%; }
+
+
+
+.main {
+  position                 : relative;
+  z-index                  : 2;
+}
+
+
+

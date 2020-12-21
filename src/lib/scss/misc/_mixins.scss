@@ -1,0 +1,25 @@
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+
+
+@mixin horizontal-dash
+  {
+    &:before {
+      content                  : " ";
+      display                  : block;
+      width                    : 65px;
+      height                   : 1px;
+      margin-bottom            : spacing.$b17 - 1;
+      background-color         : color.$light-grey;
+
+      @media (min-width: breakpoint.$sm) {
+        margin-bottom          : spacing.$b19 - 1;
+      }
+
+      @media (min-width: breakpoint.$md) {
+        margin-bottom          : spacing.$b25 - 1;
+      }
+    }
+  }

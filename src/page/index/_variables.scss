@@ -1,0 +1,17 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+
+
+$slide-caption-font-size--sm     : 24px;
+$slide-caption-font-size--md     : 30px;
+$slide-caption-font-size--lg     : 30px;
+
+$slide-caption-line-height--sm   : spacing.$b6;
+$slide-caption-line-height--md   : spacing.$b8;
+$slide-caption-line-height--lg   : spacing.$b8;
+
+$slider-pagination-width         : spacing.$b20;
+
+$welcome-banner-vertical-offset  : spacing.$b18;
+$welcome-wrapper-max-width       : 918px;
+

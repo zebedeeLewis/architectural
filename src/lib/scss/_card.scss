@@ -1,0 +1,18 @@
+@use "spacing";
+@use "button";
+
+
+
+@mixin card {
+  position                 : relative;
+}
+
+
+
+@mixin card__content {
+  position                 : absolute;
+  top                      : 0;
+  bottom                   : 0;
+  left                     : 0;
+  right                    : 0;
+}

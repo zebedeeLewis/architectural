@@ -1,0 +1,35 @@
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+
+@mixin document_margins
+  {
+    margin-right               : 32px;
+    margin-left                : 32px;
+
+    @media (min-width: breakpoint.$sm) {
+      margin-right             : 98px;
+      margin-left              : 0;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      margin-right             : 166px;
+    }
+  }
+
+
+
+@mixin document_padding
+  {
+    padding-right              : 32px;
+    padding-left               : 32px;
+
+    @media (min-width: breakpoint.$sm) {
+      padding-right            : 98px;
+      padding-left             : 0;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      padding-right            : 166px;
+    }
+  }

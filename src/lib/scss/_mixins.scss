@@ -1,0 +1,83 @@
+@use "spacing";
+@use "breakpoint";
+@use "general";
+
+
+$ASPECT_RATIO_1TO1  : 100%;
+$ASPECT_RATIO_16TO9 : 50.66%;
+$ASPECT_RATIO_4TO3  : 75%;
+$ASPECT_RATIO_3TO2  : 66.66%;
+$ASPECT_RATIO_21TO9 : 42.85%;
+
+
+
+@mixin logo
+  {
+    font-size              : 24px;
+    line-height            : 24px;
+    font-weight            : 700;
+    letter-spacing         : -2px;
+
+
+    @media (min-width: breakpoint.$md) {
+      width                : general.$logo-width--sm;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      font-size            : 40px;
+      width                : general.$logo-width--md;
+    }
+  }
+
+
+
+@mixin aspect-ratio
+  ( $ratio : $ASPECT_RATIO_16TO9
+  ) {
+    position               : relative;
+
+    &:before {
+      width                : 100%;
+      padding-bottom       : $ratio;
+      display              : block;
+      content              : "";
+    }
+  }
+
+
+
+@mixin aspect-ratio--square
+  {
+    @include               aspect-ratio($ASPECT_RATIO_1TO1);
+  }
+
+
+
+@mixin aspect-ratio--16to9 
+  {
+    @include               aspect-ratio();
+  }
+
+
+
+@mixin aspect-ratio--4to3
+  {
+    @include               aspect-ratio($ASPECT_RATIO_4TO3);
+  }
+
+
+
+@mixin aspect-ratio--3to2
+  {
+    @include               aspect-ratio($ASPECT_RATIO_3TO2);
+  }
+
+
+
+@mixin aspect-ratio--21to9
+  {
+    @include               aspect-ratio($ASPECT_RATIO_21TO9);
+  }
+
+
+

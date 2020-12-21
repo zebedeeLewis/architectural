@@ -1,0 +1,73 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/typography/variables" as typography;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layout;
+
+
+
+@mixin navbar 
+  {
+    @include                   layout.document_margins;
+
+    display                    : flex;
+    align-items                : center;
+    flex-wrap                  : wrap;
+    z-index                    : 4;
+    box-sizing                 : border-box;
+    position                   : relative;
+
+    @media (min-width: breakpoint.$sm) {
+      flex-wrap                : nowrap;
+      padding-left             : 0;
+    }
+  }
+
+
+
+@mixin nav__item
+  {
+    padding                    : 16px
+                                 0px
+                                 16px
+                                 48px;
+    text-transform             : capitalize;
+    text-decoration            : none;
+    display                    : inline-block;
+    color                      : color.$medium-grey;
+    width                      : 100%;
+    font-size                  : 18px;
+    line-height                : spacing.$b6 + 1;
+    font-weight                : typography.$font-weight-bold;
+    box-sizing                 : border-box;
+
+    @media (min-width: breakpoint.$sm) {
+      font-size                : typography.$font-size;
+      width                    : unset;
+    }
+  }
+
+
+
+@mixin navbar__icon
+  {
+    padding-top                 : spacing.$b8;
+    padding-bottom              : spacing.$b6;
+    line-height                 : spacing.$b10;
+    color                       : color.$very-dark-grey;
+  }
+
+
+
+@mixin scrim
+  {
+    background-color           : hsla(0, 100%, 100%, 0.8);
+    position                   : fixed;
+    z-index                    : 3;
+    width                      : 100vw;
+    height                     : 100vh;
+  }

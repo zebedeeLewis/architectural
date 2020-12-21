@@ -1,0 +1,146 @@
+
+@use "spacing";
+@use "typography";
+@use "color";
+@use "breakpoint";
+
+
+
+/* Contents
+ */
+
+
+
+/* 0. Variables */
+$font-color : color.$dark-grey-blue;
+
+$logo-width--sm : spacing.$b14;
+$logo-width--md : spacing.$b23;
+
+$main-heading-vertical-offset : spacing.$b18;
+
+
+
+/* 0. Mixins */
+@mixin section-heading {
+  font-size                : 30px;
+  letter-spacing           : 1px;
+  line-height              : spacing.$b9;
+  margin                   : 0;
+  // margin-top               : spacing.$b2;
+  color                    : black;
+
+  @media(min-width: breakpoint.$lg) {
+    font-size              : 56px;
+    line-height            : spacing.$b16;
+  }
+}
+
+
+
+@mixin main-heading {
+  font-size                : 57px;
+  line-height              : spacing.$b15;
+  font-weight              : 700;
+  color                    : color.$main-heading;
+
+  @media(min-width: breakpoint.$md) {
+    font-size              : 140px;
+    line-height            : spacing.$b37;
+  }
+
+  @media(min-width: breakpoint.$lg) {
+    font-size              : 200px;
+    line-height            : spacing.$b52;
+    transform              : translatey($main-heading-vertical-offset);
+  }
+}
+
+
+
+:root {
+  color                    : $font-color;
+}
+
+
+
+body {
+  background-color         : color.$background;
+  margin                   : 0;
+}
+
+
+
+/* 0. Reset Styles */
+div {
+  box-sizing               : border-box;
+}
+
+
+
+p {
+  margin                   : spacing.$b8 0 0 0;
+}
+
+
+
+ul {
+  list-style-type          : none;
+  margin-top               : 0;
+  margin-bottom            : 0;
+  padding-left             : 0;
+}
+
+
+
+h1 {
+  font-size                : typography.$font-size;
+  margin                   : 0;
+}
+
+
+
+a {
+  text-decoration          : none;
+  color                    : inherit;
+}
+
+
+
+img {
+  max-width                : 100%;
+  display                  : block;
+  height                   : auto;
+}
+
+
+
+main {
+  font-size                : 16px;
+  line-height              : spacing.$b6;
+  letter-spacing           : 1px;
+}
+
+
+
+.display-none {
+  display                  : none !important;
+}
+
+
+
+.display-initial {
+  display                  : initial;
+}
+
+
+
+.section-heading {
+  @include                 section-heading;
+}
+
+
+
+.main-heading {
+  @include                 main-heading
+}

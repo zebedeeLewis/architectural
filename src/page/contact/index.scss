@@ -1,0 +1,293 @@
+@use "node_modules/normalize.css/normalize.css";
+@use 'node_modules/leaflet/dist/leaflet.css';
+
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/typography/variables" as typographyVars;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/misc/mixins" as misc;
+@use "lib/scss/typography/mixins" as typographyMixins;
+@use "lib/scss/layout/mixins" as layoutMixins;
+@use "lib/scss/aspect-ratio/mixins" as aspect-ratio;
+@use "lib/scss/grid/mixins" as grid;
+@use "lib/scss/button/mixins" as button;
+@use "component/WelcomeBanner/mixins" as WelcomeBannerMixins;
+@use "./mixins";
+
+/* Style Imports */
+@use "lib/scss/layout";
+@use "lib/scss/typography";
+@use "lib/scss/icons";
+@use "lib/scss/page_title";
+@use "lib/scss/footer";
+@use "component/Navbar";
+@use "component/EmployeeCard";
+@use "component/WelcomeBanner";
+
+
+/* Contents
+ *
+ */
+
+
+
+.button-icon-right {
+  margin-left              : 27px;
+  font-size                : 18px;
+}
+
+
+
+.inner-container { width : 100%; }
+
+
+
+/*
+ * 0. Welcome banner
+ */
+.welcome-banner__background {
+  --welcome-banner-url     : url("./image/mobile/image-hero.jpg");
+  --welcome-banner-url--sm : url("./image/tablet/image-hero.jpg");
+  --welcome-banner-url--md : url("./image/desktop/image-hero.jpg");
+
+  @include                 WelcomeBannerMixins.welcome-banner__background(
+                             --welcome-banner-url,
+                             --welcome-banner-url--sm,
+                             --welcome-banner-url--md,
+                           );
+}
+
+
+
+/* 5. Address Section */
+.address-section {
+  @include                 layoutMixins.document_margins;
+
+  padding-top              : spacing.$b18 + 1;
+
+  @media (min-width: breakpoint.$sm) {
+    padding-top            : spacing.$b49 + 2;
+  }
+
+  @media (min-width: breakpoint.$sm) {
+    display                : flex;
+  }
+}
+
+
+
+.section-heading--address {
+  @include                 typographyMixins.section-heading;
+  @include                 misc.horizontal-dash;
+
+  margin-bottom            : spacing.$b13;
+  width                    : 200px;
+
+  @media (min-width: breakpoint.$sm) {
+    width                  : unset;
+    margin-bottom          : spacing.$b17;
+  }
+
+  @media (min-width: breakpoint.$md) {
+    flex                   : 1 0 33.333%;
+  }
+}
+
+
+
+.address {
+  width                    : 100%;
+  font-style               : unset;
+  margin-bottom            : spacing.$b12 - 1;
+
+  @media (min-width: breakpoint.$sm) {
+    display                : flex;
+    flex-wrap              : wrap;
+    justify-content        : space-between;
+    margin-bottom          : spacing.$b6 + 2;
+  }
+
+  @media (min-width: breakpoint.$md) {
+    display                : block;
+    flex                   : 1 0 33.333%;
+    margin-bottom          : 0;
+    margin-top             : spacing.$b24;
+  }
+
+
+  &__heading {
+    font-size              : typographyVars.$font-size;
+    line-height            : typographyVars.$line-height;
+    font-weight            : typographyVars.$font-weight-bold;
+    margin-bottom          : spacing.$b4 - 2;
+    width                  : 100%;
+  }
+
+
+  &__content {
+    line-height            : spacing.$b8 + 3;
+    font-weight            : typographyVars.$font-weight-normal;
+    font-size              : typographyVars.$font-size;
+    font-style             : normal;
+    margin-bottom          : spacing.$b4 + 2;
+
+  }
+
+
+  &__line {
+    color                  : typographyVars.$font-color;
+    text-decoration        : none;
+  }
+
+
+  &__val {
+    margin-left            : 7px;
+  }
+
+
+  &__button {
+    font-weight            : typographyVars.$font-weight-bold;
+    color                  : color.$very-dark-grey;
+    text-decoration        : none;
+    display                : flex;
+    align-items            : center;
+    line-height            : spacing.$b5;
+
+    @media (min-width: breakpoint.$sm) {
+      align-self           : center;
+    }
+  }
+}
+
+
+
+/* 6. Map Section */
+.map-section {
+  @media (min-width: breakpoint.$sm) {
+    @include               layoutMixins.document_margins;
+
+    padding-top            : spacing.$b39 - 1;
+  }
+
+  @media (min-width: breakpoint.$md) {
+    padding-top            : spacing.$b50 + 2;
+  }
+}
+
+
+.map-wrapper {
+  @include                 aspect-ratio.custom(105%);
+
+  @media (min-width: breakpoint.$sm) {
+    @include               aspect-ratio.custom(98%);
+  }
+
+  @media (min-width: breakpoint.$md) {
+    @include               aspect-ratio.custom(50%);
+  }
+}
+
+
+
+.map {
+  position                 : absolute!important;
+  top                      : 0;
+  bottom                   : 0;
+  left                     : 0;
+  right                    : 0;
+}
+
+
+
+/* 7. Form Section */
+.form-section {
+  @include                 layoutMixins.document_margins;
+
+  padding-top              : spacing.$b18;
+
+  @media (min-width: breakpoint.$sm) {
+    padding-top            : spacing.$b50 + 1;
+  }
+
+  @media (min-width: breakpoint.$md) {
+    padding-top            : spacing.$b42 - 1;
+    display                : flex;
+  }
+}
+
+
+
+.section-heading--form {
+  @include                 typographyMixins.section-heading;
+
+  margin-bottom            : spacing.$b12;
+  width                    : 200px;
+
+  @media (min-width: breakpoint.$sm) {
+    width                  : unset;
+    margin-bottom          : spacing.$b16;
+  }
+}
+
+
+
+.contact-form {
+  @media (min-width: breakpoint.$md) {
+    flex                   : 1 0 66%;
+  }
+}
+
+
+
+.contact-form__input-group {
+  margin-bottom            : spacing.$b10;
+}
+
+
+
+.input-label {
+  color                    : color.$light-grey;
+  padding-left             : 35px;
+  padding-right            : 16px;
+  font-size                : 18px;
+  line-height              : spacing.$b5;
+  font-weight              : typographyVars.$font-weight-bold;
+  letter-spacing           : 1.47px;
+}
+
+
+
+.input {
+  display                  : block;
+  width                    : 100%;
+  border-style             : none;
+  border-bottom-style      : solid;
+  border-width             : 1px;
+  background               : transparent;
+  outline                  : none;
+  font-size                : typographyVars.$font-size;
+  padding-left             : vars.$input-x-padding;
+  padding-right            : vars.$input-x-padding;
+  box-sizing               : border-box;
+  line-height              : spacing.$b5 - 1;
+}
+
+
+
+.contact-form__submit {
+  @include                 button.button;
+  @include                 button.button;
+
+  margin-left              : auto;
+  display                  : block;
+
+  @media (min-width: breakpoint.$sm) {
+    @include               button.button;
+  }
+}
+

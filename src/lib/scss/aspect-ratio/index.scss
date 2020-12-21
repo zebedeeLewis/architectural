@@ -1,0 +1,28 @@
+@use "lib/scss/spacing";
+@use "lib/scss/breakpoint";
+
+
+@mixin custom
+  ( $ratio : $R16TO9
+  ) {
+    position               : relative;
+
+    &:before {
+      width                : 100%;
+      padding-bottom       : $ratio;
+      display              : block;
+      content              : "";
+    }
+  }
+
+
+
+.aspect-ratio--square { @include mixins.square; }
+
+.aspect-ratio--r16to9 { @include mixins.r16to9; }
+
+.aspect-ratio--r4to3 { @include mixins.r4to3; }
+
+.aspect-ratio--r3to2 { @include mixins.r3to2; }
+
+.aspect-ratio--r21to9 { @include mixins.r21to9; }

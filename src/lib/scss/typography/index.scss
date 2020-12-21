@@ -1,0 +1,78 @@
+/* Variable Imports */
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/misc/mixins" as misc;
+@use "./mixins.scss";
+
+
+:root {
+  font-family              : vars.$font-family;
+  font-weight              : vars.$font-weight;
+  font-size                : vars.$font-size;
+  line-height              : vars.$line-height;
+  color                    : vars.$font-color;
+  letter-spacing           : vars.$letter-spacing;
+}
+
+
+
+h1 { @include mixins.h1s; }
+
+h2 { @include mixins.h2; }
+
+h3 { @include mixins.h3; }
+
+.h1s { @include mixins.h1s; }
+
+.h1l { @include mixins.h1l; }
+
+.h2 { @include mixins.h2; }
+
+.h3 { @include mixins.h3; }
+
+
+
+.page-heading {
+  display                  : none;
+
+  @media (min-width: breakpoint.$sm) {
+    line-height            : spacing.$b50;
+    letter-spacing         : -3px;
+    font-size              : 120px;
+    display                : block;
+    color                  : color.$very-light-grey;
+    position               : absolute;
+    top                    : -100px;
+    right                  : 4px;
+  }
+
+  @media (min-width: breakpoint.$md) {
+    font-size              : 160px;
+    letter-spacing         : -5px;
+  }
+
+  @media (min-width: breakpoint.$lg) {
+    font-size              : 200px;
+    letter-spacing         : -5px;
+  }
+}
+
+
+
+.section-heading { @include mixins.section-heading; }
+
+
+
+p {
+  margin                   : 0;
+  margin-bottom            : 25px;
+  padding                  : 0;
+
+  &:last-of-type {
+    margin-bottom          : 0px;
+  }
+}

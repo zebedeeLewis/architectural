@@ -1,0 +1,71 @@
+
+$baseline: 4 !default;
+
+
+
+/* produce the baseline multiplied by the given multiplier. */
+@function baseline_x($multiplier: 1) {
+  @return ($baseline*$multiplier*1px)
+}
+
+
+
+$b1   : baseline_x();
+$b2   : baseline_x(2);
+$b3   : baseline_x(3);
+$b4   : baseline_x(4);
+$b5   : baseline_x(5);
+$b6   : baseline_x(6);
+$b7   : baseline_x(7);
+$b8   : baseline_x(8);
+$b9   : baseline_x(9);
+$b10  : baseline_x(10);
+$b11  : baseline_x(11);
+$b12  : baseline_x(12);
+$b13  : baseline_x(13);
+$b14  : baseline_x(14);
+$b15  : baseline_x(15);
+$b16  : baseline_x(16);
+$b17  : baseline_x(17);
+$b18  : baseline_x(18);
+$b19  : baseline_x(19);
+$b20  : baseline_x(20);
+$b21  : baseline_x(21);
+$b22  : baseline_x(22);
+$b23  : baseline_x(23);
+$b24  : baseline_x(24);
+$b25  : baseline_x(25);
+$b26  : baseline_x(26);
+$b27  : baseline_x(27);
+$b28  : baseline_x(28);
+$b30  : baseline_x(30);
+$b31  : baseline_x(31);
+$b32  : baseline_x(32);
+$b34  : baseline_x(34);
+$b35  : baseline_x(35);
+$b37  : baseline_x(37);
+$b39  : baseline_x(39);
+$b40  : baseline_x(40);
+$b41  : baseline_x(41);
+$b42  : baseline_x(42);
+$b44  : baseline_x(44);
+$b45  : baseline_x(45);
+$b47  : baseline_x(47);
+$b48  : baseline_x(48);
+$b49  : baseline_x(49);
+$b50  : baseline_x(50);
+$b52  : baseline_x(52);
+$b53  : baseline_x(53);
+$b54  : baseline_x(54);
+$b58  : baseline_x(58);
+$b82  : baseline_x(82);
+$b96  : baseline_x(96);
+$b107 : baseline_x(107);
+$b115 : baseline_x(115);
+
+
+
+$outer-horizontal     : $b12;
+$outer-horizontal--sm : $b24 + 2;
+$outer-horizontal--md : $b32;
+$outer-horizontal--lg : $b41 + 2;

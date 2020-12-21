@@ -1,0 +1,33 @@
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/typography/variables" as typography;
+
+
+$font-size                   : typography.$font-size !default;
+$line-height                 : spacing.$b5 !default;
+$vertical-padding            : spacing.$b6;
+$horizontal-padding          : spacing.$b8 - 1;
+
+
+$color                       : white;
+$color--hover                : white;
+$color--active               : white;
+$bg                          : color.$very-dark-grey;
+$bg--hover                   : color.$medium-grey;
+$bg--active                  : color.$light-grey;
+
+
+$slide-button-color          : color.$medium-grey;
+$slide-button-color--hover   : color.$medium-grey;
+$slide-button-color--active  : white;
+$slide-button-bg             : transparent;
+$slide-button-bg--hover      : color.$very-light-grey;
+$slide-button-bg--active     : color.$very-dark-grey;
+
+
+$simple-button-color         : color.$very-dark-grey;
+$simple-button-color--hover  : color.$medium-grey;
+$simple-button-color--active : color.$light-grey;
+$simple-button-bg            : transparent;
+$simple-button-bg--hover     : transparent;
+$simple-button-bg--active    : transparent;

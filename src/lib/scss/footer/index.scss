@@ -1,0 +1,115 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+/* Mixin Imports */
+@use "lib/scss/button/mixins" as button;
+@use "lib/scss/layout/mixins" as layout;
+
+
+
+.footer {
+  padding-top              : spacing.$b34;
+
+  @media (min-width: breakpoint.$sm) {
+    margin-right           : 98px;
+    padding-top            : (spacing.$b27 + 2);
+  }
+
+  @media (min-width: breakpoint.$md) {
+    margin-left            : 128px;
+    margin-right           : 322px;
+    padding-top            : spacing.$b50 + 1;
+  }
+
+  @media (min-width: breakpoint.$lg) {
+    margin-left            : 166px;
+    margin-right           : 322px;
+  }
+}
+
+
+
+.footer-nav {
+  background-color         : color.$very-light-grey;
+  display                  : flex;
+  flex-wrap                : wrap;
+  justify-content          : space-between;
+  text-align               : center;
+  padding-bottom           : spacing.$b15 - 2;
+
+  @media (min-width: breakpoint.$sm) {
+    flex-wrap              : nowrap;
+    align-items            : center;
+    padding-bottom         : 0;
+  }
+
+
+  &__logo {
+    font-size              : 23px;
+    line-height            : 1;
+    background-color       : color.$very-dark-grey;
+    color                  : white;
+    text-decoration        : none;
+    margin                 : (spacing.$b15 * -1)
+                             auto
+                             0
+                             auto;
+    padding                : spacing.$b12
+                             (spacing.$b8 - 1)
+                             (spacing.$b12 - 3)
+                             (spacing.$b8 - 1);
+
+    @media (min-width: breakpoint.$sm) {
+      margin               : 0;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      font-size             : 40px;
+      padding               : spacing.$b20
+                              (spacing.$b12 + 2)
+                              (spacing.$b19 - 1)
+                              (spacing.$b12 + 1);
+    }
+
+
+    .icon-logo {
+      margin-left          : 2px;
+    }
+  }
+
+
+  &__item {
+    width                  : 100%;
+    text-decoration        : none;
+    color                  : color.$medium-grey;
+    padding-top            : spacing.$b8;
+
+    @media (min-width: breakpoint.$sm) {
+      width                : unset;
+      padding-top          : 0;
+    }
+  }
+
+
+  &__cta {
+    @include               button.button;
+    line-height            : spacing.$b6 - 1;
+    margin-top             : spacing.$b8;
+    margin-left            : auto;
+    margin-right           : auto;
+
+    @media (min-width: breakpoint.$sm) {
+      margin-left          : 0;
+      margin-right         : -1*spacing.$b39;
+      margin-top           : 0;
+    }
+
+
+    .icon-arrow {
+      margin-left          : 28px;
+      font-size            : 18px;
+    }
+  }
+}

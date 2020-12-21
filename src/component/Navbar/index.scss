@@ -1,0 +1,142 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layout;
+@use "./mixins";
+
+
+.navbar { @include mixins.navbar }
+
+.navbar--toggled { @include mixins.navbar }
+
+
+
+.navbar__logo {
+  @include                 mixins.navbar__icon;
+
+  font-size                : 32px;
+  order                    : 1;
+  width                    : 50%;
+  background               : white;
+  text-decoration          : none;
+
+  @media (min-width: breakpoint.$sm) {
+    padding-top            : spacing.$b8 - 2;
+    padding-left           : 0;
+    width                  : unset;
+    font-size              : 40px;
+  }
+}
+
+
+
+.navbar__nav {
+  display                  : none;
+  width                    : 100%;
+  order                    : 3;
+  position                 : absolute;
+  top                      : spacing.$b24;
+  padding-left             : 32px;
+  box-sizing               : content-box;
+
+  @media (min-width: breakpoint.$sm) {
+    display                : flex;
+    position               : static;
+    padding-left           : 30px;
+  }
+}
+
+
+
+.nav__inner {
+  background-color         : color.$very-light-grey;
+  width                    : 100%;
+  box-sizing               : border-box;
+  padding                  : (spacing.$b8 + 1) 0;
+
+  @media (min-width: breakpoint.$sm) {
+    display                : flex;
+    background             : white;
+    padding                : spacing.$b12 0;
+  }
+}
+
+
+.navbar--toggled .navbar__nav {
+  display                  : flex;
+  flex-wrap                : wrap;
+}
+
+
+
+.nav__item { @include mixins.nav__item; }
+
+.nav__item--active { @include mixins.nav__item }
+
+
+
+.navbar__toggle {
+  margin-left              : auto;
+  order                    : 2;
+  background               : white;
+
+  @media (min-width: breakpoint.$sm) {
+    display                : none;
+  }
+}
+
+
+
+.navbar__toggle-open {
+  @include mixins.navbar__icon;
+
+  font-size                : 24px;
+}
+
+
+
+.navbar .navbar__toggle-open { display : inline-block; }
+
+.navbar--toggled .navbar__toggle-open { display : none; }
+
+
+
+.navbar__toggle-close {
+  @include                 mixins.navbar__icon;
+
+  font-size                : 24px;
+}
+
+
+
+.navbar .navbar__toggle-close { display : none; }
+
+.navbar--toggled .navbar__toggle-close { display : inline-block; }
+
+
+
+.scrim { display : none; }
+
+
+
+.scrim--active {
+  @include                 mixins.scrim;
+
+  @media (min-width: breakpoint.$sm) {
+    display                : none;
+  }
+}
+
+
+
+.no-scroll {
+  position                 : fixed;
+
+  @media (min-width: breakpoint.$sm) {
+    position               : static;
+  }
+}

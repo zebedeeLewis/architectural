@@ -1,0 +1,13 @@
+/* Variable Imports */
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+
+
+@mixin caption__content {
+  max-width                : 440px;
+  max-width                : 524px;
+
+  @media(min-width: breakpoint.$md) {
+    max-width              : 524px;
+  }
+}
