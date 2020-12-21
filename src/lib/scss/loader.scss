@@ -1,0 +1,36 @@
+
+@use "color";
+@use "spacing";
+
+
+
+body {
+  overflow-x               : hidden;
+}
+
+
+
+.loading {
+  background-color         : white;
+  position                 : fixed;
+  width                    : 100vw;
+  height                   : 100vh;
+  top                      : 0;
+  opacity                  : 1;
+  z-index                  : 2;
+  display                  : flex;
+  flex-direction           : column;
+  align-items              : center;
+  justify-content          : center;
+  z-index                  : 2;
+}
+
+
+
+.loading__bar {
+  background-color         : color.$primary;
+  width                    : spacing.$b20;
+  height                   : spacing.$b3;
+  margin-bottom            : spacing.$b1;
+}
+

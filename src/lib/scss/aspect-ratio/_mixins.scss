@@ -1,0 +1,31 @@
+@use "./variables" as vars;
+
+
+
+@mixin custom
+  ( $ratio : vars.$R16TO9
+  ) {
+    position               : relative;
+
+    &:before {
+      width                : 100%;
+      padding-bottom       : $ratio;
+      display              : block;
+      content              : "";
+    }
+  }
+
+
+
+@mixin square { @include custom(vars.$R1TO1); }
+
+@mixin r16to9 { @include custom(); }
+
+@mixin r4to3 { @include custom(vars.$R4TO3); }
+
+@mixin r3to2 { @include custom(vars.$R3TO2); }
+
+@mixin r21to9 { @include custom(vars.$R21TO9); }
+
+
+

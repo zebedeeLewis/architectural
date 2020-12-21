@@ -1,0 +1,65 @@
+/* Variable Imports */
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/spacing/variables" as spacing;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layout;
+@use "lib/scss/typography/mixins" as typography;
+@use "lib/scss/misc/mixins" as misc;
+
+
+.welcome-banner {
+  @media (min-width: breakpoint.$sm) {
+    position               : relative;
+  }
+
+
+  &__text-container {
+    @include               layout.document_margins;
+    
+    padding-top            : spacing.$b20;
+    margin-left            : 0;
+    padding-left           : 32px;
+    margin-top             : -12%;
+    background-color       : white;
+    position               : relative;
+    box-sizing             : border-box;
+  
+    @media (min-width: breakpoint.$sm) {
+      padding-top          : spacing.$b22;
+      padding-left         : 58px;
+      padding-bottom       : 3px;
+      margin-top           : -64.6%;
+      margin-left          : 58px;
+      position             : absolute;
+      right                : -1px;
+      bottom               : -1px;
+      max-width            : 628px;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      padding-top          : spacing.$b40;
+      padding-left         : 182px;
+      bottom               : -3px;
+    }
+  }
+
+
+  &__heading {
+    @include               typography.section-heading;
+    letter-spacing         : -1px;
+
+    margin-bottom          : spacing.$b3;
+
+    @media (min-width: breakpoint.$sm) {
+      @include             misc.horizontal-dash;
+      margin-bottom        : spacing.$b14 - 1;
+    }
+
+    @media (min-width: breakpoint.$sm) {
+      &:before {
+        margin-bottom      : spacing.$b19 - 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
+
+
+
+@mixin heading
+  ( $font-size
+  , $line-height
+  , $font-color
+  , $bottom-spacing : spacing.$b6
+  ) {
+    font-size                  : $font-size;
+    line-height                : $line-height;
+    color                      : $font-color;
+    margin-top                 : 0px;
+    margin-bottom              : $bottom-spacing;
+  }
+
+
+
+@mixin h1l
+  {
+    @include                   heading(
+                                 vars.$font-size--h1l,
+                                 vars.$line-height--h1l,
+                                 vars.$font-color--h1l
+                               );
+  }
+
+
+
+@mixin h1s
+  {
+    @include                   heading(
+                                 vars.$font-size--h1s,
+                                 vars.$line-height--h1s,
+                                 vars.$font-color--h1s
+                               );
+  }
+
+
+
+@mixin h2
+  {
+    @include                   heading(
+                                 vars.$font-size--h2,
+                                 vars.$line-height--h2,
+                                 vars.$font-color--h2
+                               );
+  }
+
+
+
+@mixin h3
+  {
+    @include                   heading(
+                                 vars.$font-size--h3,
+                                 vars.$line-height--h3,
+                                 vars.$font-color--h3
+                               );
+  }
+
+
+
+@mixin section-heading
+  {
+    @include                 heading(
+                               spacing.$b10,
+                               spacing.$b12,
+                               color.$very-dark-grey,
+                               (spacing.$b8 - 3px)
+                             );
+  
+    letter-spacing           : -1.44px;
+  
+    @media (min-width: breakpoint.$sm) {
+      @include               heading(
+                               vars.$font-size--h2,
+                               vars.$line-height--h2,
+                               color.$very-dark-grey,
+                               spacing.$b14
+                             );
+  
+      letter-spacing         : -2px;
+    }
+  }

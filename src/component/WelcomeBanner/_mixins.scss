@@ -1,0 +1,48 @@
+/* Variable Imports */
+@use "lib/scss/color/variables" as colors;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
+/* Mixin Imports */
+@use "lib/scss/aspect-ratio/mixins" as aspect-ratio;
+@use "lib/scss/layout/mixins" as layout;
+
+@mixin background-image
+  ( $image-url
+  )
+  {
+    background                 : linear-gradient(
+                                   to right,
+                                   hsla(0, 0%, 0%, 0.4),
+                                   hsla(0, 0%, 0%, 0.4)
+                                 )
+                               , center / cover
+                                 no-repeat
+                                 var($image-url)
+                               ;
+  }
+
+
+
+@mixin welcome-banner__background
+  ( $image-url
+  , $image-url--sm
+  , $image-url--md
+  )
+  {
+    @include                   aspect-ratio.custom(64%);
+    @include                   background-image($image-url);
+  
+    @media (min-width: breakpoint.$sm) {
+      @include                 layout.document_margins;
+      @include                 aspect-ratio.custom(126%);
+      @include                 background-image($image-url--sm);
+    }
+
+    @media (min-width: breakpoint.$md) {
+      @include                 layout.document_margins;
+      @include                 aspect-ratio.custom(113%);
+      @include                 background-image($image-url--md);
+
+      max-width                : 636px;
+    }
+  }
