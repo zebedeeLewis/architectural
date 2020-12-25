@@ -1,8 +1,0 @@
-/node_modules
-/coverage
-/package-lock.json
-/documentation
-
-**/.DS_Store
-.*.swp
-.*.swo

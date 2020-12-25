@@ -1,7 +1,0 @@
-
-@mixin grid-container
-  ( $col-count : 12
-  )
-  { display                    : grid;
-    grid-template-columns      : repeat($col-count, 1fr);
-  }
