@@ -10,7 +10,7 @@
 @use "./variables" as vars;
 
 /* Mixin Imports */
-@use "lib/scss/misc/mixins" as misc;
+@use "lib/scss/misc/mixins" as miscMixins;
 @use "lib/scss/typography/mixins" as typographyMixins;
 @use "lib/scss/layout/mixins" as layoutMixins;
 @use "lib/scss/aspect-ratio/mixins" as aspect-ratio;
@@ -20,6 +20,7 @@
 @use "./mixins";
 
 /* Style Imports */
+@use "lib/scss/misc";
 @use "lib/scss/layout";
 @use "lib/scss/typography";
 @use "lib/scss/icons";
@@ -83,7 +84,7 @@
 
 .section-heading--address {
   @include                 typographyMixins.section-heading;
-  @include                 misc.horizontal-dash;
+  @include                 miscMixins.horizontal-dash;
 
   margin-bottom            : spacing.$b13;
   width                    : 200px;
@@ -268,6 +269,7 @@
   border-style             : none;
   border-bottom-style      : solid;
   border-width             : 1px;
+  border-radius            : unset;
   background               : transparent;
   outline                  : none;
   font-size                : typographyVars.$font-size;
