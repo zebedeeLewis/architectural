@@ -119,8 +119,10 @@ function register_subdirectories_as_templates
   , dir
   ) {
     const dirTree = get_directory_tree(dir)
-    if( !dirTree ) {
-      console.log("[[DIRECTORY ERRO]]: ", dir)
+    if( dirTree ) {
+      console.log("[[USING DIRECTORY]]: ", dir)
+    } else {
+      console.log("[[NOEXIST DIRECTORY]]: ", dir)
       return
     }
 
