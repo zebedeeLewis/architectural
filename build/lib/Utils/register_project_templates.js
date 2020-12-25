@@ -118,6 +118,12 @@ function register_subdirectories_as_templates
   , namespace
   , dir
   ) {
+    const dirTree = get_directory_tree(dir)
+    if( !dirTree ) {
+      console.log("[[DIRECTORY ERRO]]: ", dir)
+      return
+    }
+
     get_directory_tree(dir)
       .children
       .filter(is_directory_node)
