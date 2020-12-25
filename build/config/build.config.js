@@ -8,8 +8,8 @@ module.exports
   = { projectRoot     : projectRoot
     , srcDir          : 'src'
     , distDir         : 'dist'
-    , devPublicPath   : '/decor/'
-    , prodPublicPath  : '/decor/'
+    , devPublicPath   : '/architectural/'
+    , prodPublicPath  : '/architectural/'
     , pageInits       :
         [ { pageId   : 'index'
           , pageName : 'Home'
