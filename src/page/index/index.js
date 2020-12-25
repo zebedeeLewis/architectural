@@ -16,7 +16,7 @@ function init_slider
     const slider
       = new Splide
           ( SLIDER_SELECTOR
-          , { autoplay   : false
+          , { autoplay   : true
             , cover      : true
             , autoWidth  : true
             , autoHeight : true
