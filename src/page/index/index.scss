@@ -23,6 +23,8 @@
 @use "lib/scss/page_title";
 @use "lib/scss/footer";
 @use "component/Navbar";
+@use "component/Modal";
+@use "component/Project";
 
 
 
@@ -479,6 +481,7 @@
 .project {
   position                 : relative;
   margin-bottom            : spacing.$b6;
+  cursor                   : pointer;
 
   @media(min-width: breakpoint.$md) {
     margin-bottom          : 0;

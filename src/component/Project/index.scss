@@ -1,0 +1,141 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/typography/variables" as typography;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layout;
+@use "lib/scss/typography/mixins" as typography-mixins;
+@use "lib/scss/aspect-ratio/mixins" as aspect-ratio;
+@use "./mixins";
+
+
+.project-detail {
+  &__heading {
+    @include               typography-mixins.section-heading;
+    margin-bottom          : spacing.$b8;
+
+    @media(min-width: breakpoint.$sm) {
+      line-height          : spacing.$b17;
+    }
+  }
+
+  &__slider {
+    .project-slider {
+      .splide {
+        &__slide {
+          @include         aspect-ratio.square;
+          width            : 100%;
+
+          @media(min-width: breakpoint.$sm) {
+            @include       aspect-ratio.r16to9;
+          }
+        }
+
+        .splide {
+          &__list {
+            width          : 100%;
+          }
+        }
+      }
+    }
+
+    .thumbnail-slider {
+      display              : none;
+
+      @media(min-width: breakpoint.$sm) {
+        display            : block;
+        margin-top         : spacing.$b6;
+      }
+
+      .splide {
+        &__slide {
+          opacity            : 0.3;
+
+          &.is-active {
+            opacity          : 1;
+            border           : none;
+          }
+
+          img {
+            width            : 100%;
+            height           : auto;
+          }
+        }
+      }
+    }
+  }
+
+  &__specs {
+    font-size              : 13px;
+    margin-top             : spacing.$b8;
+
+    @media( min-width: breakpoint.$sm) {
+      display              : flex;
+      flex-wrap            : nowrap;
+      margin-top           : spacing.$b14;
+    }
+
+    .spec__row {
+      width                : 100%;
+      display              : flex;
+      flex-wrap            : wrap;
+      align-items          : flex-start;
+
+      @media( min-width: breakpoint.$sm) {
+        width              : 50%;
+      }
+
+      &:first-child {
+        @media( min-width: breakpoint.$sm) {
+          padding-right    : 16px;
+        }
+
+        @media( min-width: breakpoint.$md) {
+          padding-right    : 0;
+        }
+      }
+
+
+      &:last-child {
+        @media( min-width: breakpoint.$sm) {
+          padding-left       : 16px;
+        }
+
+        @media( min-width: breakpoint.$md) {
+          padding-left       : 0;
+        }
+      }
+    }
+
+    .spec__col--address { @include mixins.spec__col; }
+    .spec__col--role { @include mixins.spec__col; }
+    .spec__col--architect { @include mixins.spec__col; }
+    .spec__col--started { @include mixins.spec__col; }
+    .spec__col--completed { @include mixins.spec__col; }
+    .spec__col--status { @include mixins.spec__col; }
+
+
+    .spec__label {
+      font-weight          : typography.$font-weight-bold;
+      color                : color.$very-dark-grey;
+      text-transform       : capitalize;
+      min-width            : 120px;
+    }
+
+
+    .spec__value {
+      display              : inline-block;
+    }
+  }
+
+  &__desc {
+    margin-top             : spacing.$b8;
+
+    @media(min-width: breakpoint.$sm) {
+      margin-top           : spacing.$b14;
+    }
+  }
+}

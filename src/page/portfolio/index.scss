@@ -8,6 +8,7 @@
 
 /* Style Imports */
 @use "node_modules/normalize.css/normalize.css";
+@use "node_modules/@splidejs/splide/dist/css/splide.min.css";
 @use "lib/scss/layout";
 @use "lib/scss/typography";
 @use "lib/scss/icons";
@@ -15,6 +16,8 @@
 @use "lib/scss/footer";
 @use "lib/scss/misc";
 @use "component/Navbar";
+@use "component/Modal";
+@use "component/Project";
 @use "./component/PortfolioItem";
 
 

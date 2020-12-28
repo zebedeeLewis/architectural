@@ -1,0 +1,66 @@
+/* Variable Imports */
+@use "lib/scss/spacing/variables" as spacing;
+@use "lib/scss/color/variables" as color;
+@use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
+
+/* Mixin Imports */
+@use "lib/scss/layout/mixins" as layout;
+@use "./mixins";
+
+
+.modal {
+  display                  : none;
+
+  &--toggled {
+    display                : block;
+    position               : fixed;
+    top                    : 0;
+    right                  : 0;
+    bottom                 : 0;
+    left                   : 0;
+    overflow               : auto;
+    background-color       : white;
+    z-index                : 10;
+    padding                : spacing.$b8;
+    box-sizing             : border-box;
+
+    @media( min-width: breakpoint.$sm ){
+      padding              : 98px;
+    }
+
+    @media( min-width: breakpoint.$md ){
+      padding-left         : 166px;
+      padding-right        : 166px;
+    }
+  }
+
+
+  &__heading {
+    display                : flex;
+    flex-wrap              : warp;
+
+    .icon-logo {
+      font-size            : 20px;
+    }
+  }
+
+
+  &__toggle-close {
+    text-decoration        : none;
+    font-size              : 18px;
+    color                  : color.$medium-grey;
+    margin-left            : auto;
+  }
+
+
+  &__content {
+    padding-top            : spacing.$b12;
+  }
+}
+
+
+.no-scroll {
+  height                   : 100vh;
+  overflow                 : hidden;
+}

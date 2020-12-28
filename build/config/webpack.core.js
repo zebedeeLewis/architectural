@@ -121,7 +121,7 @@ const srcLibDir
        ( ProjectDesc.Src.get_lib(srcDesc)
        )
 
-const pagesDir = ProjectDesc.Src.get_root(srcDesc)
+const pagesDir = ProjectDesc.Src.get_pageDir(srcDesc)
 
 const nodeModulesDir
   = path.join(ProjectDesc.get_projectRoot(projectDesc), 'node_modules')
@@ -131,7 +131,7 @@ const resolve
     , alias      :
         { component    : componentsDir
         , lib          : srcLibDir
-        , pages        : pagesDir
+        , page         : pagesDir
         , node_modules : nodeModulesDir
         }
     }
