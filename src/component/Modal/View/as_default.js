@@ -1,10 +1,7 @@
 import * as DataStore from 'lib/js/DataStore'
+import * as Utils from 'lib/js/Utils'
 import * as Project from 'component/Project'
 import * as Modal from '..'
-
-
-
-const NO_SCROLL_CLASS = 'no-scroll'
 
 
 
@@ -53,33 +50,6 @@ export function show_modal
 
 
 /**
- * prevent page from scrolling.
- *
- * @parm {Window} window
- *
- * @return {void}
- */
-export function disable_page_scroll
-  ( window
-  ) {
-    const document = window.document
-    const body = document.body
-    body.classList.add( NO_SCROLL_CLASS )
-
-
-    const scrollTop
-      =  window.pageYOffset
-      || document.documentElement.scrollTop
-    const scrollLeft
-      =  window.pageXOffset
-      || document.documentElement.scrollLeft
-
-    window.onscroll = () => window.scrollTo(scrollLeft, scrollTop)
-  }
-
-
-
-/**
  * Hide the Modal element in the browser.
  *
  * @param {Document} document
@@ -104,25 +74,6 @@ export function hide_modal
 
 
 /**
- * re-enable page from scrolling.
- *
- * @parm {Window} window
- *
- * @return {void}
- */
-export function enable_page_scroll
-  ( window
-  ) {
-    const document = window.document
-    const body = document.body
-    body.classList.remove( NO_SCROLL_CLASS )
-
-    window.onscroll = () => {}
-  }
-
-
-
-/**
  * @type {DataStore.Data.View}
  */
 export function as_default
@@ -137,12 +88,12 @@ export function as_default
     switch(modalToggled) {
       case Modal.ToggledState.On:
         show_modal(document, modal)
-        disable_page_scroll(window)
+        Utils.disable_page_scroll(window)
         break
 
       case Modal.ToggledState.Off:
         hide_modal(document, modal)
-        enable_page_scroll(window)
+        Utils.enable_page_scroll(window)
         break
     }
 

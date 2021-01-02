@@ -1,7 +1,9 @@
+import * as Utils from 'lib/js/Utils'
+
+
+
 const CLOSE_SELECTOR = '.navbar__toggle-close'
 const HAMBURGER_SELECTOR = '.navbar__toggle-open'
-const SCROLL_ELEMENT_SELECTOR = 'body'
-const NO_SCROLL_CLASS = 'no-scroll'
 
 
 
@@ -202,40 +204,6 @@ function hide_scrim
 
 
 /**
- * prevent page from scrolling.
- *
- * @param {HTMLElement} scrollElement
- *
- * @return {HTMLElement}
- */
-function disable_page_scroll
-  ( scrollElement
-  ) {
-    scrollElement.classList.add( NO_SCROLL_CLASS )
-
-    return scrollElement
-  }
-
-
-
-/**
- * re-enable page from scrolling.
- *
- * @param {HTMLElement} scrollElement
- *
- * @return {HTMLElement}
- */
-function enable_page_scroll
-  ( scrollElement
-  ) {
-    scrollElement.classList.remove( NO_SCROLL_CLASS )
-
-    return scrollElement
-  }
-
-
-
-/**
  * Sync the DOM element of the given Navbar Model with it's
  * Model representation.
  *
@@ -255,21 +223,19 @@ export function sync_dom_representation
     const scrimElement
       =  document.querySelector('.' + ToggledScrimClass.Off)
       || document.querySelector('.' + ToggledScrimClass.On)
-    const scrollElement
-      =  document.querySelector(SCROLL_ELEMENT_SELECTOR)
 
 
     switch(navbarModel.toggled) {
       case ToggledState.On:
         display_nav_items(navbarElement)
         if( scrimElement ) { show_scrim(scrimElement) }
-        if( scrollElement ) { disable_page_scroll(scrollElement) }
+        Utils.disable_page_scroll(window)
         break
 
       case ToggledState.Off:
         display_navbar_hamburger(navbarElement)
         if( scrimElement ) { hide_scrim(scrimElement) }
-        if( scrollElement ) { enable_page_scroll(scrollElement) }
+        Utils.enable_page_scroll(window)
         break
     }
 
