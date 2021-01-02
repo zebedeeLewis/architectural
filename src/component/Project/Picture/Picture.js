@@ -93,3 +93,22 @@ export function get_md( picture) { return picture.md }
  * @return {string}
  */
 export function get_lg( picture) { return picture.lg }
+
+
+/**
+ * Produce the image source of the given size from the Picture. Produce
+ * the "thumbnail" image source if no size is given or if the size
+ * argument is unsupported.
+ *
+ * @param {string} size - can be one of "xs", "sm", "md", "lg".
+ * @param {Model} picture - the picture
+ */
+export function get_size
+  ( size
+  , picture
+  ) {
+    return picture[size] || picture.thumbnail
+  }
+
+
+

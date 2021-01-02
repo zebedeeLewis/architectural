@@ -251,16 +251,33 @@ export function markup_slider
     const slides
       = pictures.map(
           picture =>
-            ( '<li class="splide__slide">'
-            + `  <img src="${imgSrc(picture)}">`
-            + '</li>'
+            ( '<div class="splide__slide">'
+            + '  <picture>'
+            + '    <source'
+            + '      media="(min-width: 1200px)"'
+            + `      srcset="${imgSrc('lg', picture)}"`
+            + '    >'
+            + '    <source'
+            + '      media="(min-width: 960px)"'
+            + `      srcset="${imgSrc('md', picture)}"`
+            + '    >'
+            + '    <source'
+            + '      media="(min-width: 600px)"'
+            + `      srcset="${imgSrc('sm', picture)}"`
+            + '    >'
+            + '    <img'
+            + `      src="${imgSrc('xs', picture)}"`
+            + `      alt=""`
+            + '    >'
+            + '  </picture>'
+            + '</div>'
             )
         ).join()
 
     const sliderInnerHTML
       = `<div id="${sliderId}" class="splide">`
       + ' <div class="splide__track">'
-      + `   <ul class="splide__list">${slides}</ul>`
+      + `   <div class="splide__list">${slides}</div>`
       + ' </div>'
       + '</div>'
 
@@ -285,7 +302,7 @@ export function render_thumbnail_slider
     markup_slider
       ( sliderElement
       , pictures
-      , Project.Picture.get_thumbnail
+      , (_, picture)=>Project.Picture.get_size('thumbnail', picture)
       , sliderId
       )
 
@@ -294,13 +311,13 @@ export function render_thumbnail_slider
       = new Splide
           ( `#${sliderId}`
           , { fixedWidth   : 100
-	      	  , rewind       : true
+            , rewind       : true
             , cover        : true
             , height       : 60
-	      	  , gap          : 10
-	      	  , pagination   : false
+            , gap          : 10
+            , pagination   : false
             , isNavigation : true
-	          }
+            }
           ).mount();
 
 
@@ -325,7 +342,7 @@ export function render_main_slider
     markup_slider
       ( sliderElement
       , pictures
-      , Project.Picture.get_thumbnail
+      , Project.Picture.get_size
       , sliderId
       )
 
@@ -336,7 +353,7 @@ export function render_main_slider
           , { rewind       : true
             , cover        : true
             , arrows       : true
-	          }
+            }
           )
 
 
