@@ -2,6 +2,7 @@
 @use "lib/scss/spacing/variables" as spacing;
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
 
 /* Mixin Imports */
 @use "lib/scss/layout/mixins" as layoutMixins;
@@ -30,9 +31,13 @@
 
 .portfolio {
   padding-top              : spacing.$b14;
+  padding-left             : layoutVars.$document_margin;
+  padding-right            : layoutVars.$document_margin;
 
   @media( min-width: breakpoint.$sm ) {
     padding-top            : 0;
+    padding-left           : 0;
+    padding-right          : 0;
   }
 
   @media( min-width: breakpoint.$md ) {
