@@ -29,20 +29,16 @@
 
 
 .portfolio {
-  @include                 layoutMixins.document_margins;
-
   padding-top              : spacing.$b14;
 
   @media( min-width: breakpoint.$sm ) {
     padding-top            : 0;
-    margin-right           : 149px;
   }
 
   @media( min-width: breakpoint.$md ) {
     display                : grid;
     grid-template-columns  : repeat(3, 1fr);
     grid-gap               : 28px;
-    margin-right           : 164px;
   }
 }
 

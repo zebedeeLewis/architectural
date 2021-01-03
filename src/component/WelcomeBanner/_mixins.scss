@@ -33,13 +33,11 @@
     @include                   background-image($image-url);
   
     @media (min-width: breakpoint.$sm) {
-      @include                 layout.document_margins;
       @include                 aspect-ratio.custom(126%);
       @include                 background-image($image-url--sm);
     }
 
     @media (min-width: breakpoint.$md) {
-      @include                 layout.document_margins;
       @include                 aspect-ratio.custom(113%);
       @include                 background-image($image-url--md);
 

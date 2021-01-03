@@ -1,5 +1,6 @@
 @use "lib/scss/spacing/variables" as spacing;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "./variables" as vars;
 
 
 @mixin document_margins
@@ -21,15 +22,36 @@
 
 @mixin document_padding
   {
-    padding-right              : 32px;
-    padding-left               : 32px;
+    padding-right              : vars.$document_margin;
+    padding-left               : vars.$document_margin;
 
     @media (min-width: breakpoint.$sm) {
-      padding-right            : 98px;
+      padding-right            : vars.$document_margin--sm;
       padding-left             : 0;
     }
 
     @media (min-width: breakpoint.$md) {
-      padding-right            : 166px;
+      padding-right            : vars.$document_margin--md;
+    }
+  }
+
+
+
+@mixin container
+  {
+    margin-left                : auto;
+    margin-right               : auto;
+    max-width                  : vars.$container-max-width;
+
+    @media (min-width: breakpoint.$sm) {
+      max-width                : vars.$container-max-width--sm;
+    }
+
+    @media (min-width: breakpoint.$md) {
+      max-width                : vars.$container-max-width--md;
+    }
+
+    @media (min-width: breakpoint.$lg) {
+      max-width                : vars.$container-max-width--lg;
     }
   }

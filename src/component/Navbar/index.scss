@@ -36,7 +36,6 @@
 
 .navbar__nav {
   display                  : none;
-  width                    : 100%;
   order                    : 3;
   position                 : absolute;
   top                      : spacing.$b24;
@@ -128,15 +127,5 @@
 
   @media (min-width: breakpoint.$sm) {
     display                : none;
-  }
-}
-
-
-
-.no-scroll {
-  position                 : fixed;
-
-  @media (min-width: breakpoint.$sm) {
-    position               : static;
   }
 }

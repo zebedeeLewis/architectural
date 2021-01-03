@@ -1,6 +1,14 @@
+@use "lib/scss/breakpoint/variables" as breakpoint;
+
 
 img {
   display                  : block;
   max-width                : 100%;
   height                   : auto;
+}
+
+
+.no-scroll {
+  height                     : 100vh;
+  overflow                   : hidden;
 }

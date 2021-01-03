@@ -3,6 +3,7 @@
 @use "lib/scss/typography/variables" as typography;
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
 @use "./variables" as vars;
 
 /* Mixin Imports */
@@ -12,18 +13,19 @@
 
 @mixin navbar 
   {
-    @include                   layout.document_margins;
-
     display                    : flex;
     align-items                : center;
     flex-wrap                  : wrap;
     z-index                    : 4;
     box-sizing                 : border-box;
     position                   : relative;
+    padding-left               : layoutVars.$document_margin;
+    padding-right              : layoutVars.$document_margin;
 
     @media (min-width: breakpoint.$sm) {
       flex-wrap                : nowrap;
       padding-left             : 0;
+      padding-right            : 0;
     }
   }
 

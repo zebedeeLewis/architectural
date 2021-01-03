@@ -2,6 +2,7 @@
 @use "lib/scss/spacing/variables" as spacing;
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
 
 /* Mixin Imports */
 @use "lib/scss/button/mixins" as button;
@@ -11,21 +12,23 @@
 
 .footer {
   padding-top              : spacing.$b34;
+  box-sizing               : border-box;
 
   @media (min-width: breakpoint.$sm) {
     margin-right           : 98px;
-    padding-top            : (spacing.$b27 + 2);
+    padding-top            : spacing.$b27;
   }
 
   @media (min-width: breakpoint.$md) {
-    margin-left            : 128px;
-    margin-right           : 322px;
-    padding-top            : spacing.$b50 + 1;
+    @include               layout.container;
+    padding-top            : spacing.$b50;
+    padding-left           : 128px;
+    padding-right          : layoutVars.$document_margin--md;
   }
 
   @media (min-width: breakpoint.$lg) {
-    margin-left            : 166px;
-    margin-right           : 322px;
+    padding-left           : layoutVars.$document_margin--md;
+    margin-right           : layoutVars.$document_margin--md;
   }
 }
 

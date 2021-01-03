@@ -3,6 +3,7 @@
 @use "lib/scss/breakpoint/variables" as breakpoint;
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/typography/variables" as typographyVars;
+@use "lib/scss/layout/variables" as layoutVars;
 @use "lib/scss/spacing/variables" as spacing;
 @use "./variables" as vars;
 
@@ -25,6 +26,7 @@
 @use "component/Navbar";
 @use "component/Modal";
 @use "component/Project";
+@use "lib/scss/misc" as miscStyles;
 
 
 
@@ -44,11 +46,6 @@
 
 
 .splide-main {
-  @media (min-width: breakpoint.$sm) {
-    @include               layoutMixins.document_margins;
-  }
-
-
   &__list {
     width                  : 100%;
   }
@@ -103,15 +100,15 @@
 .slide-caption {
   position                 : absolute;
   bottom                   : 0;
-  padding                  : (spacing.$b28 - 3) 32px;
+  padding                  : spacing.$b8 layoutVars.$document_margin;
   color                    : white;
 
   @media(min-width: breakpoint.$sm) {
-    padding                : (spacing.$b45 + 1) 57px;
+    padding                : spacing.$b32 layoutVars.$document_margin--sm;
   }
   
   @media(min-width: breakpoint.$md) {
-    padding                : (spacing.$b39 - 1) 189px;
+    padding                : spacing.$b24 layoutVars.$document_margin--sm;
     max-width              : 500px;
   }
 
@@ -120,19 +117,18 @@
     @include               mixins.caption__content;
 
     font-size              : 48px;
-    line-height            : spacing.$b12;
+    line-height            : spacing.$b14;
     font-weight            : typographyVars.$font-weight-bold;
     letter-spacing         : -1.2px;
     margin-bottom          : spacing.$b4 - 1;
 
     @media (min-width: breakpoint.$sm) {
-      font-size            : 80px;
-      line-height          : spacing.$b20;
       letter-spacing       : -2px;
     }
 
-    @media (min-width: breakpoint.$md) {
-      margin-bottom        : spacing.$b10 - 1;
+    @media (min-width: breakpoint.$lg) {
+      font-size            : 80px;
+      line-height          : spacing.$b20;
     }
   }
 
@@ -147,16 +143,6 @@
 
     @media (min-width: breakpoint.$sm) {
       margin-bottom        : spacing.$b10;
-    }
-
-    @media (min-width: breakpoint.$sm) {
-      margin-bottom        : spacing.$b16;
-    }
-
-    @media (min-width: breakpoint.$md) {
-    }
-
-    @media (min-width: breakpoint.$lg) {
     }
   }
 }
@@ -229,7 +215,13 @@
 
 
 .welcome-section {
-  @include                 layoutMixins.document_margins;
+  padding-left             : layoutVars.$document_margin;
+  padding-right            : layoutVars.$document_margin;
+
+  @media(min-width: breakpoint.$sm) {
+    padding-left           : 0;
+    padding-right          : 0;
+  }
 
   @media(min-width: breakpoint.$md) {
     display                : flex;
@@ -253,6 +245,7 @@
     letter-spacing       : -5px;
     line-height          : spacing.$b50;
     position             : absolute;
+    z-index              : 2;
     top                  : 0;
     left                 : 0;
   }
@@ -262,8 +255,15 @@
 
 .welcome-text {
   @media(min-width: breakpoint.$md) {
-    padding-left           : 188px;
     padding-top            : spacing.$b44 + 2;
+    padding-right          : 56px;
+    flex                   : 0 0 70%;
+    z-index                : 1;
+    box-sizing             : border-box;
+  }
+
+  @media(min-width: breakpoint.$lg) {
+    padding-left           : 188px;
     padding-right          : 121px;
   }
 
@@ -293,6 +293,21 @@
   @media(min-width: breakpoint.$md) {
     display                : block;
     padding-top            : spacing.$b25 + 1;
+    position               : absolute;
+    top                    : 0;
+    right                  : 0;
+
+    &:after {
+      content              : "";
+      display              : block;
+      position             : absolute;
+      top                  : 0;
+      right                : 0;
+      bottom               : 0;
+      left                 : 0;
+      background-color     : white;
+      opacity              : 0.5;
+    }
   }
 }
 
@@ -306,8 +321,6 @@
   padding-top              : spacing.$b24 + 1;
 
   @media(min-width: breakpoint.$sm) {
-    @include               layoutMixins.document_margins;
-
     padding-top            : spacing.$b49 + 2;
   }
 }
@@ -336,10 +349,14 @@
   flex-wrap                : wrap;
 
   @media(min-width: breakpoint.$sm) {
-    padding                : spacing.$b14 + 1;
+    padding                : spacing.$b14;
   }
 
   @media(min-width: breakpoint.$md) {
+    padding                : spacing.$b8 116px;
+  }
+
+  @media(min-width: breakpoint.$lg) {
     padding                : (spacing.$b14 + 1) 189px;
   }
 
@@ -409,12 +426,14 @@
  */
 
 .featured-section {
-  @include                 layoutMixins.document_margins;
-
   padding-top              : spacing.$b18;
+  padding-left             : layoutVars.$document_margin;
+  padding-right            : layoutVars.$document_margin;
 
   @media(min-width: breakpoint.$sm) {
     padding-top            : spacing.$b50 + 1;
+    padding-left           : 0;
+    padding-right          : 0;
   }
 
   @media(min-width: breakpoint.$md) {
@@ -536,6 +555,7 @@
       order                : 2;
       width                : 100%;
       box-sizing           : border-box;
+      padding              : spacing.$b3 28px;
     }
   }
 

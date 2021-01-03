@@ -5,6 +5,7 @@
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/typography/variables" as typographyVars;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
 @use "./variables" as vars;
 
 /* Mixin Imports */
@@ -61,12 +62,14 @@
  */
 
 .heritage-section {
-  @include                 layoutMixins.document_margins;
-
-  padding-top              : spacing.$b18 + 1;
+  padding-top              : spacing.$b18;
+  padding-left             : layoutVars.$document_margin;
+  padding-right            : layoutVars.$document_margin;
 
   @media (min-width: breakpoint.$sm) {
-    padding-top            : spacing.$b50 - 2;
+    padding-top            : spacing.$b50;
+    padding-left           : 0;
+    padding-right          : 0;
   }
 
   @media (min-width: breakpoint.$md) {
@@ -108,12 +111,14 @@
  */
 
 .leaders-section {
-  @include                 layoutMixins.document_margins;
-
   padding-top              : spacing.$b18;
+  padding-left             : layoutVars.$document_margin;
+  padding-right            : layoutVars.$document_margin;
 
   @media (min-width: breakpoint.$sm) {
     padding-top            : spacing.$b44 - 1;
+    padding-left           : 0;
+    padding-right          : 0;
   }
 
   @media (min-width: breakpoint.$md) {

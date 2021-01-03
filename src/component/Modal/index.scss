@@ -2,6 +2,7 @@
 @use "lib/scss/spacing/variables" as spacing;
 @use "lib/scss/color/variables" as color;
 @use "lib/scss/breakpoint/variables" as breakpoint;
+@use "lib/scss/layout/variables" as layoutVars;
 @use "./variables" as vars;
 
 /* Mixin Imports */
@@ -13,6 +14,7 @@
   display                  : none;
 
   &--toggled {
+    @include               layout.container;
     display                : block;
     position               : fixed;
     top                    : 0;
@@ -22,16 +24,16 @@
     overflow               : auto;
     background-color       : white;
     z-index                : 10;
-    padding                : spacing.$b8;
+    padding                : spacing.$b8 layoutVars.$document_margin;
     box-sizing             : border-box;
 
     @media( min-width: breakpoint.$sm ){
-      padding              : 98px;
+      padding              : 98px layoutVars.$document_margin--sm;
     }
 
     @media( min-width: breakpoint.$md ){
-      padding-left         : 166px;
-      padding-right        : 166px;
+      padding-left         : layoutVars.$document_margin--md;
+      padding-right        : layoutVars.$document_margin--md;
     }
   }
 
@@ -57,10 +59,4 @@
   &__content {
     padding-top            : spacing.$b12;
   }
-}
-
-
-.no-scroll {
-  height                   : 100vh;
-  overflow                 : hidden;
 }

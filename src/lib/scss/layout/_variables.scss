@@ -2,8 +2,16 @@
 
 
 
-$section-spacing     : spacing.$b20;
-$section-spacing--sm : spacing.$b30;
-$section-spacing--lg : spacing.$b50;
+$section-spacing         : spacing.$b20;
+$section-spacing--sm     : spacing.$b30;
+$section-spacing--lg     : spacing.$b50;
 
-$subsection-spacing : spacing.$b6;
+$subsection-spacing      : spacing.$b6;
+$container-max-width     : 400px;
+$container-max-width--sm : 700px;
+$container-max-width--md : 1024px;
+$container-max-width--lg : 1400px;
+
+$document_margin         : 32px;
+$document_margin--sm     : 98px;
+$document_margin--md     : 166px;

@@ -39,6 +39,7 @@
             right          : 0;
             bottom         : 0;
             left           : 0;
+            background     : color.$very-light-grey;
 
             img {
               margin-left  : auto;
@@ -64,16 +65,16 @@
 
       .splide {
         &__slide {
-          opacity            : 0.3;
+          opacity          : 0.3;
 
           &.is-active {
-            opacity          : 1;
-            border           : none;
+            opacity        : 1;
+            border         : none;
           }
 
           img {
-            width            : 100%;
-            height           : auto;
+            width          : 100%;
+            height         : auto;
           }
         }
       }

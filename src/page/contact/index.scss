@@ -67,15 +67,17 @@
 
 /* 5. Address Section */
 .address-section {
-  @include                 layoutMixins.document_margins;
-
   padding-top              : spacing.$b18 + 1;
+  padding-right            : layoutVars.$document_margin;
+  padding-left             : layoutVars.$document_margin;
 
   @media (min-width: breakpoint.$sm) {
     padding-top            : spacing.$b49 + 2;
+    padding-right          : 0;
+    padding-left           : 0;
   }
 
-  @media (min-width: breakpoint.$sm) {
+  @media (min-width: breakpoint.$md) {
     display                : flex;
   }
 }
@@ -96,6 +98,7 @@
 
   @media (min-width: breakpoint.$md) {
     flex                   : 1 0 33.333%;
+    padding-right          : 24px;
   }
 }
 
@@ -170,8 +173,6 @@
 /* 6. Map Section */
 .map-section {
   @media (min-width: breakpoint.$sm) {
-    @include               layoutMixins.document_margins;
-
     padding-top            : spacing.$b39 - 1;
   }
 
@@ -207,12 +208,14 @@
 
 /* 7. Form Section */
 .form-section {
-  @include                 layoutMixins.document_margins;
-
   padding-top              : spacing.$b18;
+  padding-right            : layoutVars.$document_margin;
+  padding-left             : layoutVars.$document_margin;
 
   @media (min-width: breakpoint.$sm) {
     padding-top            : spacing.$b50 + 1;
+    padding-right          : 0;
+    padding-left           : 0;
   }
 
   @media (min-width: breakpoint.$md) {
@@ -232,6 +235,7 @@
   @media (min-width: breakpoint.$sm) {
     width                  : unset;
     margin-bottom          : spacing.$b16;
+    padding-right          : 24px;
   }
 }
 
