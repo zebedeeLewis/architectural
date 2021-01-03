@@ -4,6 +4,7 @@ import * as Utils from 'lib/js/Utils'
 
 const CLOSE_SELECTOR = '.navbar__toggle-close'
 const HAMBURGER_SELECTOR = '.navbar__toggle-open'
+const BREAKPOINT_SM = '600'
 
 
 
@@ -204,6 +205,39 @@ function hide_scrim
 
 
 /**
+ * Setup an event handler to Toggle the Navbar off at the given
+ * breakpoint.
+ *
+ * @param {Window} window
+ * @param {number} screenSize - when the screen size is smaller than or
+ * equal to this value, the pages scrolling will be disabled. Value is
+ * interpreted as pixels.
+ * @param {Model} model
+ *
+ * @return {void}
+ */
+export function toggle_off_at_breakpoint
+  ( window
+  , screenSize
+  , model
+  ) {
+    const breakpoint
+      = window.matchMedia(`(max-width:${screenSize}px)`)
+
+    breakpoint.addEventListener
+      ( 'change'
+      , () => {
+          if(!breakpoint.matches) {
+            model.toggled = ToggledState.Off
+            sync_dom_representation(window, model)
+          }
+        }
+      )
+  }
+
+
+
+/**
  * Sync the DOM element of the given Navbar Model with it's
  * Model representation.
  *
@@ -229,6 +263,7 @@ export function sync_dom_representation
       case ToggledState.On:
         display_nav_items(navbarElement)
         if( scrimElement ) { show_scrim(scrimElement) }
+        toggle_off_at_breakpoint(window, BREAKPOINT_SM, navbarModel)
         Utils.disable_page_scroll(window)
         break
 
