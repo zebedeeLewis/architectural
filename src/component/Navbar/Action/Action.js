@@ -23,6 +23,47 @@ export const Type
 
 
 /**
+ * Defines the shape of the data to be passed as the second argument to
+ * DataStore.Action.create when creating a new
+ * Navbar.Action.Type.Initialize.
+ *
+ * @typedef {Object} InitializeData
+ * @property {Function} openClickHandler - see Navbar model definition
+ * @property {Function} closeClickHandler - see Navbar model definition
+ */
+
+
+/**
+ * Produce the "openClickHandler" of a InitializeData
+ *
+ * @param {Action}
+ * @return {Function}
+ */
+export function get_initialize_data_openClickHandler
+  ( action
+  ) {
+    const data = DataStore.Action.get_data(action)
+    return data.openClickHandler
+  }
+
+
+
+/**
+ * Produce the "closeClickHandler" of a InitializeData
+ *
+ * @param {Action}
+ * @return {Function}
+ */
+export function get_initialize_data_closeClickHandler
+  ( action
+  ) {
+    const data = DataStore.Action.get_data(action)
+    return data.closeClickHandler
+  }
+
+
+
+/**
  * set the toggled property of the Navbar to TOGGLED_On
  * 
  * @param {Model} model
@@ -79,16 +120,23 @@ export function toggle_off
  * this triggers the initialization process on the next call to
  * the "view" function.
  *
+ * @param {Function} openClickHandler
+ * @param {Function} closeClickHandler
  * @param {Model} model
  * @return {Model}
  */
 export function start_initialization
-  ( model
+  ( openClickHandler
+  , closeClickHandler
+  , model
   ) {
     const navbar
       = Navbar.patch
-          ( { initialization : Navbar.Initialization.In_Process }
-          , DataStore.Data.get_value(model)
+          ( { initialization    : Navbar.Initialization.In_Process
+            , openClickHandler  : openClickHandler 
+            , closeClickHandler : closeClickHandler
+            }
+          , initialNavbar
           )
 
     return (
@@ -135,23 +183,26 @@ export function update
   , model
   ) {
     const actionType = DataStore.Action.get_type(action)
+    const initialNavbar = DataStore.Data.get_value(model)
 
     switch(actionType) {
       case Type.Toggle_On:
         return toggle_on(model)
-        break
 
       case Type.Toggle_Off:
         return toggle_off(model)
-        break
 
       case Type.Initialize:
-        return start_initialization(model)
-        break
+        return (
+          start_initialization
+            ( get_initialize_data_openClickHandler(initialNavbar)
+            , get_initialize_data_closeClickHandler(initialNavbar)
+            , model
+            )
+        )
 
       case Type.Initialized:
         return finalize_initialization(model)
-        break
     }
 
     return model

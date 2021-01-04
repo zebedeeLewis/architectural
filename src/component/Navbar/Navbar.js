@@ -53,6 +53,14 @@ export const Initialization
  *
  * @property {Initialization} initialization - the state of the
  * initialization process.
+ *
+ * @property {Function} openClickHandler - the handler that will fire
+ * when the navbars open button is clicked. This function should call
+ * DataStore.Action.execute.
+ *
+ * @property {Function} closeClickHandler - the handler that will fire
+ * when the navbars close button is clicked. This function should call
+ * DataStore.Action.execute.
  */
 
 
@@ -68,16 +76,24 @@ export function create
   ( { element
     , toggled
     , initialization
+    , openClickHandler
+    , closeClickHandler
     }
   ) {
     return (
-      { element        : element !== undefined ? element : null
-      , toggled        : toggled !== undefined
-                           ? toggled
-                           : ToggledState.Off
-      , initialization : initialization !== undefined
-                           ? initialization
-                           : Initialization.Pending
+      { element           : element !== undefined ? element : null
+      , toggled           : toggled !== undefined
+                              ? toggled
+                              : ToggledState.Off
+      , initialization    : initialization !== undefined
+                              ? initialization
+                              : Initialization.Pending
+      , openClickHandler  : openClickHandler !== undefined
+                              ? openClickHandler
+                              : ()=>{}
+      , closeClickHandler : closeClickHandler !== undefined
+                              ? closeClickHandler
+                              : ()=>{}
       }
     )
   }
@@ -101,15 +117,21 @@ export function patch
   , navbar
   ) {
     return (
-      { element        : element !== undefined
-                           ? element
-                           : navbar.element
-      , toggled        : toggled !== undefined
-                           ? toggled
-                           : navbar.toggled
-      , initialization : initialization !== undefined
-                           ? initialization
-                           : navbar.initialization
+      { element           : element !== undefined
+                              ? element
+                              : navbar.element
+      , toggled           : toggled !== undefined
+                              ? toggled
+                              : navbar.toggled
+      , initialization    : initialization !== undefined
+                              ? initialization
+                              : navbar.initialization
+      , openClickHandler  : openClickHandler !== undefined
+                              ? openClickHandler
+                              : navbar.openClickHandler
+      , closeClickHandler : closeClickHandler !== undefined
+                              ? closeClickHandler
+                              : navbar.closeClickHandler
       }
     )
   }
@@ -147,5 +169,34 @@ export function get_initialization
   ){
     return navbar.initialization
   }
+
+
+
+/**
+ * Produce the "openClickHandler" attribute of the Navbar.
+ *
+ * @param {Model}
+ * @return {Function}
+ */
+export function get_openClickHandler
+  ( navbar
+  ){
+    return navbar.openClickHandler
+  }
+
+
+
+/**
+ * Produce the "closeClickHandler" attribute of the Navbar.
+ *
+ * @param {Model}
+ * @return {Function}
+ */
+export function get_closeClickHandler
+  ( navbar
+  ){
+    return navbar.closeClickHandler
+  }
+
 
 
