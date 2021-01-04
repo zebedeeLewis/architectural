@@ -75,3 +75,22 @@ export function patch
 
 
 
+/**
+ * Produce the "element" attribute of the Navbar.
+ *
+ * @param {Model}
+ * @return {HTMLElement}
+ */
+export function get_element( navbar ){ return navbar.element }
+
+
+
+/**
+ * Produce the "toggled" attribute of the Navbar.
+ *
+ * @param {Model}
+ * @return {ToggledState}
+ */
+export function get_toggled( navbar ){ return navbar.toggled }
+
+

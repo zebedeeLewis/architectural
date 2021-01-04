@@ -170,13 +170,14 @@ export function sync_dom_representation
     const document = window.document
 
 
-    const navbarElement = navbarModel.element
+    const navbarElement = Navbar.get_element(navbarModel)
     const scrimElement
       =  document.querySelector('.' + ToggledScrimClass.Off)
       || document.querySelector('.' + ToggledScrimClass.On)
 
 
-    switch(navbarModel.toggled) {
+    const navbarToggled = Navbar.get_toggled(navbarModel)
+    switch(navbarToggled) {
       case Navbar.ToggledState.On:
         display_nav_items(navbarElement)
         if( scrimElement ) { show_scrim(scrimElement) }
@@ -209,7 +210,7 @@ export function setup_handlers
   ( window
   , navbarModel
   ) {
-    const navbarElement = navbarModel.element
+    const navbarElement = Navbar.get_element(navbarModel)
 
 
     const hamburgerElement
@@ -218,6 +219,8 @@ export function setup_handlers
     hamburgerElement.addEventListener
       ( 'click'
       , () => {
+          // TODO: this handler should call DataStore.Action.Execute
+          // on a Navbar.Action.Type.ToggleState_On
           navbarModel.toggled = Navbar.ToggledState.On
           sync_dom_representation(window, navbarModel)
         }
@@ -230,6 +233,9 @@ export function setup_handlers
     navbarCloseElement.addEventListener
       ( 'click'
       , () => {
+          // TODO: this handler should call DataStore.Action.Execute
+          // on a Navbar.Action.Type.ToggleState_Off
+          navbarModel.toggled = Navbar.ToggledState.On
           navbarModel.toggled = Navbar.ToggledState.Off
           sync_dom_representation(window, navbarModel)
         }
