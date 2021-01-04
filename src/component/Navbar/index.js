@@ -1,5 +1,6 @@
 export { create
        , ToggledState
+       , Initialization
        , patch
        , get_toggled
        , get_element

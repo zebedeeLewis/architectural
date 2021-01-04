@@ -17,6 +17,30 @@ export const ToggledState
 
 
 /**
+ * Represents all possible states of the Navbars initialization.
+ *
+ * @readonly
+ * @enum {string}
+ *
+ * @property {string} Pending - the initialization process has not
+ * started yet.
+ *
+ * @property {string} In_Process - initialization is in process.
+ *
+ * @property {string} Complete - the initialization process is
+ * complete.
+ */
+export const Initialization
+  = Object.freeze
+      ( { Pending    : 'Pending'
+        , In_Process : 'In_Process'
+        , Complete   : 'Complete'
+        }
+      )
+
+
+
+/**
  * Represents the state of the navbar.
  *
  * @typedef {Object} Model
@@ -26,6 +50,9 @@ export const ToggledState
  *
  * @property {ToggledState} toggled  - ToggledState.On if the Navbar is
  * toggled otherwise ToggledState.Off
+ *
+ * @property {Initialization} initialization - the state of the
+ * initialization process.
  */
 
 
@@ -40,11 +67,17 @@ export const ToggledState
 export function create
   ( { element
     , toggled
+    , initialization
     }
   ) {
     return (
-      { element : element !== undefined ? element : null
-      , toggled : toggled !== undefined ? toggled : ToggledState.Off
+      { element        : element !== undefined ? element : null
+      , toggled        : toggled !== undefined
+                           ? toggled
+                           : ToggledState.Off
+      , initialization : initialization !== undefined
+                           ? initialization
+                           : Initialization.Pending
       }
     )
   }
@@ -63,12 +96,20 @@ export function create
 export function patch
   ( { element
     , toggled
+    , initialization
     }
   , navbar
   ) {
     return (
-      { element : element !== undefined ? element : navbar.element
-      , toggled : toggled !== undefined ? toggled : navbar.toggled
+      { element        : element !== undefined
+                           ? element
+                           : navbar.element
+      , toggled        : toggled !== undefined
+                           ? toggled
+                           : navbar.toggled
+      , initialization : initialization !== undefined
+                           ? initialization
+                           : navbar.initialization
       }
     )
   }
@@ -92,5 +133,19 @@ export function get_element( navbar ){ return navbar.element }
  * @return {ToggledState}
  */
 export function get_toggled( navbar ){ return navbar.toggled }
+
+
+
+/**
+ * Produce the "initialization" attribute of the Navbar.
+ *
+ * @param {Model}
+ * @return {Initialization}
+ */
+export function get_initialization
+  ( navbar
+  ){
+    return navbar.initialization
+  }
 
 
