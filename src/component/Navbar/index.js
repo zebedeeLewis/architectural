@@ -3,7 +3,7 @@ export { create
        , Initialization
        , patch
        , get_toggled
-       , get_element
+       , get_id
        , get_openClickHandler
        , get_closeClickHandler
        } from './Navbar'

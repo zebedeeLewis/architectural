@@ -45,7 +45,7 @@ export const Initialization
  *
  * @typedef {Object} Model
  *
- * @property {HTMLElement} element - the DOM element this model
+ * @property {HTMLElement} id - the id for the DOM element this model
  * represents.
  *
  * @property {ToggledState} toggled  - ToggledState.On if the Navbar is
@@ -73,7 +73,7 @@ export const Initialization
  * @return {Model}
  */
 export function create
-  ( { element
+  ( { id
     , toggled
     , initialization
     , openClickHandler
@@ -81,7 +81,7 @@ export function create
     }
   ) {
     return (
-      { element           : element !== undefined ? element : null
+      { id                : id !== undefined ? id : null
       , toggled           : toggled !== undefined
                               ? toggled
                               : ToggledState.Off
@@ -110,16 +110,16 @@ export function create
  * @return {Model}
  */
 export function patch
-  ( { element
+  ( { id
     , toggled
     , initialization
+    , openClickHandler
+    , closeClickHandler
     }
   , navbar
   ) {
     return (
-      { element           : element !== undefined
-                              ? element
-                              : navbar.element
+      { id                : id !== undefined ? id : navbar.id
       , toggled           : toggled !== undefined
                               ? toggled
                               : navbar.toggled
@@ -139,12 +139,12 @@ export function patch
 
 
 /**
- * Produce the "element" attribute of the Navbar.
+ * Produce the "id" attribute of the Navbar.
  *
  * @param {Model}
  * @return {HTMLElement}
  */
-export function get_element( navbar ){ return navbar.element }
+export function get_id( navbar ){ return navbar.id }
 
 
 

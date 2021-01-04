@@ -204,21 +204,20 @@ export function setup_handlers
  * @return {Model}
  *
  * @throws {Error}
- *    Selected element "${navbarSelector}" does not exist
+ *    Selected element "#${navbarId}" does not exist
  */
 export function init
   ( window
   , execute
   , navbar
   ) {
-    // TODO: refactor the Navbar to hold the navbars DOM id
-    const navbarSelector = '#main-nav'
+    const navbarid = Navbar.get_id(navbar)
     const document = window.document
-    const navbarElement = document.querySelector(navbarSelector)
+    const navbarElement = document.getElementById(navbarId)
 
     if( !navbarElement ) {
       throw Error
-        ( `Selected element "${navbarSelector}" does not exist`
+        ( `Selected element "${navbarId}" does not exist`
         )
     }
 
