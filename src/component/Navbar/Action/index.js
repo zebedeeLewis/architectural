@@ -1,4 +1,3 @@
 export { Type
-       , toggle_on
-       , toggle_off
+       , update
        } from './Action'

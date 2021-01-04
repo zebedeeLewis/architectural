@@ -1,3 +1,4 @@
+import * as DataStore from 'lib/js/DataStore'
 import * as Navbar from '..'
 
 
@@ -22,16 +23,22 @@ export const Type
 /**
  * set the toggled property of the Navbar to TOGGLED_On
  * 
- * @param {Model} navbar
+ * @param {Model} model
  *
  * @return {Model}
  */
 export function toggle_on
-  ( navbar
+  ( model
   ) {
+    const navbar = DataStore.Data.get_value(model)
     navbar.toggled = Navbar.ToggledState.On
 
-    return navbar
+    return (
+      DataStor.Data.patch
+        ( { value : navbar }
+        , model
+        )
+    )
   }
 
 
@@ -39,14 +46,45 @@ export function toggle_on
 /**
  * set the toggled property of the Navbar to TOGGLED_Off
  * 
- * @param {Model} navbar
+ * @param {Model} model
  *
  * @return {Model}
  */
 export function toggle_off
-  ( navbar
+  ( model
   ) {
+    const navbar = DataStore.Data.get_value(model)
     navbar.toggled = Navbar.ToggledState.Off
 
-    return navbar
+    return (
+      DataStor.Data.patch
+        ( { value : navbar }
+        , model
+        )
+    )
+  }
+
+
+
+/**
+ * @type {DataStore.Data.Update}
+ */
+export function update
+  ( action
+  , model
+  ) {
+    const actionType = DataStore.Action.get_type(action)
+
+    switch(actionType) {
+      case Type.Toggle_On:
+        return toggle_on(model)
+        break
+
+
+      case Type.Toggle_Off:
+        return toggle_off(model)
+        break
+    }
+
+    return model
   }
