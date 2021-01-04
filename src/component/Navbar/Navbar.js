@@ -49,37 +49,3 @@ export function create
 
 
 
-/**
- * set the toggled property of the Navbar to TOGGLED_On
- * 
- * @param {Model} navbar
- *
- * @return {Model}
- */
-export function toggle_on
-  ( navbar
-  ) {
-    navbar.toggled = ToggledState.On
-
-    return navbar
-  }
-
-
-
-/**
- * set the toggled property of the Navbar to TOGGLED_Off
- * 
- * @param {Model} navbar
- *
- * @return {Model}
- */
-export function toggle_off
-  ( navbar
-  ) {
-    navbar.toggled = ToggledState.Off
-
-    return navbar
-  }
-
-
-
