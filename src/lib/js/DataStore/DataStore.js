@@ -28,6 +28,15 @@ const dataStore
 
 
 /**
+ * Produce the current Model state.
+ *
+ * @return {DataModel}
+ */
+export function get_current_model() { return dataStore.model }
+
+
+
+/**
  * Initialize the dataStore by setting the update and view functions,
  * as well as providing the initial data Model.
  *
@@ -52,7 +61,12 @@ export function initialize
 
 
 
-/** @type {Action.Execute} */
+/**
+ * @type {Action.Execute}
+ *
+ * TODO: to avoid state bifurcation, this function should also return
+ * the model.
+ */
 export function execute_action
   ( action
   ) {
@@ -67,6 +81,8 @@ export function execute_action
       , execute_action
       , dataStore.model
       )
+
+    return dataStore.model
   }
 
 
