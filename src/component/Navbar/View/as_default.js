@@ -1,3 +1,4 @@
+import * as DataStore from 'lib/js/DataStore'
 import * as Utils from 'lib/js/Utils'
 import * as Navbar from '..'
 
@@ -155,94 +156,37 @@ export function toggle_off_at_breakpoint
 
 
 /**
- * Sync the DOM element of the given Navbar Model with it's
- * Model representation.
- *
- * @param {Window} window
- * @param {Model} navbarModel
- *
- * @return {Model}
- */
-export function sync_dom_representation
-  ( window
-  , navbarModel
-  ) {
-    const document = window.document
-
-
-    const navbarElement = Navbar.get_element(navbarModel)
-    const scrimElement
-      =  document.querySelector('.' + ToggledScrimClass.Off)
-      || document.querySelector('.' + ToggledScrimClass.On)
-
-
-    const navbarToggled = Navbar.get_toggled(navbarModel)
-    switch(navbarToggled) {
-      case Navbar.ToggledState.On:
-        display_nav_items(navbarElement)
-        if( scrimElement ) { show_scrim(scrimElement) }
-        toggle_off_at_breakpoint(window, BREAKPOINT_SM, navbarModel)
-        Utils.disable_page_scroll(window)
-        break
-
-      case Navbar.ToggledState.Off:
-        display_navbar_hamburger(navbarElement)
-        if( scrimElement ) { hide_scrim(scrimElement) }
-        Utils.enable_page_scroll(window)
-        break
-    }
-
-
-    return navbarModel
-  }
-
-
-
-/**
  * Setup handlers for the events that will toggle the Navbar
  *
- * @param {Window} window
- * @param {Model} navbarModel
+ * @param {Window} window - the browser window object
  *
- * @return {Model}
+ * @param {DataStore.Action.Execute} execute - this executes whatever
+ * actions we need.
+ *
+ * @param {Navbar) navbar - our Navbar model
+ *
+ * @return {Navbar}
  */
 export function setup_handlers
   ( window
-  , navbarModel
+  , execute
+  , navbar
   ) {
-    const navbarElement = Navbar.get_element(navbarModel)
+    const open_navbar = Navbar.get_openClickHandler(navbarModel)
+    const close_navbar = Navbar.get_closeClickHandler(navbarModel)
 
-
+    const navbarElement = Navbar.get_element(navbar)
     const hamburgerElement
       = navbarElement.querySelector(HAMBURGER_SELECTOR)
-
-    hamburgerElement.addEventListener
-      ( 'click'
-      , () => {
-          // TODO: this handler should call DataStore.Action.Execute
-          // on a Navbar.Action.Type.ToggleState_On
-          navbarModel.toggled = Navbar.ToggledState.On
-          sync_dom_representation(window, navbarModel)
-        }
-      )
+    hamburgerElement.addEventListener( 'click', open_navbar)
 
 
     const navbarCloseElement
       = navbarElement.querySelector(CLOSE_SELECTOR)
-
-    navbarCloseElement.addEventListener
-      ( 'click'
-      , () => {
-          // TODO: this handler should call DataStore.Action.Execute
-          // on a Navbar.Action.Type.ToggleState_Off
-          navbarModel.toggled = Navbar.ToggledState.On
-          navbarModel.toggled = Navbar.ToggledState.Off
-          sync_dom_representation(window, navbarModel)
-        }
-      )
+    navbarCloseElement.addEventListener( 'click', close_navbar)
 
 
-    return navbarModel
+    return navbar
   }
 
 
@@ -251,22 +195,26 @@ export function setup_handlers
  * Initialize the navbar functionality
  *
  * @param {Window} window - the browser window object
- * @param {string) navbarSelector - the selector for the DOM
- *   element we want to initialize.
+ *
+ * @param {DataStore.Action.Execute} execute - this executes whatever
+ * actions we need.
+ *
+ * @param {Navbar) navbar - our Navbar model
  *
  * @return {Model}
  *
  * @throws {Error}
  *    Selected element "${navbarSelector}" does not exist
- *   
  */
 export function init
   ( window
-  , navbarSelector
+  , execute
+  , navbar
   ) {
+    // TODO: refactor the Navbar to hold the navbars DOM id
+    const navbarSelector = '#main-nav'
     const document = window.document
     const navbarElement = document.querySelector(navbarSelector)
-
 
     if( !navbarElement ) {
       throw Error
@@ -274,14 +222,106 @@ export function init
         )
     }
 
-
-    const navbarModel = Navbar.create({ element : navbarElement })
-
-    sync_dom_representation(window, navbarModel)
-    setup_handlers(window, navbarModel)
+    return setup_handlers(window, execute, navbar)
+  }
 
 
-    return navbarModel
+
+/**
+ * open the navbar in the browser
+ *
+ * @type {DataStore.Data.View}
+ */
+export function render_opened_navbar
+  ( window
+  , execute
+  , model
+  ) {
+    Utils.disable_page_scroll(window)
+
+
+    const navbar = DataStore.Data.get_value(model)
+    const navbarElement = Navbar.get_element(navbar)
+    display_nav_items(navbarElement)
+
+
+    const document = window.document
+    const scrimElement
+      =  document.querySelector('.' + ToggledScrimClass.Off)
+      || document.querySelector('.' + ToggledScrimClass.On)
+    if( scrimElement ) { show_scrim(scrimElement) }
+
+
+    toggle_off_at_breakpoint
+      ( window
+      , BREAKPOINT_SM
+      , navbar
+      )
+  }
+
+
+
+/**
+ * close the navbar in the browser
+ *
+ * @type {DataStore.Data.View}
+ */
+export function render_closed_navbar
+  ( window
+  , execute
+  , model
+  ) {
+    Utils.enable_page_scroll(window)
+
+
+    const navbar = DataStore.Data.get_value(model)
+    const navbarElement = Navbar.get_element(navbar)
+    display_navbar_hamburger(navbarElement)
+
+
+    const document = window.document
+    const scrimElement
+      =  document.querySelector('.' + ToggledScrimClass.Off)
+      || document.querySelector('.' + ToggledScrimClass.On)
+    if( scrimElement ) { hide_scrim(scrimElement) }
+  }
+
+
+
+/**
+ * Sync the DOM element of the given Navbar Model with it's
+ * Model representation.
+ *
+ * @type {DataStore.Data.View}
+ */
+export function as_default
+  ( window
+  , execute
+  , model
+  ) {
+    const _navbar = DataStore.Data.get_value(model)
+    const initializationState
+      = Navbar.get_initialization(_navbar)
+
+    const navbar
+      = initializationState === Navbar.Initialization.In_Process
+      ? init( window, execute, _navbar )
+      : _navbar
+
+
+    const navbarToggled = Navbar.get_toggled(navbar)
+    switch(navbarToggled) {
+      case Navbar.ToggledState.On:
+        render_opened_navbar(window, execute, navbar)
+        break
+
+      case Navbar.ToggledState.Off:
+        render_closed_navbar(window, execute, navbar)
+        break
+    }
+
+
+    return navbar
   }
 
 

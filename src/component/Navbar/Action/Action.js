@@ -183,7 +183,7 @@ export function update
   , model
   ) {
     const actionType = DataStore.Action.get_type(action)
-    const initialNavbar = DataStore.Data.get_value(model)
+    const navbar = DataStore.Data.get_value(model)
 
     switch(actionType) {
       case Type.Toggle_On:
@@ -195,8 +195,8 @@ export function update
       case Type.Initialize:
         return (
           start_initialization
-            ( get_initialize_data_openClickHandler(initialNavbar)
-            , get_initialize_data_closeClickHandler(initialNavbar)
+            ( get_initialize_data_openClickHandler(action)
+            , get_initialize_data_closeClickHandler(action)
             , model
             )
         )

@@ -1,1 +1,1 @@
-export { init } from './View'
+export { as_default } from './as_default'
