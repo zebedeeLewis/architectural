@@ -33,16 +33,18 @@ export const ToggledState
 /**
  * Produce a new Navbar model.
  *
- * @param {HTMLElement} element
+ * @param {Partial<Model>}
  *
  * @return {Model}
  */
 export function create
-  ( element
+  ( { element
+    , toggled
+    }
   ) {
     return (
-      { element : element
-      , toggled : ToggledState.Off
+      { element : element !== undefined ? element : null
+      , toggled : toggled !== undefined ? toggled : ToggledState.Off
       }
     )
   }
