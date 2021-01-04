@@ -30,8 +30,11 @@ export const Type
 export function toggle_on
   ( model
   ) {
-    const navbar = DataStore.Data.get_value(model)
-    navbar.toggled = Navbar.ToggledState.On
+    const navbar
+      = Navbar.patch
+          ( { toggled : Navbar.ToggledState.On }
+          , DataStore.Data.get_value(model)
+          )
 
     return (
       DataStor.Data.patch
@@ -53,8 +56,11 @@ export function toggle_on
 export function toggle_off
   ( model
   ) {
-    const navbar = DataStore.Data.get_value(model)
-    navbar.toggled = Navbar.ToggledState.Off
+    const navbar
+      = Navbar.patch
+          ( { toggled : Navbar.ToggledState.Off }
+          , DataStore.Data.get_value(model)
+          )
 
     return (
       DataStor.Data.patch

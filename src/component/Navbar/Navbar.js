@@ -51,3 +51,27 @@ export function create
 
 
 
+/**
+ * Use the given Partial to update the given model. Produce the updated
+ * model.
+ *
+ * @param {Partial<Model>}
+ * @param {Model}
+ *
+ * @return {Model}
+ */
+export function patch
+  ( { element
+    , toggled
+    }
+  , navbar
+  ) {
+    return (
+      { element : element !== undefined ? element : navbar.element
+      , toggled : toggled !== undefined ? toggled : navbar.toggled
+      }
+    )
+  }
+
+
+

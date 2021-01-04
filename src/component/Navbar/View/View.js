@@ -269,7 +269,7 @@ export function init
     }
 
 
-    const navbarModel = Navbar.create(navbarElement)
+    const navbarModel = Navbar.create({ element : navbarElement })
 
     sync_dom_representation(window, navbarModel)
     setup_handlers(window, navbarModel)
