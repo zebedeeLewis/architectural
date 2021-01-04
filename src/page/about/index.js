@@ -12,7 +12,7 @@ function init
     document.addEventListener
       ( 'DOMContentLoaded'
       , () => {
-          Navbar.init(window, '#main-nav')
+          Navbar.View.init(window, '#main-nav')
         }
       )
   }

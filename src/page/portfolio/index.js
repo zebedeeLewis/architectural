@@ -94,7 +94,7 @@ function init
                 )
             )
 
-          Navbar.init(window, '#main-nav')
+          Navbar.View.init(window, '#main-nav')
         }
       )
   }

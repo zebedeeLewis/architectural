@@ -136,7 +136,7 @@ function init
             )
 
           init_slider(window)
-          Navbar.init(window, '#main-nav')
+          Navbar.View.init(window, '#main-nav')
         }
       )
   }

@@ -62,7 +62,7 @@ function init
     document.addEventListener
       ( 'DOMContentLoaded'
       , () => {
-          Navbar.init(window, '#main-nav')
+          Navbar.View.init(window, '#main-nav')
 
           add_map_tile_layer
             ( init_map(MAP_ID)
