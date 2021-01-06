@@ -1,3 +1,8 @@
+import * as DataStore from 'lib/js/DataStore'
+import * as Action from './Action'
+
+
+
 /**
  * Represents the possible toggle state of a single
  * Navbar.
@@ -200,3 +205,40 @@ export function get_closeClickHandler
 
 
 
+/**
+ * @type {DataStore.Update}
+ */
+export function update
+  ( action
+  , navbar
+  ) {
+    const actionType = DataStore.Action.get_type(action)
+
+    switch(actionType) {
+      case Action.Type.Toggle_On:
+        return patch({ toggled : ToggledState.On }, navbar)
+
+      case Action.Type.Toggle_Off:
+        return patch({ toggled : ToggledState.Off }, navbar)
+
+      case Action.Type.Initialize:
+        const { openClickHandler, closeClickHandler }
+          = DataStore.Action.get_data(action)
+        return (
+          patch
+            ( { initialization    : Initialization.In_Process
+              , openClickHandler  : openClickHandler 
+              , closeClickHandler : closeClickHandler
+              }
+            , navbar
+            )
+        )
+
+      case Action.Type.Initialized:
+        return (
+          patch({ initialization : Initialization.Complete }, navbar)
+        )
+    }
+
+    return navbar
+  }

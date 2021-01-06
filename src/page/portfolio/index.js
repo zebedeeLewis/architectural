@@ -5,11 +5,17 @@ import * as Project from 'component/Project'
 import * as DataStore from 'lib/js/DataStore'
 import projects from 'lib/js/projects'
 
+import * as PortfolioPage from './PortfolioPage'
+import * as Action from './Action'
+import * as View from './View'
+
+
 import './index.scss'
 
 
 
 const MODAL_ID = 'projectModal'
+const NAVBAR_ID = 'main-nav'
 
 
 
@@ -18,7 +24,7 @@ function init_modal
   , projects
   ) {
     const toggleOffAction
-      = DataStore.Action.create(Modal.Action.Type.Toggle_Off)
+      = Action.wrap_modal_action_toggle_off()
     const modalCloser
       = (e) => {
           e.preventDefault()
@@ -36,7 +42,7 @@ function init_modal
 
 
     const toggleOnAction
-      = DataStore.Action.create(Modal.Action.Type.Toggle_On)
+      = Action.wrap_modal_action_toggle_on()
     const open_modal
       = () => DataStore.Action.execute(toggleOnAction)
     const projectElement
@@ -46,10 +52,7 @@ function init_modal
     projects.forEach
       ( project => {
           const updateProjectAction
-            = DataStore.Action.create
-                ( Modal.Action.Type.Update_Project
-                , { project }
-                )
+            = Action.wrap_modal_action_update_project( project )
 
           const do_update_project
             = () => DataStore.Action.execute(updateProjectAction)
@@ -79,22 +82,42 @@ function init
   ( window
   , projects
   ) {
-    const document = window.document
+    const navbar = Navbar.create({ id : NAVBAR_ID })
+    const modal = init_modal(window, projects)
+    const portfolioPage = PortfolioPage.create({ navbar, modal })
 
+    DataStore.initialize
+      ( window
+      , PortfolioPage.update
+      , View.as_default
+      , portfolioPage
+      )
+
+    const document = window.document
     document.addEventListener
       ( 'DOMContentLoaded'
       , () => {
-          DataStore.initialize
-            ( window
-            , Modal.Action.update
-            , Modal.View.as_default
-            , DataStore.Data.create
-                ( { value : init_modal(window, projects)
-                  }
-                )
-            )
+          const navbarOpenClickHandler 
+            = () => {
+                const toggleNavbarOn
+                  = Action.wrap_navbar_action_toggle_on()
+                DataStore.Action.execute(toggleNavbarOn)
+              }
 
-          Navbar.View.init(window, '#main-nav')
+          const navbarCloseClickHandler 
+            = ( ) => {
+                const toggleNavbarOff
+                  = Action.wrap_navbar_action_toggle_off()
+                DataStore.Action.execute(toggleNavbarOff)
+              }
+
+          const initNavbar
+            =  Action.wrap_navbar_action_initialize
+                  ( navbarOpenClickHandler
+                  , navbarCloseClickHandler
+                  )
+
+          DataStore.Action.execute( initNavbar )
         }
       )
   }

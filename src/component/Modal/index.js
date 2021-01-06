@@ -5,6 +5,7 @@ export { ToggledState
        , get_project
        , get_toggled
        , get_id
+       , update
        , init
        } from './Modal'
 export * as View from './View'

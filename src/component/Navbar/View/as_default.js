@@ -172,10 +172,12 @@ export function setup_handlers
   , execute
   , navbar
   ) {
-    const open_navbar = Navbar.get_openClickHandler(navbarModel)
-    const close_navbar = Navbar.get_closeClickHandler(navbarModel)
+    const open_navbar = Navbar.get_openClickHandler(navbar)
+    const close_navbar = Navbar.get_closeClickHandler(navbar)
 
-    const navbarElement = Navbar.get_element(navbar)
+    const document = window.document
+    const navbarElement
+      = document.getElementById( Navbar.get_id(navbar) )
     const hamburgerElement
       = navbarElement.querySelector(HAMBURGER_SELECTOR)
     hamburgerElement.addEventListener( 'click', open_navbar)
@@ -211,7 +213,7 @@ export function init
   , execute
   , navbar
   ) {
-    const navbarid = Navbar.get_id(navbar)
+    const navbarId = Navbar.get_id(navbar)
     const document = window.document
     const navbarElement = document.getElementById(navbarId)
 
@@ -229,22 +231,22 @@ export function init
 /**
  * open the navbar in the browser
  *
- * @type {DataStore.Data.View}
+ * @type {DataStore.View}
  */
 export function render_opened_navbar
   ( window
   , execute
-  , model
+  , navbar
   ) {
     Utils.disable_page_scroll(window)
 
 
-    const navbar = DataStore.Data.get_value(model)
-    const navbarElement = Navbar.get_element(navbar)
+    const document = window.document
+    const navbarElement
+      = document.getElementById( Navbar.get_id(navbar) )
     display_nav_items(navbarElement)
 
 
-    const document = window.document
     const scrimElement
       =  document.querySelector('.' + ToggledScrimClass.Off)
       || document.querySelector('.' + ToggledScrimClass.On)
@@ -263,22 +265,22 @@ export function render_opened_navbar
 /**
  * close the navbar in the browser
  *
- * @type {DataStore.Data.View}
+ * @type {DataStore.View}
  */
 export function render_closed_navbar
   ( window
   , execute
-  , model
+  , navbar
   ) {
     Utils.enable_page_scroll(window)
 
 
-    const navbar = DataStore.Data.get_value(model)
-    const navbarElement = Navbar.get_element(navbar)
+    const document = window.document
+    const navbarElement
+      = document.getElementById( Navbar.get_id(navbar) )
     display_navbar_hamburger(navbarElement)
 
 
-    const document = window.document
     const scrimElement
       =  document.querySelector('.' + ToggledScrimClass.Off)
       || document.querySelector('.' + ToggledScrimClass.On)
@@ -291,21 +293,20 @@ export function render_closed_navbar
  * Sync the DOM element of the given Navbar Model with it's
  * Model representation.
  *
- * @type {DataStore.Data.View}
+ * @type {DataStore.View}
  */
 export function as_default
   ( window
   , execute
-  , model
+  , navbarPreInitCheck
   ) {
-    const _navbar = DataStore.Data.get_value(model)
     const initializationState
-      = Navbar.get_initialization(_navbar)
+      = Navbar.get_initialization(navbarPreInitCheck)
 
     const navbar
       = initializationState === Navbar.Initialization.In_Process
-      ? init( window, execute, _navbar )
-      : _navbar
+      ? init( window, execute, navbarPreInitCheck)
+      : navbarPreInitCheck
 
 
     const navbarToggled = Navbar.get_toggled(navbar)

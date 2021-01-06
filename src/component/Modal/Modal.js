@@ -29,7 +29,7 @@ export const ToggledState
 /**
  * Represents the state of the modal.
  *
- * @typedef {Object} Model
+ * @typedef {Object} Modal
  *
  * @property {boolean} isInitialized - has the modal been initialized.
  *
@@ -39,7 +39,7 @@ export const ToggledState
  * @property {ToggledState} toggled  - ToggledState.On if the Modal is
  *   toggled otherwise ToggledState.Off
  *
- * @property {Project.Model} project - the project to be displayed by
+ * @property {Project} project - the project to be displayed by
  *   the modal.
  */
 
@@ -48,9 +48,9 @@ export const ToggledState
 /**
  * Produce a new Modal model.
  *
- * @param {Partial<Model>}
+ * @param {Partial<Modal>}
  *
- * @return {Model}
+ * @return {Modal}
  */
 export function create
   ( { id
@@ -75,10 +75,10 @@ export function create
 /**
  * Updates the given modal
  *
- * @param {Partial<Model>}
- * @param {Model}
+ * @param {Partial<Modal>}
+ * @param {Modal}
  *
- * @return {Model}
+ * @return {Modal}
  */
 export function patch
   ( { id
@@ -145,14 +145,14 @@ export function get_isInitialized( modal ){ return modal.isInitialized }
  * Setup handlers for the events that will toggle the Modal
  *
  * @param {HTMLElement} modalElement - the element represented by this
- * Model.
+ * Modal.
  *
  * @param {Function} close_modal - a function that dispatches a
  * "Action.Type.Toggle_Off" action on the given modal.
  *
- * @param {Model} modal
+ * @param {Modal} modal
  *
- * @return {Model}
+ * @return {Modal}
  */
 export function init
   ( modalElement
@@ -161,6 +161,32 @@ export function init
   ) {
     const modalCloseElement = modalElement.querySelector(CLOSE_SELECTOR)
     modalCloseElement.addEventListener( 'click', close_modal )
+
+    return modal
+  }
+
+
+
+/**
+ * @type {DataStore.Data.Update}
+ */
+export function update
+  ( action
+  , modal
+  ) {
+    const actionType = DataStore.Action.get_type(action)
+
+    switch(actionType) {
+      case Action.Type.Toggle_On:
+        return patch({ toggled : ToggledState.On }, modal)
+
+      case Action.Type.Toggle_Off:
+        return patch({ toggled : ToggledState.Off }, modal)
+
+      case Action.Type.Update_Project:
+        const {project} = DataStore.Action.get_data(action)
+        return patch({project}, modal)
+    }
 
     return modal
   }

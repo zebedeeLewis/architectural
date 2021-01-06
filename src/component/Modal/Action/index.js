@@ -1,1 +1,1 @@
-export { Type, update } from './Action'
+export { Type } from './Action'

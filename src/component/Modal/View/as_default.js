@@ -79,10 +79,9 @@ export function hide_modal
 export function as_default
   ( window
   , execute
-  , model
+  , modal
   ) {
     const document = window.document
-    const modal = DataStore.Data.get_value(model)
     const modalToggled = Modal.get_toggled(modal)
 
     switch(modalToggled) {
@@ -98,7 +97,7 @@ export function as_default
     }
 
 
-    return model
+    return modal
   }
 
 

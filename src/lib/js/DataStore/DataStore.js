@@ -87,3 +87,31 @@ export function execute_action
 
 
 
+/**
+ * Produce the result of executing the given action on the given data
+ * model. after completing an action, the Update function must set the
+ * "dirty" flag on the given Model.
+ *
+ * @typedef {Function} Update
+ * @param {Action.Model}
+ * @param {Model}
+ *
+ * @return {Model}
+ */
+
+
+
+/**
+ * Update the representation of the given DataModel. This function
+ * should unset the "dirty" flag on the given Model After displaying.
+ *
+ * @typedef {Function} View
+ * @param {Window}
+ * @param {Action.Execute}
+ * @param {Model}
+ *
+ * @return {void}
+ */
+
+
+

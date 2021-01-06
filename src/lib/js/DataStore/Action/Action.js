@@ -24,8 +24,9 @@ import * as DataStore from '../DataStore'
  * @param {Data} data
  */
 export function create
-  ( type
-  , data
+  ( { type
+    , data
+    }
   ) {
     return Object.freeze({type, data})
   }

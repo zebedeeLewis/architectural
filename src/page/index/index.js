@@ -4,6 +4,9 @@ import * as Modal from 'component/Modal'
 import * as Project from 'component/Project'
 import * as DataStore from 'lib/js/DataStore'
 import projects from 'lib/js/projects'
+import * as IndexPage from './IndexPage'
+import * as Action from './Action'
+import * as View from './View'
 
 import './index.scss'
 
@@ -11,6 +14,7 @@ import './index.scss'
 
 const SLIDER_SELECTOR = '#slider'
 const MODAL_ID = 'projectModal'
+const NAVBAR_ID = 'main-nav'
 const PAGINATION_SLIDER_SELECTOR = '.slider-pagination'
 const FEATURED_PROJECT_SELECTOR = '.project, .project__cta'
 
@@ -57,7 +61,7 @@ function init_modal
   , projects
   ) {
     const toggleOffAction
-      = DataStore.Action.create(Modal.Action.Type.Toggle_Off)
+      = Action.wrap_modal_action_toggle_off()
     const modalCloser
       = (e) => {
           e.preventDefault()
@@ -75,7 +79,7 @@ function init_modal
 
 
     const toggleOnAction
-      = DataStore.Action.create(Modal.Action.Type.Toggle_On)
+      = Action.wrap_modal_action_toggle_on()
     const open_modal
       = () => DataStore.Action.execute(toggleOnAction)
     const projectElement
@@ -87,10 +91,7 @@ function init_modal
       .forEach(
         (project) => {
           const updateProjectAction
-            = DataStore.Action.create
-                ( Modal.Action.Type.Update_Project
-                , { project }
-                )
+            = Action.wrap_modal_action_update_project( project )
 
           const do_update_project
             = () => DataStore.Action.execute(updateProjectAction)
@@ -120,23 +121,45 @@ function init
   ( window
   , projects
   ) {
-    const document = window.document
+    const navbar = Navbar.create({ id : NAVBAR_ID })
+    const modal = init_modal(window, projects)
+    const indexPage = IndexPage.create({ navbar, modal })
 
+    DataStore.initialize
+      ( window
+      , IndexPage.update
+      , View.as_default
+      , indexPage
+      )
+
+    const document = window.document
     document.addEventListener
       ( 'DOMContentLoaded'
       , () => {
-          DataStore.initialize
-            ( window
-            , Modal.Action.update
-            , Modal.View.as_default
-            , DataStore.Data.create
-                ( { value : init_modal(window, projects)
-                  }
-                )
-            )
+          const navbarOpenClickHandler 
+            = () => {
+                const toggleNavbarOn
+                  = Action.wrap_navbar_action_toggle_on()
+                DataStore.Action.execute(toggleNavbarOn)
+              }
+
+          const navbarCloseClickHandler 
+            = ( ) => {
+                const toggleNavbarOff
+                  = Action.wrap_navbar_action_toggle_off()
+                DataStore.Action.execute(toggleNavbarOff)
+              }
+
+          const initNavbar
+            =  Action.wrap_navbar_action_initialize
+                  ( navbarOpenClickHandler
+                  , navbarCloseClickHandler
+                  )
+
+          DataStore.Action.execute( initNavbar )
+
 
           init_slider(window)
-          Navbar.View.init(window, '#main-nav')
         }
       )
   }
