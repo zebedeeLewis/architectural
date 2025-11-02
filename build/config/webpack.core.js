@@ -127,7 +127,7 @@ const nodeModulesDir
   = path.join(ProjectDesc.get_projectRoot(projectDesc), 'node_modules')
 
 const resolve
-  = { extensions : ['.js', '.mjs', '.css', 'scss']
+  = { extensions : ['.js', '.mjs', '.css', '.scss']
     , alias      :
         { component    : componentsDir
         , lib          : srcLibDir

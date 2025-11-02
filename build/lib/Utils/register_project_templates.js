@@ -118,7 +118,7 @@ function register_subdirectories_as_templates
   , namespace
   , dir
   ) {
-    const dirTree = get_directory_tree(dir)
+    const dirTree = get_directory_tree(dir, {attributes: ['type']})
     if( !dirTree ) { return }
 
     dirTree

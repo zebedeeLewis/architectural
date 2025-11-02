@@ -54,25 +54,29 @@ const distDir
 
 const devPublicPath = ProjectDesc.get_devPublicPath(projectDesc)
 
+
 const devServer =
-  { contentBase : distDir
-  , publicPath  : devPublicPath
-  , openPage    : devPublicPath.replace(/^\//, '') + 'index.html'
-  , open        : true
+  { static      : distDir
+  , open        : { target: [ devPublicPath.replace(/^\//, '') + 'index.html'
+                            , ]
+                  , }
   , hot         : true
   , port        : 8000
-  }
+  , }
 
 
 
 const plugins = [ new webpack.HotModuleReplacementPlugin() ]
 
-
+const stats =
+  { children: true
+  , }
 
 const devConfig =
   { devtool: 'inline-source-map'
   , module: webpackModule
   , devServer
+  , stats
   , plugins
   }
 
