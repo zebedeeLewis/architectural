@@ -285,43 +285,49 @@ function register_global_templates
       )
   }
 
-
-
 /**
- * Register the following templates:
- *   - "<project root>/src/lib/template/*.template.html",
- *   - "<project root>/src/component/<*>/index.template.html"
- *   - "<project root>/src/page/<*>/index.template.html"
- *   - "<project root>/src/page/<*>/component/<*>/index.template.html"
+ * Register all files withing the project matching the following globs as
+ * handlebars template:
+ *  - "<project root>/src/lib/template/*.template.html",
+ *  - "<project root>/src/component/<*>/index.template.html"
+ *  - "<project root>/src/page/<*>/index.template.html"
+ *  - "<project root>/src/page/<*>/component/<*>/index.template.html"
  *
- * @param {Handlebars} handlebars
- * @param {ProjectDesc} projectDesc
+ * @param {Handlebars} handlebars - The Handlebars instance to register
+ *   templates/partials with.
+ * @param {ProjectDesc} projectDesc - The ProjectDesc object containing source
+ *   path information.
  * @return {void}
  */
-function register_project_templates
+function registerProjectTemplates
   ( handlebars
   , projectDesc
   ) {
+    // Register global, shared, or generic templates (e.g., those in
+    // src/lib/template/).
+    // This function likely handles files that are directly under a known template path.
     register_global_templates
       ( handlebars
       , projectDesc
       )
 
+    // Retrieve a list of all defined web pages in the project.
     const srcDesc = ProjectDesc.get_src(projectDesc)
     const pages = ProjectDesc.Src.get_pages(srcDesc)
 
-    pages.forEach
-      ( pageDesc =>
-          register_page_templates
-            ( handlebars
-            , pageDesc
-            )
-      )
+    // Register templates specific to each page. Handles page-level components
+    // (i.e. page/<page name>/component/<component name>/index.template.html),
+    // and the main page template. (e.i., page/<page name>/index.template.html).
+    pages.forEach(pageDesc => register_page_templates(handlebars, pageDesc))
 
-
-    const componentsDir = ProjectDesc.Src.get_componentDir(srcDesc)
+    // Define the namespace for components ('component'), to be used when
+    // referencing them in handlebars files. e.g., {{> component/header}}
     const namespace = 'component'
 
+    // Register all subdirectories within the componentsDir as templates allowing
+    // all individual component folders to have their templates registered as
+    // partials.
+    const componentsDir = ProjectDesc.Src.get_componentDir(srcDesc)
     register_subdirectories_as_templates
       ( handlebars
       , namespace
@@ -329,9 +335,7 @@ function register_project_templates
       )
   }
 
-
-
 module.exports
-  = { register_project_templates
+  = { registerProjectTemplates
     , page_template_name
     }

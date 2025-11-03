@@ -4,8 +4,6 @@ const fs = require('fs')
 const ProjectDesc = require('../ProjectDesc')
 const { page_template_name } = require('./register_project_templates')
 
-
-
 /**
  * Produce true if the given filename maps to a file in the filesystem.
  *
@@ -24,8 +22,6 @@ function file_exists
     return true
   }
 
-
-
 /**
  * Produce a single HtmlWebpackPlugin for the given Page.
  *
@@ -40,21 +36,17 @@ function html_webpack_plugin_from_page_desc
     const pathToHtmlWrapper
       = ProjectDesc.get_htmlWrapperPath(projectDesc)
 
-
     const nameOfContentPartial = page_template_name(pageDesc)
     const title = ProjectDesc.Page.get_name(pageDesc)
-
 
     const template
       = `${pathToHtmlWrapper}`
       + `?title=${title}`
       + `&nameOfContentPartial=${nameOfContentPartial}`
 
-
     const pageId = ProjectDesc.Page.get_id(pageDesc)
     const favicon = ProjectDesc.get_faviconPath(projectDesc)
     const chunks = [pageId]
-
 
     return new HtmlWebpackPlugin(
       { template : template
@@ -64,8 +56,6 @@ function html_webpack_plugin_from_page_desc
       }
     )
   }
-
-
 
 /**
  * Produce an array of HtmlWebpackPlugin, one for each page.
@@ -90,35 +80,43 @@ function generate_htmlWebpackPlugins
     return htmlWebpackPlugins
   }
 
-
-
 /**
- * Reduce an array of ProjectDesc.Page to a Webpack entry object. This
- * function is to be used with Arra.prototype.reduce.
+ * Creat a Webpack entry object from the index.js file found in the PageDesc.
+ * This function is to be used with Array.prototype.reduce.
  *
- * @param {Webpack.EntryPoint} entryAccumulator
- * @param {ProjectDesc.Page} pageDesc
- * @return {Webpack.EntryPoint}
+ * @param {Webpack.EntryPoint} entryAccumulator - The accumulating Webpack entry
+ *   object (key-value map).
+ * @param {ProjectDesc.Page} pageDesc - The current Page description object being
+ *   processed.
+ * @return {Webpack.EntryPoint} - The updated entry object with the current page's
+ *   entry added.
  */
-function entry_points_from_pages
+function pageDescriptorsToEntrypoints
   ( entryAccumulator
   , pageDesc
   ) {
+    // Extract the unique identifier for the page (e.g., 'about', 'home'). This
+    // will become the webpack bundle name.
     const pageId = ProjectDesc.Page.get_id(pageDesc)
+
+    // Extract the absolute path to the main JavaScript entry file for this page
+    // (e.g., /<project root>/src/page/home/index.js).
     const pathToIndexJs = ProjectDesc.Page.get_script(pageDesc)
-  
-  
+
+
     return (
+      // Use the spread syntax to merge the accumulator with the new entry point.
       { ... entryAccumulator
+      // Dynamically set the bundle name (pageId) and assign its entry file path
+      // (pathToIndexJs). Example:
+      // { ..., 'home': '/path/to/src/page/home/index.js' }
       , [pageId] : pathToIndexJs
       }
     )
   }
 
-
-
 module.exports =
   { generate_htmlWebpackPlugins
-  , entry_points_from_pages
+  , pageDescriptorsToEntrypoints
   }
 
