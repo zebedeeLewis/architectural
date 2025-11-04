@@ -1,4 +1,4 @@
-const compile_templates = require('./compile_templates')
+const templateCompiler = require('./compile_templates')
 const Webpack = require('./webpack')
 const { registerProjectTemplates
       , page_template_name
@@ -7,6 +7,6 @@ const { registerProjectTemplates
 module.exports
   = { registerProjectTemplates
     , page_template_name
-    , compile_templates
+    , templateCompiler
     , Webpack
     }

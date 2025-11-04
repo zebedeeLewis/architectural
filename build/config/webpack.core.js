@@ -105,7 +105,7 @@ const output
  * into HTML or further processed.
  */
 const handlebarsPreprocessor = ( content, loaderContext) =>
-  Utils.compile_templates.call(loaderContext , {content, handlebars })
+  Utils.templateCompiler.call(loaderContext , {content, handlebars })
 
 const webpackModule
   = {
