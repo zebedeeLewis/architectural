@@ -9,11 +9,7 @@ const ProjectDesc = require('../ProjectDesc')
  * @param {DirTree} dirTree
  * @param {boolean}
  */
-function is_directory_node
-  ( dirTree
-  ) {
-    return dirTree && dirTree.type === 'directory'
-  }
+const isDirectory = (dirTree) => dirTree && dirTree.type === 'directory'
 
 /**
  * Produce true if the given directory tree node represents a file.
@@ -21,11 +17,7 @@ function is_directory_node
  * @param {DirTree} dirTree
  * @param {boolean}
  */
-function is_file_node
-  ( dirTree
-  ) {
-    return dirTree && dirTree.type === 'file'
-  }
+const is_file_node = (dirTree) => dirTree && dirTree.type === 'file'
 
 /**
  * A utility function that acts as an adapter, mapping a `directory-tree` node
@@ -92,7 +84,7 @@ function register_subdirectories_as_templates
 
     dirTree
       .children
-      .filter(is_directory_node)
+      .filter(isDirectory)
       .map(dirTreeNodeToComponentDescriptor)
       .forEach
          ( desc =>
@@ -173,13 +165,13 @@ function recursivelyRegisterTemplates
   , dirTree
   ) {
     // If the node is not a directory AND not an HTML file, ignore it.
-    if( !is_directory_node(dirTree) && !is_html_file_node(dirTree) ) {
+    if( !isDirectory(dirTree) && !is_html_file_node(dirTree) ) {
       return null
     }
 
     // If the node is a directory, iterate over its children and call this
     // function recursively for each child.
-    if( is_directory_node(dirTree) ) {
+    if( isDirectory(dirTree) ) {
       return (
         dirTree.children.forEach
           ( childNode => (
