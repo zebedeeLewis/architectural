@@ -104,13 +104,17 @@ const pageTemplateName = (pageDesc) =>
   'page/' + ProjectDesc.Page.get_id(pageDesc)
 
 /**
- * Register all templates for the given page descriptor.
+ * Register all templates for the given page descriptor. This includes the
+ * page's main template (markup file) and all components nested within
+ * the page's local component directory.
  *
- * @param {ProjectDesc.Page.Model} pageDesc
- * @param {Handlebars}
+ * @param {Handlebars} handlebars - The Handlebars instance to register templates
+ *   with.
+ * @param {ProjectDesc.Page.Model} pageDesc - The descriptor object for the
+ *   current page (e.g., 'home', 'about').
  * @return {void}
  */
-function register_page_templates
+function registerPageTemplates
   ( handlebars
   , pageDesc
   ) {
@@ -123,11 +127,8 @@ function register_page_templates
 
     const componentDir = ProjectDesc.Page.get_componentDir(pageDesc)
 
-    register_subdirectories_as_templates
-      ( handlebars
-      , mainTemplateName
-      , componentDir
-      )
+    register_subdirectories_as_templates(
+      handlebars, mainTemplateName, componentDir)
   }
 
 /**
@@ -268,7 +269,7 @@ function registerProjectTemplates
     // Register templates specific to each page. Handles page-level components
     // (i.e. page/<page name>/component/<component name>/index.template.html),
     // and the main page template. (e.i., page/<page name>/index.template.html).
-    pages.forEach(pageDesc => register_page_templates(handlebars, pageDesc))
+    pages.forEach(pageDesc => registerPageTemplates(handlebars, pageDesc))
 
     // Define the namespace for components ('component'), to be used when
     // referencing them in handlebars files. e.g., {{> component/header}}
