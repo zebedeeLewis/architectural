@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
 const ProjectDesc = require('../ProjectDesc')
-const { page_template_name } = require('./register_project_templates')
+const { pageTemplateName } = require('./register_project_templates')
 
 /**
  * Produce true if the given filename maps to a file in the filesystem.
@@ -36,7 +36,7 @@ function html_webpack_plugin_from_page_desc
     const pathToHtmlWrapper
       = ProjectDesc.get_htmlWrapperPath(projectDesc)
 
-    const nameOfContentPartial = page_template_name(pageDesc)
+    const nameOfContentPartial = pageTemplateName(pageDesc)
     const title = ProjectDesc.Page.get_name(pageDesc)
 
     const template

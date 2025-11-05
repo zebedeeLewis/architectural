@@ -100,11 +100,8 @@ function register_subdirectories_as_templates
  * @param {Page} pageDesc
  * @return {string}
  */
-function page_template_name
-  ( pageDesc
-  ) {
-    return 'page/' + ProjectDesc.Page.get_id(pageDesc)
-  }
+const pageTemplateName = (pageDesc) =>
+  'page/' + ProjectDesc.Page.get_id(pageDesc)
 
 /**
  * Register all templates for the given page descriptor.
@@ -119,7 +116,7 @@ function register_page_templates
   ) {
     const mainTemplatePath
       = ProjectDesc.Page.get_markupFile(pageDesc)
-    const mainTemplateName = page_template_name(pageDesc)
+    const mainTemplateName = pageTemplateName(pageDesc)
 
     handlebars.registerPartial(
       { [mainTemplateName]: fs.readFileSync(mainTemplatePath, 'utf8') })
@@ -299,5 +296,5 @@ function registerProjectTemplates
 
 module.exports
   = { registerProjectTemplates
-    , page_template_name
+    , pageTemplateName
     }
