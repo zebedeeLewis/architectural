@@ -28,16 +28,19 @@ function is_file_node
   }
 
 /**
- * produce a Component from the given DirTree.
+ * A utility function that acts as an adapter, mapping a `directory-tree` node
+ * to a `ProjectDesc.Component` descriptor.
  *
- * @param {DirTree} dirTree
- * @return {Component}
+ * This function is designed to be used as a callback for high-order functions
+ * like `Array.prototype.map`
+ *
+ * @param {DirTree} dirTree - The directory tree node representing a single
+ *   component's root directory (e.g., /src/component/header).
+ * @returns {ProjectDesc.Component} A fully formed component descriptor
+ * object from the ProjectDesc model.
  */
-function dir_tree_node_to_component_descriptor
-  ( dirTree
-  ) {
-    return ProjectDesc.Component.create(dirTree.path)
-  }
+const dirTreeNodeToComponentDescriptor = ( dirTree) =>
+  ProjectDesc.Component.create(dirTree.path)
 
 /**
  * Register the main template file for a single component descriptor.
@@ -90,7 +93,7 @@ function register_subdirectories_as_templates
     dirTree
       .children
       .filter(is_directory_node)
-      .map(dir_tree_node_to_component_descriptor)
+      .map(dirTreeNodeToComponentDescriptor)
       .forEach
          ( desc =>
              register_component_template(handlebars, namespace, desc)
