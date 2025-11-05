@@ -35,13 +35,15 @@ const dirTreeNodeToComponentDescriptor = ( dirTree) =>
   ProjectDesc.Component.create(dirTree.path)
 
 /**
- * Register the main template file for a single component descriptor.
+ * Register all templates for project-wide components defined in the project
+ * descriptor. This registers the main template file for every component (e.g.
+ * header, footer, etc.) in the project's global component directory.
  *
- * @param {string} namespace
- * @param {Component} componentDesc
+ * @param {Handlebars} handlebars - The Handlebars instance to register partials with.
+ * @param {ProjectDesc} projectDesc - The project descriptor object.
  * @return {void}
  */
-function register_component_template
+function registerComponentTemplate
   ( handlebars
   , namespace
   , componentDesc
@@ -85,10 +87,7 @@ function registerSubdirectoriesAsTemplates
       .children
       .filter(isDirectory)
       .map(dirTreeNodeToComponentDescriptor)
-      .forEach
-         ( desc =>
-             register_component_template(handlebars, namespace, desc)
-         )
+      .forEach(desc => registerComponentTemplate(handlebars, namespace, desc))
   }
 
 /**
