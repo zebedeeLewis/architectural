@@ -59,22 +59,21 @@ function register_component_template
   }
 
 /**
- * Treat all subdirectories in the given directory as a Component.
- * Register the main template file for each Component in the given
- * directory.
+ * Recursively registers all Handlebars template files found within a given
+ * directory path, using a specified namespace prefix.
  *
- * Assuptions:
- *   - We assume that the given directory path is an absolute path
- *   - we assume that all child directories of the given directory
- *     are directories that can be represented by a valid Component.
- *   
+ * This function acts as a bridge, retrieving the directory tree and then
+ * invoking the core recursive registration logic.
  *
- * @param {Handlebars}
- * @param {string} namespace
- * @param {string} dir - absolute path to the directory
+ * @param {Handlebars} handlebars - The Handlebars instance to register partials
+ *   with.
+ * @param {string} namespace - The base name to prefix the template partials with
+ *   (e.g., 'page/home' for local components).
+ * @param {string} templatesDir - The absolute path to the starting directory
+ *   containing the templates to be registered.
  * @return {void}
  */
-function register_subdirectories_as_templates
+function registerSubdirectoriesAsTemplates
   ( handlebars
   , namespace
   , dir
@@ -127,7 +126,7 @@ function registerPageTemplates
 
     const componentDir = ProjectDesc.Page.get_componentDir(pageDesc)
 
-    register_subdirectories_as_templates(
+    registerSubdirectoriesAsTemplates(
       handlebars, mainTemplateName, componentDir)
   }
 
@@ -279,11 +278,8 @@ function registerProjectTemplates
     // all individual component folders to have their templates registered as
     // partials.
     const componentsDir = ProjectDesc.Src.get_componentDir(srcDesc)
-    register_subdirectories_as_templates
-      ( handlebars
-      , namespace
-      , componentsDir
-      )
+    registerSubdirectoriesAsTemplates(
+      handlebars, namespace, componentsDir)
   }
 
 module.exports
