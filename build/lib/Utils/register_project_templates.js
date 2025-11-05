@@ -3,8 +3,6 @@ const path = require('path')
 const fs = require('fs')
 const ProjectDesc = require('../ProjectDesc')
 
-
-
 /**
  * Register the file at the given path as a handlebars partial template
  * with the given template name.
@@ -196,32 +194,37 @@ function is_html_file_node
   }
 
 
-
 /**
- * Recursively register all templates in the given directory tree.
+ * Recursively traverses a directory tree structure and registers all valid
+ * HTML template files as Handlebars partials.
  *
- * @param {Handlebars} handlebars
- * @param {string} rootDir - the absolute path to the directory
- *   where the recursion started.
- * @param {string} napmespace - 
- * @param {DirTree} dirTree -
+ * @param {Handlebars} handlebars - The Handlebars instance to register partials with.
+ * @param {string} rootDir - The absolute path to the directory where the
+ *   recursion starts (e.g., /path/to/src/lib/template). This is used to calculate
+ *   the partial's relative name.
+ * @param {string} namespace - The prefix for the partial name (e.g. 'lib',
+ *   'component', 'page/home/component').
+ * @param {DirTree} dirTree - The directory tree node (from directory-tree)
+ *   currently being processed.
  */
-function recursively_register_templates_in_directory_tree
+function recursivelyRegisterTemplates
   ( handlebars
   , rootDir
   , namespace
   , dirTree
   ) {
+    // If the node is not a directory AND not an HTML file, ignore it.
     if( !is_directory_node(dirTree) && !is_html_file_node(dirTree) ) {
       return null
     }
 
-
+    // If the node is a directory, iterate over its children and call this
+    // function recursively for each child.
     if( is_directory_node(dirTree) ) {
       return (
         dirTree.children.forEach
           ( childNode => (
-              recursively_register_templates_in_directory_tree
+              recursivelyRegisterTemplatesInDirectoryTree
                 ( handlebars
                 , rootDir
                 , namespace
@@ -232,18 +235,31 @@ function recursively_register_templates_in_directory_tree
       )
     }
 
-
+    // At this point, the node is a valid HTML file.
     const templatePath = dirTree.path
 
+    // Create a relative template name by removing the root directory path
+    // and normalizing path separators from OS-specific (e.g., '\') to URL-safe
+    // ('/').
+    // Example:
+    //   templatePath: /path/to/src/lib/template/header.template.html
+    //   rootDir:      /path/to/src/lib/template
+    //   templateName: /header.template.html
     const templateName
       = templatePath
           .replace(rootDir, '')
-          .split(path.sep)
+          .split(path.sep) // Convert '\' to '/'
           .join('/')
 
-    const namespacedTemplateName = namespace + '/' + templateName
+    // Combine the namespace and the relative template name.
+    // Example: 'lib' + '/' + '/header.template.html' -> 'lib/header.template.html'
+    // Note: The logic seems to result in a double slash if rootDir == templatePath,
+    // but typically templateName starts with a '/'.
+    const namespacedTemplateName = namespace + templateName
 
 
+    // Register the file content as a Handlebars partial using the
+    // namespaced name, so it can be called via {{> lib/header }}
     return (
       register_file_as_handlebars_partial
         ( handlebars
@@ -253,31 +269,34 @@ function recursively_register_templates_in_directory_tree
     )
   }
 
-
-
 /**
  * Register all templates in the projects global library directory.
+ * These templates are typically generic components (partials) available to all
+ * pages.
  *
- * @param {ProjectDesc} projectDesc
- * @param {Handlebars}
+ * @param {Handlebars} handlebars - The configured Handlebars instance where
+ *   templates will be registered.
+ * @param {ProjectDesc} projectDesc - The Project Descriptor object, used to
+ *   locate directories.
  * @return {void}
  */
-function register_global_templates
+function registerGlobalTemplates
   ( handlebars
   , projectDesc
   ) {
+    // Determine the path to the global templates directory
+    // (e.g. /src/lib/template).
     const templatesDir
-      = ProjectDesc.Lib.get_templateDir
-          ( ProjectDesc.Src.get_lib
-              ( ProjectDesc.get_src(projectDesc)
-              )
-          )
+      = ProjectDesc.Lib.get_templateDir(
+        ProjectDesc.Src.get_lib(ProjectDesc.get_src(projectDesc)) )
 
+    // Define the namespace under which these templates will be registered
+    // (e.g. 'lib/templateName').
     const globalTemplatesNamespace = 'lib'
+
+    // Recursively traverse the directory tree and register each template file found.
     const rootDirTree = get_directory_tree(templatesDir)
-
-
-    recursively_register_templates_in_directory_tree
+    recursivelyRegisterTemplates
       ( handlebars
       , templatesDir
       , globalTemplatesNamespace
@@ -306,7 +325,7 @@ function registerProjectTemplates
     // Register global, shared, or generic templates (e.g., those in
     // src/lib/template/).
     // This function likely handles files that are directly under a known template path.
-    register_global_templates
+    registerGlobalTemplates
       ( handlebars
       , projectDesc
       )
