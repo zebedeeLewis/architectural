@@ -17,7 +17,7 @@ const isDirectory = (dirTree) => dirTree && dirTree.type === 'directory'
  * @param {DirTree} dirTree
  * @param {boolean}
  */
-const is_file_node = (dirTree) => dirTree && dirTree.type === 'file'
+const isFile = (dirTree) => dirTree && dirTree.type === 'file'
 
 /**
  * A utility function that acts as an adapter, mapping a `directory-tree` node
@@ -142,7 +142,7 @@ function register_page_templates
 function is_html_file_node
   ( dirTree
   ) {
-    return is_file_node(dirTree) && dirTree.extension === '.html'
+    return isFile(dirTree) && dirTree.extension === '.html'
   }
 
 /**
