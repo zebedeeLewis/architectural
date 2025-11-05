@@ -139,11 +139,8 @@ function register_page_templates
  * @param {DirTree} dirTree
  * @param {boolean}
  */
-function is_html_file_node
-  ( dirTree
-  ) {
-    return isFile(dirTree) && dirTree.extension === '.html'
-  }
+const isHtmlFile = (dirTree) =>
+  isFile(dirTree) && dirTree.extension === '.html'
 
 /**
  * Recursively traverses a directory tree structure and registers all valid
@@ -165,7 +162,7 @@ function recursivelyRegisterTemplates
   , dirTree
   ) {
     // If the node is not a directory AND not an HTML file, ignore it.
-    if( !isDirectory(dirTree) && !is_html_file_node(dirTree) ) {
+    if( !isDirectory(dirTree) && !isHtmlFile(dirTree) ) {
       return null
     }
 
