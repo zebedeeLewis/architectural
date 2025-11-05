@@ -4,28 +4,6 @@ const fs = require('fs')
 const ProjectDesc = require('../ProjectDesc')
 
 /**
- * Register the file at the given path as a handlebars partial template
- * with the given template name.
- *
- * @param {Handlebars} handlebars - handlebars runtime
- * @param {string} templatePath - absolute path to the template
- * @param {string} templateName - the name that will be assigned to the
- *   handlebars partial.
- */
-function register_file_as_handlebars_partial
-  ( handlebars
-  , templatePath
-  , templateName
-  ) {
-    handlebars.registerPartial
-      ( { [templateName]: fs.readFileSync(templatePath, 'utf8')
-        }
-      )
-  }
-
-
-
-/**
  * Produce true if the given directory tree node represents a directory.
  *
  * @param {DirTree} dirTree
@@ -36,8 +14,6 @@ function is_directory_node
   ) {
     return dirTree && dirTree.type === 'directory'
   }
-
-
 
 /**
  * Produce true if the given directory tree node represents a file.
@@ -51,8 +27,6 @@ function is_file_node
     return dirTree && dirTree.type === 'file'
   }
 
-
-
 /**
  * produce a Component from the given DirTree.
  *
@@ -64,8 +38,6 @@ function dir_tree_node_to_component_descriptor
   ) {
     return ProjectDesc.Component.create(dirTree.path)
   }
-
-
 
 /**
  * Register the main template file for a single component descriptor.
@@ -84,16 +56,12 @@ function register_component_template
     const templatePath
       = ProjectDesc.Component.get_markupFile(componentDesc)
     const templateName = namespace + '/' + path.basename(componentRoot)
-        
 
-    register_file_as_handlebars_partial
-      ( handlebars
-      , templatePath
-      , templateName
+    handlebars.registerPartial
+      ( { [templateName]: fs.readFileSync(templatePath, 'utf8')
+        }
       )
   }
-
-
 
 /**
  * Treat all subdirectories in the given directory as a Component.
@@ -129,8 +97,6 @@ function register_subdirectories_as_templates
          )
   }
 
-
-
 /**
  * Produce the name to be used as the given pages handlebars partial
  * name.
@@ -144,8 +110,6 @@ function page_template_name
   ) {
     return 'page/' + ProjectDesc.Page.get_id(pageDesc)
   }
-
-
 
 /**
  * Register all templates for the given page descriptor.
@@ -162,13 +126,8 @@ function register_page_templates
       = ProjectDesc.Page.get_markupFile(pageDesc)
     const mainTemplateName = page_template_name(pageDesc)
 
-
-    register_file_as_handlebars_partial
-      ( handlebars
-      , mainTemplatePath
-      , mainTemplateName
-      )
-
+    handlebars.registerPartial(
+      { [mainTemplateName]: fs.readFileSync(mainTemplatePath, 'utf8') })
 
     const componentDir = ProjectDesc.Page.get_componentDir(pageDesc)
 
@@ -178,8 +137,6 @@ function register_page_templates
       , componentDir
       )
   }
-
-
 
 /**
  * Produce true if the given directory tree node represents an html file.
@@ -192,7 +149,6 @@ function is_html_file_node
   ) {
     return is_file_node(dirTree) && dirTree.extension === '.html'
   }
-
 
 /**
  * Recursively traverses a directory tree structure and registers all valid
@@ -260,13 +216,8 @@ function recursivelyRegisterTemplates
 
     // Register the file content as a Handlebars partial using the
     // namespaced name, so it can be called via {{> lib/header }}
-    return (
-      register_file_as_handlebars_partial
-        ( handlebars
-        , templatePath
-        , namespacedTemplateName
-        )
-    )
+    return handlebars.registerPartial(
+      { [namespacedTemplateName]: fs.readFileSync(templatePath, 'utf8') })
   }
 
 /**
