@@ -49,9 +49,9 @@ function registerComponentTemplate
   , componentDesc
   ) {
     const componentRoot
-      = ProjectDesc.Component.get_root(componentDesc)
+      = ProjectDesc.Component.getRoot(componentDesc)
     const templatePath
-      = ProjectDesc.Component.get_markupFile(componentDesc)
+      = ProjectDesc.Component.getMarkupFile(componentDesc)
     const templateName = namespace + '/' + path.basename(componentRoot)
 
     handlebars.registerPartial
