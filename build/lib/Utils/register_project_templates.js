@@ -166,18 +166,9 @@ function recursivelyRegisterTemplates
     // If the node is a directory, iterate over its children and call this
     // function recursively for each child.
     if( isDirectory(dirTree) ) {
-      return (
-        dirTree.children.forEach
-          ( childNode => (
-              recursivelyRegisterTemplatesInDirectoryTree
-                ( handlebars
-                , rootDir
-                , namespace
-                , childNode
-                )
-            )
-          )
-      )
+      return dirTree.children.forEach(
+        childNode => recursivelyRegisterTemplatesInDirectoryTree(
+          handlebars, rootDir, namespace, childNode) )
     }
 
     // At this point, the node is a valid HTML file.
